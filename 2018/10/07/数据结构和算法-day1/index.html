@@ -197,9 +197,10 @@
 </div>
 
 <main class="content">
-
+	
     <!-- 文章内容详情 -->
     <div id="artDetail" class="container">
+			
         <div class="card">
             <div class="card-content article-info">
                 
@@ -210,41 +211,48 @@
                 </div>
                 
                 <div class="post-info">
+					
                     
+					
                     <span class="post-cate">
                     <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
+						
                         <a href="/categories/算法/" class="post-category" target="_blank">
                         算法
                         </a>
                         
                     </span>
                     
-
+						
                     <span class="post-date">
                         <i class="fa fa-clock-o fa-fw"></i>2018-10-07
                     </span>
+					
                 </div>
             </div>
             <hr>
+			<ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">数据结构和算法 （Algorithm）- 绪论</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">数据是个啥？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">数据结构定义</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">逻辑结构中几种结构的基本定义</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">逻辑结构中的物理结构</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">抽象数据类型（Abstract Data Type，ADT）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">算法的复杂度</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">时间复杂度</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">空间复杂度</span></a></li></ol></li></ol></li></ol>
+
             <div class="card-content article-card-content">
+			
                 <div id="articleContent">
-                    <p>[TOC]</p>
-<h1 id="数据结构和算法-（Algorithm）-绪论"><a href="#数据结构和算法-（Algorithm）-绪论" class="headerlink" title="数据结构和算法 （Algorithm）- 绪论"></a>数据结构和算法 （Algorithm）- 绪论</h1><h2 id="数据是个啥？"><a href="#数据是个啥？" class="headerlink" title="数据是个啥？"></a>数据是个啥？</h2><p> &nbsp; &nbsp; &nbsp; 数据（data）是信息的载体，是对客观事物的符号化表示，它的含义极为广泛，包含了人们日穿生活中的各种信息在计算机内的表示，而<strong>数据元素</strong>则是数据的基本单位。</p>
+					
+                    <h1><span id="数据结构和算法-algorithm-绪论">数据结构和算法 （Algorithm）- 绪论</span></h1><h2><span id="数据是个啥">数据是个啥？</span></h2><p> &nbsp; &nbsp; &nbsp; 数据（data）是信息的载体，是对客观事物的符号化表示，它的含义极为广泛，包含了人们日穿生活中的各种信息在计算机内的表示，而<strong>数据元素</strong>则是数据的基本单位。</p>
 <p><img src="http://photo.orsoon.com/JPG-180515/180515_42/k5oFKYNsQz_small.jpg" alt=""></p>
-<h2 id="数据结构定义"><a href="#数据结构定义" class="headerlink" title="数据结构定义"></a>数据结构定义</h2><p>&nbsp; &nbsp; &nbsp; &nbsp; 数据结构分为逻辑结构和物理结构，以及数据运算三方面内容，一起来愉快地学习它吧😭！</p>
-<h3 id="逻辑结构中几种结构的基本定义"><a href="#逻辑结构中几种结构的基本定义" class="headerlink" title="逻辑结构中几种结构的基本定义"></a>逻辑结构中几种结构的基本定义</h3><p>① 线性结构(1:1)：结构中的数据元素之间存在着一对一的关系，如表，栈，队列等。</p>
+<h2><span id="数据结构定义">数据结构定义</span></h2><p>&nbsp; &nbsp; &nbsp; &nbsp; 数据结构分为逻辑结构和物理结构，以及数据运算三方面内容，一起来愉快地学习它吧😭！</p>
+<h3><span id="逻辑结构中几种结构的基本定义">逻辑结构中几种结构的基本定义</span></h3><p>① 线性结构(1:1)：结构中的数据元素之间存在着一对一的关系，如表，栈，队列等。</p>
 <p>② 树形结构(1:n)：结构中的数据元素之间存在着一对多的关系。</p>
 <p>③ 图形结构(m:n)：结构中的数据元素之间存在着多对多的关系，图形结构也被称为网状结构。</p>
 <p>④ 集合结构：集合结构中的数据元素之间的关系仅仅是”属于同一个集合”，这种结构中的元素关系极为松散，该结构较为少见。</p>
 <p>&nbsp; &nbsp; &nbsp; &nbsp; 总体来说，根据数据元素之间存在的不同关系，数据结构可分为<strong>线性结构和非线性结构😱</strong>。</p>
 <p><img src="https://i.loli.net/2018/10/07/5bb97795e5dd5.png" alt=""></p>
-<h3 id="逻辑结构中的物理结构"><a href="#逻辑结构中的物理结构" class="headerlink" title="逻辑结构中的物理结构"></a>逻辑结构中的物理结构</h3><p>&nbsp; &nbsp; &nbsp; &nbsp; 数据的逻辑结构和数据的存储无关，对数据的操作主要依赖数据的存储，而数据在计算机中的存储表示即数据的存储结构可分为<strong>顺序存储</strong>和<strong>非顺序存储</strong>，但针对一些特殊应用，还有<strong>索引存储结构，散列存储（hash方法）结构</strong>等其他表示方法。</p>
+<h3><span id="逻辑结构中的物理结构">逻辑结构中的物理结构</span></h3><p>&nbsp; &nbsp; &nbsp; &nbsp; 数据的逻辑结构和数据的存储无关，对数据的操作主要依赖数据的存储，而数据在计算机中的存储表示即数据的存储结构可分为<strong>顺序存储</strong>和<strong>非顺序存储</strong>，但针对一些特殊应用，还有<strong>索引存储结构，散列存储（hash方法）结构</strong>等其他表示方法。</p>
 <p>① <strong>顺序存储方法</strong>：把逻辑上相邻的数据元素储存在物理位置上也相邻的存储单元中，例如数组即是顺序存储方法。</p>
 <p>② <strong>链式存储方法</strong>：逻辑上相邻的数组元素不要求其在物理位置上也相邻，通过附设的指针字段值来指示数据的逻辑关系，算法中的指针就是由链式存储结构实现的。</p>
 <p>③ 索引存储方法：除建立存储结点信息外，还建立附加的索引表来标识结点的地址，索引表由若干索引项组成。 <strong>Dense Index（稠密索引）</strong>代表每个数据元素在索引表中均有一个索引项。<strong>Sparse Index（稀疏索引）</strong>，代表一个索引项对应一组数据元素，<a href="https://www.cnblogs.com/FreeFire/p/4329528.html" target="_blank" rel="noopener">参考链接</a>。</p>
 <p>④ 散列存储方法（Hash方法）：散列是数组存储方式的一种发展，相比数组，散列的数据访问速度要高于数组，因为可以依据存储数据的部分内容找到数据在数组中的存储位置，进而能够快速实现数据的访问，理想的散列访问速度是非常迅速的，而不像在数组中的遍历过程，采用存储数组中内容的部分元素作为映射函数的输入，映射函数的输出就是存储数据的位置，这样的访问速度就省去了遍历数组的实现，因此<strong>时间复杂度可以认为为O(1)</strong>，而<strong>数组遍历的时间复杂度为O(n)</strong>，<a href="https://baike.baidu.com/item/%E6%95%A3%E5%88%97%E5%AD%98%E5%82%A8%E6%96%B9%E6%B3%95/9663463?fr=aladdin" target="_blank" rel="noopener">参考链接</a>。</p>
-<h2 id="抽象数据类型（Abstract-Data-Type，ADT）"><a href="#抽象数据类型（Abstract-Data-Type，ADT）" class="headerlink" title="抽象数据类型（Abstract Data Type，ADT）"></a>抽象数据类型（Abstract Data Type，ADT）</h2><p> &nbsp; &nbsp; &nbsp; ADT 的定义：一个数学模型以及定义在该模型上的一组操作。描述数据结构的一种理论工具。</p>
+<h2><span id="抽象数据类型abstract-data-typeadt">抽象数据类型（Abstract Data Type，ADT）</span></h2><p> &nbsp; &nbsp; &nbsp; ADT 的定义：一个数学模型以及定义在该模型上的一组操作。描述数据结构的一种理论工具。</p>
 <pre class=" language-bash"><code class="language-bash">ADT 抽象数据类型名称 <span class="token punctuation">{</span>
 数据对象：<span class="token operator">&lt;</span>数据对象定义<span class="token operator">></span>
 ……
@@ -265,8 +273,8 @@
 <p> &nbsp; &nbsp; &nbsp; ADT 的关键特征：使用它的人可以只关心它的逻辑特征，不需要了解它的存储方式。定义它的人同样不必要关心它如何存储。</p>
 <p> &nbsp; &nbsp; &nbsp; 例如：线性表这样的抽象数据类型，其数学模型是：<a href="https://baike.baidu.com/item/%E6%95%B0%E6%8D%AE%E5%85%83%E7%B4%A0" target="_blank" rel="noopener">数据元素</a>的集合，该集合内的元素有这样的关系：除第一个和最后一个外，每个元素有唯一的前趋和唯一的后继。可以有这样一些操作：插入一个元素、删除一个元素等。</p>
 <p> &nbsp; &nbsp; &nbsp; <strong>从抽象数据类型的角度看，数据结构是ADT的物理实现。</strong></p>
-<h2 id="算法的复杂度"><a href="#算法的复杂度" class="headerlink" title="算法的复杂度"></a>算法的复杂度</h2><p> &nbsp; &nbsp; &nbsp; 算法的复杂度通常分为时间复杂度，空间复杂度，采用<strong>“大O表示法”</strong>定义算法效率度量。</p>
-<h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3><p> &nbsp; &nbsp; &nbsp; 判定算法性能的一个基本考虑是处理一定<strong>“规模（Size）”</strong>的输入时，该算法所需执行的<strong>“基本操作数（Basic Operation）”。</strong></p>
+<h2><span id="算法的复杂度">算法的复杂度</span></h2><p> &nbsp; &nbsp; &nbsp; 算法的复杂度通常分为时间复杂度，空间复杂度，采用<strong>“大O表示法”</strong>定义算法效率度量。</p>
+<h3><span id="时间复杂度">时间复杂度</span></h3><p> &nbsp; &nbsp; &nbsp; 判定算法性能的一个基本考虑是处理一定<strong>“规模（Size）”</strong>的输入时，该算法所需执行的<strong>“基本操作数（Basic Operation）”。</strong></p>
 <p> &nbsp; &nbsp; &nbsp; T(N) = O(f(N))是指保证函数T(N)以不快于f(N)速度增长；f(N)是一个上界（upper bound），即某个算法的增长率最差情况是f(N)，给出几个例子：</p>
 <pre class=" language-c"><code class="language-c"><span class="token number">1</span><span class="token punctuation">.</span> <span class="token punctuation">{</span> <span class="token operator">++</span>x<span class="token punctuation">;</span>s<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
 <span class="token comment" spellcheck="true">//1.算法时间复杂度为 O(1),称为常量阶</span>
@@ -287,12 +295,13 @@
 
 <span class="token comment" spellcheck="true">//根据基本执行次数，运用极限的方法来计算复杂度</span>
 </code></pre>
-<h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3><p> &nbsp; &nbsp; &nbsp; 一个程序的空间复杂度是指从程序运行到结束所需的存储量。而程序的存储空间分为固定部分和可变部分，就像电脑分了硬盘存储空间和内存存储空间一样😄，程序本身所占的物理空间加上程序运行时所需要的内存组成了程序运行所需的存储空间。</p>
+<h3><span id="空间复杂度">空间复杂度</span></h3><p> &nbsp; &nbsp; &nbsp; 一个程序的空间复杂度是指从程序运行到结束所需的存储量。而程序的存储空间分为固定部分和可变部分，就像电脑分了硬盘存储空间和内存存储空间一样😄，程序本身所占的物理空间加上程序运行时所需要的内存组成了程序运行所需的存储空间。</p>
 <p>Try to get the best answer！</p>
 
+					
                 </div>
                 <hr/>
-
+			
                 <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
 
 <div id="article-share">
@@ -305,6 +314,7 @@
 
                 <div class="reprint">
                     <p>
+					
                         <span class="reprint-tip">转载请注明: </span>
                         <a href="http://www.yof3ng.xyz" class="b-link-green">肖亦枫</a>
                         <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
@@ -336,8 +346,7 @@
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">[TOC]
-数据结构和算法 （Algorithm）- 绪论数据是个啥？ &nbsp; &nbsp; &nbsp; 数据（data）是信息的载体，是对客观事物的符号化表示，它的含义极为广泛，包含了人们日穿生活中的各种信息在计算机内的表示，而数</div>
+                    <div class="summary">数据结构和算法 （Algorithm）- 绪论数据是个啥？ &nbsp; &nbsp; &nbsp; 数据（data）是信息的载体，是对客观事物的符号化表示，它的含义极为广泛，包含了人们日穿生活中的各种信息在计算机内的表示，而数据元素则是数</div>
                     <div class="publish-info">
                             <span class="publish-date">
                                 <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-07
@@ -381,8 +390,7 @@
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">[TOC]
-数学建模_day2 – matlab 基本用法&nbsp; &nbsp; &nbsp; &nbsp; matlab 整体界面如上图，在matlab中一般需要创建变量，调用函数，定义变量和 python 类似，如果没有定义输出变量</div>
+                    <div class="summary">数学建模_day2 – matlab 基本用法&nbsp; &nbsp; &nbsp; &nbsp; matlab 整体界面如上图，在matlab中一般需要创建变量，调用函数，定义变量和 python 类似，如果没有定义输出变量，matla</div>
                     <div class="publish-info">
                             <span class="publish-date">
                                 <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-07

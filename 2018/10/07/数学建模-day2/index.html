@@ -197,9 +197,10 @@
 </div>
 
 <main class="content">
-
+	
     <!-- 文章内容详情 -->
     <div id="artDetail" class="container">
+			
         <div class="card">
             <div class="card-content article-info">
                 
@@ -210,29 +211,36 @@
                 </div>
                 
                 <div class="post-info">
+					
                     
+					
                     <span class="post-cate">
                     <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
+						
                         <a href="/categories/数学建模/" class="post-category" target="_blank">
                         数学建模
                         </a>
                         
                     </span>
                     
-
+						
                     <span class="post-date">
                         <i class="fa fa-clock-o fa-fw"></i>2018-10-07
                     </span>
+					
                 </div>
             </div>
             <hr>
+			<ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">数学建模_day2 – matlab 基本用法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">一. 那么如何来进行数组的创建呢：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">二. 用函数对矩阵和数组进行一些操作：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">三. 工作空间变量</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">四. 字符和字符串操作</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">五. 调用函数</span></a></li></ol></li></ol></li></ol>
+
             <div class="card-content article-card-content">
+			
                 <div id="articleContent">
-                    <p>[TOC]</p>
-<h1 id="数学建模-day2-–-matlab-基本用法"><a href="#数学建模-day2-–-matlab-基本用法" class="headerlink" title="数学建模_day2 – matlab 基本用法"></a>数学建模_day2 – matlab 基本用法</h1><p><img src="https://i.loli.net/2018/10/07/5bb957ec92262.png" alt=""><br>&nbsp; &nbsp; &nbsp; &nbsp; matlab 整体界面如上图，在matlab中一般需要创建变量，调用函数，定义变量和 python 类似，<strong>如果没有定义输出变量，matlab则会使用一个名为ans的变量存储计算结果。</strong></p>
+					
+                    <h1><span id="数学建模_day2-matlab-基本用法">数学建模_day2 – matlab 基本用法</span></h1><p><img src="https://i.loli.net/2018/10/07/5bb957ec92262.png" alt=""><br>&nbsp; &nbsp; &nbsp; &nbsp; matlab 整体界面如上图，在matlab中一般需要创建变量，调用函数，定义变量和 python 类似，<strong>如果没有定义输出变量，matlab则会使用一个名为ans的变量存储计算结果。</strong></p>
 <p> &nbsp; &nbsp; &nbsp; matlab主要被用来对整个矩阵或者数组进行操作。</p>
-<h3 id="一-那么如何来进行数组的创建呢："><a href="#一-那么如何来进行数组的创建呢：" class="headerlink" title="一. 那么如何来进行数组的创建呢："></a>一. 那么如何来进行数组的创建呢：</h3><ul>
+<h3><span id="一-那么如何来进行数组的创建呢">一. 那么如何来进行数组的创建呢：</span></h3><ul>
 <li><p>随便创建一个一维数组 a= [1 2 3 4],也可称作单行矩阵或行向量</p>
 <p><img src="https://i.loli.net/2018/10/07/5bb959beb45e8.png" alt=""></p>
 </li>
@@ -240,7 +248,7 @@
 <p><img src="https://i.loli.net/2018/10/07/5bb95a474bb84.png" alt=""></p>
 </li>
 </ul>
-<h3 id="二-用函数对矩阵和数组进行一些操作："><a href="#二-用函数对矩阵和数组进行一些操作：" class="headerlink" title="二. 用函数对矩阵和数组进行一些操作："></a>二. 用函数对矩阵和数组进行一些操作：</h3><ul>
+<h3><span id="二-用函数对矩阵和数组进行一些操作">二. 用函数对矩阵和数组进行一些操作：</span></h3><ul>
 <li><p>sin,cos,tan,cot等函数都能使用:</p>
 <p><img src="https://i.loli.net/2018/10/07/5bb95b8054e4c.png" alt=""></p>
 </li>
@@ -258,7 +266,7 @@
 </li>
 <li><p>矩阵的扩充操作：</p>
 <p><img src="https://i.loli.net/2018/10/07/5bb95f5d5a4e8.png" alt=""></p>
-<h3 id="三-工作空间变量"><a href="#三-工作空间变量" class="headerlink" title="三. 工作空间变量"></a>三. 工作空间变量</h3></li>
+<h3><span id="三-工作空间变量">三. 工作空间变量</span></h3></li>
 <li><p>magic 和 rand ，以及whos命令</p>
 <p>magic是一种用于产生魔方矩阵的函数，产生的矩阵的每行、列以及对角线的数之和相等。该和的值为1+2+3+…..+n^2的和再除以n，n必须为大于或等于3的整数。 </p>
 <p>rand函数则用于产生由在(0, 1)之间均匀分布的随机数组成的数组 ，如rand（4）则是产生一个1行4列的数组，rand（2，3）则是2行3列矩阵，rand（2，3，4）则是四个2行3列的矩阵</p>
@@ -268,13 +276,13 @@
 <p><img src="https://i.loli.net/2018/10/07/5bb9628c75d19.png" alt=""></p>
 </li>
 </ul>
-<h3 id="四-字符和字符串操作"><a href="#四-字符和字符串操作" class="headerlink" title="四. 字符和字符串操作"></a>四. 字符和字符串操作</h3><ul>
+<h3><span id="四-字符和字符串操作">四. 字符和字符串操作</span></h3><ul>
 <li><p>定义字符和字符串：</p>
 <p><img src="https://i.loli.net/2018/10/07/5bb963f2ec434.png" alt=""></p>
 </li>
 <li><p>数字转字符，字符拼接（int2str or num2str函数）：</p>
 <p><img src="https://i.loli.net/2018/10/07/5bb965001606c.png" alt=""></p>
-<h3 id="五-调用函数"><a href="#五-调用函数" class="headerlink" title="五. 调用函数"></a>五. 调用函数</h3></li>
+<h3><span id="五-调用函数">五. 调用函数</span></h3></li>
 <li><p>matlab 和大多数编程语言一样，提供了很多函数来简化代码提高效率，例如常见的 min，max函数，且函数同样具有返回值类型，个数等条件:</p>
 <p><img src="https://i.loli.net/2018/10/07/5bb9674e3f44e.png" alt=""></p>
 </li>
@@ -287,9 +295,10 @@
 </ul>
 <p>  <img src="https://i.loli.net/2018/10/07/5bb9687d4ff42.png" alt=""></p>
 
+					
                 </div>
                 <hr/>
-
+			
                 <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
 
 <div id="article-share">
@@ -302,6 +311,7 @@
 
                 <div class="reprint">
                     <p>
+					
                         <span class="reprint-tip">转载请注明: </span>
                         <a href="http://www.yof3ng.xyz" class="b-link-green">肖亦枫</a>
                         <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
@@ -333,8 +343,7 @@
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">[TOC]
-数据结构和算法 （Algorithm）- 绪论数据是个啥？ &nbsp; &nbsp; &nbsp; 数据（data）是信息的载体，是对客观事物的符号化表示，它的含义极为广泛，包含了人们日穿生活中的各种信息在计算机内的表示，而数</div>
+                    <div class="summary">数据结构和算法 （Algorithm）- 绪论数据是个啥？ &nbsp; &nbsp; &nbsp; 数据（data）是信息的载体，是对客观事物的符号化表示，它的含义极为广泛，包含了人们日穿生活中的各种信息在计算机内的表示，而数据元素则是数</div>
                     <div class="publish-info">
                         <span class="publish-date">
                             <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-07
@@ -377,9 +386,8 @@
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">[TOC]
-数学建模_day1–初入数模&nbsp; &nbsp; &nbsp; &nbsp; 作为一个大二刚开始的学生才真正接触数模，虽然有点晚了，但我相信有付出，就有回报，没有付出就没有馅饼😄。
-&nbsp; &nbsp; &nbsp</div>
+                    <div class="summary">数学建模_day1–初入数模&nbsp; &nbsp; &nbsp; &nbsp; 作为一个大二刚开始的学生才真正接触数模，虽然有点晚了，但我相信有付出，就有回报，没有付出就没有馅饼😄。
+&nbsp; &nbsp; &nbsp; &nbs</div>
                     <div class="publish-info">
                             <span class="publish-date">
                                 <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-06
