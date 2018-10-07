@@ -229,7 +229,8 @@
             <hr>
             <div class="card-content article-card-content">
                 <div id="articleContent">
-                    <h1 id="数据结构和算法-（Algorithm）-绪论"><a href="#数据结构和算法-（Algorithm）-绪论" class="headerlink" title="数据结构和算法 （Algorithm）- 绪论"></a>数据结构和算法 （Algorithm）- 绪论</h1><h2 id="数据是个啥？"><a href="#数据是个啥？" class="headerlink" title="数据是个啥？"></a>数据是个啥？</h2><p> &nbsp; &nbsp; &nbsp; 数据（data）是信息的载体，是对客观事物的符号化表示，它的含义极为广泛，包含了人们日穿生活中的各种信息在计算机内的表示，而<strong>数据元素</strong>则是数据的基本单位。</p>
+                    <h1 id="数据结构和算法-（Algorithm）-绪论"><a href="#数据结构和算法-（Algorithm）-绪论" class="headerlink" title="数据结构和算法 （Algorithm）- 绪论"></a>数据结构和算法 （Algorithm）- 绪论</h1><p>[TOC]</p>
+<h2 id="数据是个啥？"><a href="#数据是个啥？" class="headerlink" title="数据是个啥？"></a>数据是个啥？</h2><p> &nbsp; &nbsp; &nbsp; 数据（data）是信息的载体，是对客观事物的符号化表示，它的含义极为广泛，包含了人们日穿生活中的各种信息在计算机内的表示，而<strong>数据元素</strong>则是数据的基本单位。</p>
 <p><img src="http://photo.orsoon.com/JPG-180515/180515_42/k5oFKYNsQz_small.jpg" alt=""></p>
 <h2 id="数据结构定义"><a href="#数据结构定义" class="headerlink" title="数据结构定义"></a>数据结构定义</h2><p>&nbsp; &nbsp; &nbsp; &nbsp; 数据结构分为逻辑结构和物理结构，以及数据运算三方面内容，一起来愉快地学习它吧😭！</p>
 <h3 id="逻辑结构中几种结构的基本定义"><a href="#逻辑结构中几种结构的基本定义" class="headerlink" title="逻辑结构中几种结构的基本定义"></a>逻辑结构中几种结构的基本定义</h3><p>① 线性结构(1:1)：结构中的数据元素之间存在着一对一的关系，如表，栈，队列等。</p>
@@ -267,7 +268,24 @@
 <h2 id="算法的复杂度"><a href="#算法的复杂度" class="headerlink" title="算法的复杂度"></a>算法的复杂度</h2><p> &nbsp; &nbsp; &nbsp; 算法的复杂度通常分为时间复杂度，空间复杂度，采用<strong>“大O表示法”</strong>定义算法效率度量。</p>
 <h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3><p> &nbsp; &nbsp; &nbsp; 判定算法性能的一个基本考虑是处理一定<strong>“规模（Size）”</strong>的输入时，该算法所需执行的<strong>“基本操作数（Basic Operation）”。</strong></p>
 <p> &nbsp; &nbsp; &nbsp; T(N) = O(f(N))是指保证函数T(N)以不快于f(N)速度增长；f(N)是一个上界（upper bound），即某个算法的增长率最差情况是f(N)，给出几个例子：</p>
-<pre class=" language-c"><code class="language-c">
+<pre class=" language-c"><code class="language-c"><span class="token number">1</span><span class="token punctuation">.</span> <span class="token punctuation">{</span> <span class="token operator">++</span>x<span class="token punctuation">;</span>s<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//1.算法时间复杂度为 O(1),称为常量阶</span>
+
+<span class="token number">2</span><span class="token punctuation">.</span> <span class="token keyword">for</span><span class="token punctuation">(</span>i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>n<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span> <span class="token operator">++</span>x<span class="token punctuation">;</span>s<span class="token operator">+</span><span class="token operator">=</span>x<span class="token punctuation">;</span><span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//2.算法时间复杂度为 O(n),称为线性阶</span>
+
+<span class="token number">3</span><span class="token punctuation">.</span> <span class="token keyword">for</span> <span class="token punctuation">(</span>j<span class="token operator">=</span>i<span class="token punctuation">;</span>j<span class="token operator">&lt;</span>n<span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span>k<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>k<span class="token operator">&lt;</span>n<span class="token punctuation">;</span>k<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token operator">++</span>x<span class="token punctuation">;</span>
+        s<span class="token operator">+</span><span class="token operator">=</span>x<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//3.算法时间复杂度为 O(n*n),称为平方阶</span>
+
+<span class="token number">4</span><span class="token punctuation">.</span>i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span><span class="token keyword">while</span><span class="token punctuation">(</span>i<span class="token operator">&lt;=</span>n<span class="token punctuation">)</span><span class="token punctuation">{</span> i<span class="token operator">=</span>i<span class="token operator">*</span><span class="token number">2</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//4.算法时间复杂度为 O(log2n),称为对数阶</span>
+
+<span class="token comment" spellcheck="true">//根据基本执行次数，运用极限的方法来计算复杂度</span>
 </code></pre>
 <h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3><p> &nbsp; &nbsp; &nbsp; 一个程序的空间复杂度是指从程序运行到结束所需的存储量。而程序的存储空间分为固定部分和可变部分，就像电脑分了硬盘存储空间和内存存储空间一样😄，程序本身所占的物理空间加上程序运行时所需要的内存组成了程序运行所需的存储空间。</p>
 <p>Try to get the best answer！</p>
@@ -318,7 +336,8 @@
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">数据结构和算法 （Algorithm）- 绪论数据是个啥？ &nbsp; &nbsp; &nbsp; 数据（data）是信息的载体，是对客观事物的符号化表示，它的含义极为广泛，包含了人们日穿生活中的各种信息在计算机内的表示，而数据元素则是数</div>
+                    <div class="summary">数据结构和算法 （Algorithm）- 绪论[TOC]
+数据是个啥？ &nbsp; &nbsp; &nbsp; 数据（data）是信息的载体，是对客观事物的符号化表示，它的含义极为广泛，包含了人们日穿生活中的各种信息在计算机内的表示，而数</div>
                     <div class="publish-info">
                             <span class="publish-date">
                                 <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-07
