@@ -245,12 +245,16 @@ y <span class="token operator">=</span> <span class="token function">sin</span><
 </code></pre>
 <p><img src="https://i.loli.net/2018/10/08/5bbae75ed9328.png" alt=""></p>
 <p> &nbsp; &nbsp; &nbsp; 因为步长的关系造成了这张图片的狰狞，不过没关系，我们可以改一下x的范围：</p>
-<pre class=" language-matlab"><code class="language-matlab">
+<pre class=" language-matlab"><code class="language-matlab">x <span class="token operator">=</span> <span class="token number">0</span><span class="token operator">:</span><span class="token keyword">pi</span><span class="token operator">/</span><span class="token number">100</span><span class="token operator">:</span><span class="token number">2</span><span class="token operator">*</span><span class="token keyword">pi</span><span class="token punctuation">;</span> <span class="token operator">/</span><span class="token operator">/</span>改成单位圆范围
+y <span class="token operator">=</span> <span class="token function">sin</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token function">plot</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span>y<span class="token punctuation">)</span>
 </code></pre>
 <p><img src="https://i.loli.net/2018/10/08/5bbae85f7aa9f.png" alt=""></p>
 <h3 id="surf-和-mesh-函数-–-三维"><a href="#surf-和-mesh-函数-–-三维" class="headerlink" title="surf 和 mesh 函数 – 三维"></a>surf 和 mesh 函数 – 三维</h3><p> &nbsp; &nbsp; &nbsp; 三维图通常显示一个由带两个变量的函数（即 <em>z = f (x,y</em>)）定义的曲面图。 surf 函数及其伴随函数 mesh 以三维形式显示曲面图。surf 使用颜色显示曲面图的连接线和面。mesh 生成仅以颜色标记连接定义点的线条的线框曲面图。</p>
 <p> &nbsp; &nbsp; &nbsp; 例如在三维坐标系中，构建一个 Z=1，-1&lt;x&lt;1，-1&lt;y&lt;1，的平面，我们要输入以下代码：</p>
-<pre class=" language-matlab"><code class="language-matlab">
+<pre class=" language-matlab"><code class="language-matlab">x <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token operator">:</span><span class="token number">0.1</span><span class="token operator">:</span><span class="token number">1</span><span class="token punctuation">;</span>y <span class="token operator">=</span> x<span class="token punctuation">;</span>
+z <span class="token operator">=</span> <span class="token function">ones</span><span class="token punctuation">(</span><span class="token number">21</span><span class="token punctuation">,</span><span class="token number">21</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">mesh</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span>y<span class="token punctuation">,</span>z<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p><img src="https://i.loli.net/2018/10/08/5bbaf6e837e65.png" alt=""></p>
 <p> &nbsp; &nbsp; &nbsp; exp函数，例如exp(5)代表的是e^5。要计算 <em>z</em>，请首先使用 <code>meshgrid</code> 在将要创建的三维函数的域中创建一组 (<em>x,y</em>) 点。 ：</p>
@@ -260,10 +264,22 @@ Z <span class="token operator">=</span> X <span class="token operator">.*</span>
 </code></pre>
 <p><img src="https://i.loli.net/2018/10/08/5bbaf9b2535a5.png" alt=""></p>
 <h3 id="cylinder-和-subplot-函数"><a href="#cylinder-和-subplot-函数" class="headerlink" title="cylinder 和 subplot 函数"></a>cylinder 和 subplot 函数</h3><p> &nbsp; &nbsp; &nbsp; cylinder通常用于生成圆柱模型并返回x，y，z坐标值，subplot通常用于分割窗口用以显示不同的图形。</p>
-<pre class=" language-matlab"><code class="language-matlab">
+<pre class=" language-matlab"><code class="language-matlab">Matlab cylinder 函数：
+　　<span class="token number">1</span>、cylinder函数功能说明：绘制三维圆柱图。
+　　<span class="token number">2</span>、cylinder函数用法说明：
+　　（<span class="token number">1</span>）<span class="token punctuation">[</span>x<span class="token punctuation">,</span>y<span class="token punctuation">,</span>z<span class="token punctuation">]</span><span class="token operator">=</span>cylinder 函数返回一半径和高度都为<span class="token number">1</span>的圆柱体x，y，z轴的坐标值，圆柱体沿其周长有<span class="token number">20</span>个等距分布的点；
+　　（<span class="token number">2</span>）<span class="token punctuation">[</span>x<span class="token punctuation">,</span>y<span class="token punctuation">,</span>z<span class="token punctuation">]</span><span class="token operator">=</span><span class="token function">cylinder</span><span class="token punctuation">(</span>r<span class="token punctuation">)</span> 函数一个半径为r、高度为<span class="token number">1</span>的圆柱体的x，y，z轴的坐标值，圆柱体沿其周长有<span class="token number">20</span>个等距分布的点；
+　　（<span class="token number">3</span>）<span class="token punctuation">[</span>x<span class="token punctuation">,</span>y<span class="token punctuation">,</span>z<span class="token punctuation">]</span><span class="token operator">=</span><span class="token function">cylinder</span><span class="token punctuation">(</span>r<span class="token punctuation">,</span>n<span class="token punctuation">)</span> 函数一个半径为r、高度为<span class="token number">1</span>的圆柱体的x，y，z轴的坐标值，圆柱体沿其周长有n个等距分布的点；
+　　（<span class="token number">4</span>）<span class="token function">cylinder</span><span class="token punctuation">(</span><span class="token punctuation">...</span><span class="token punctuation">)</span> 函数只绘制圆柱，没有任何的输出参量。其他参量及结果同上。
 </code></pre>
 <p> &nbsp; &nbsp; &nbsp; 用一个例子来展示一下cylinder和subplot的用法：</p>
-<pre><code>
+<pre><code>t = 0:pi/10:2*pi;
+[X,Y,Z] = cylinder(2+cos(t));
+surf(X,Y,Z)
+subplot(2,2,1); mesh(X); title(&#39;X&#39;);
+subplot(2,2,2); mesh(Y); title(&#39;Y&#39;);
+subplot(2,2,3); mesh(Z); title(&#39;Z&#39;);
+subplot(2,2,4); mesh(X,Y,Z); title(&#39;X,Y,Z&#39;);
 </code></pre><p><img src="https://i.loli.net/2018/10/08/5bbafba7df128.png" alt=""></p>
 
                 </div>
