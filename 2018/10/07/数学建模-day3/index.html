@@ -243,7 +243,7 @@
 <pre class=" language-matlab"><code class="language-matlab">x <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">100</span><span class="token operator">:</span><span class="token number">10</span><span class="token operator">:</span><span class="token number">100</span><span class="token punctuation">;</span>     <span class="token operator">/</span><span class="token operator">/</span>创建一个<span class="token operator">-</span><span class="token number">100</span>到<span class="token number">100</span>步长为<span class="token number">10</span>的一维数组用来作为X
 y <span class="token operator">=</span> <span class="token function">sin</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token operator">/</span><span class="token operator">/</span>构成函数 y <span class="token operator">=</span> <span class="token function">sin</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span>
 </code></pre>
-<p>成品图如下：</p>
+<p><code>成品图如下</code>：</p>
 <div align="center"><img src="https://i.loli.net/2018/10/08/5bbae75ed9328.png" alt=""></div>
 
 <p> &nbsp; &nbsp; &nbsp; 因为步长的关系造成了这张图片的狰狞，不过没关系，我们可以改一下x的范围：</p>
@@ -251,7 +251,7 @@ y <span class="token operator">=</span> <span class="token function">sin</span><
 y <span class="token operator">=</span> <span class="token function">sin</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span> 
 <span class="token function">plot</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span>y<span class="token punctuation">)</span>
 </code></pre>
-<p>成品图如下：</p>
+<p><code>成品图如下</code>：</p>
 <div align="center"><img src="https://i.loli.net/2018/10/08/5bbae85f7aa9f.png" alt=""><br><br></div>
 
 <h3 id="surf-和-mesh-函数-–-三维"><a href="#surf-和-mesh-函数-–-三维" class="headerlink" title="surf 和 mesh 函数 – 三维"></a>surf 和 mesh 函数 – 三维</h3><p> &nbsp; &nbsp; &nbsp; 三维图通常显示一个由带两个变量的函数（即 <em>z = f (x,y</em>)）定义的曲面图。 surf 函数及其伴随函数 mesh 以三维形式显示曲面图。surf 使用颜色显示曲面图的连接线和面。mesh 生成仅以颜色标记连接定义点的线条的线框曲面图。</p>
@@ -260,7 +260,7 @@ y <span class="token operator">=</span> <span class="token function">sin</span><
 z <span class="token operator">=</span> <span class="token function">ones</span><span class="token punctuation">(</span><span class="token number">21</span><span class="token punctuation">,</span><span class="token number">21</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token function">mesh</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span>y<span class="token punctuation">,</span>z<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
-<p>成品图如下：</p>
+<p><code>成品图如下</code>：</p>
 <div align="center"><img src="https://i.loli.net/2018/10/08/5bbaf6e837e65.png" alt=""></div>
 
 <p> &nbsp; &nbsp; &nbsp; exp函数，例如exp(5)代表的是e^5。要计算 <em>z</em>，请首先使用 <code>meshgrid</code> 在将要创建的三维函数的域中创建一组 (<em>x,y</em>) 点。 ：</p>
@@ -268,7 +268,7 @@ z <span class="token operator">=</span> <span class="token function">ones</span>
 Z <span class="token operator">=</span> X <span class="token operator">.*</span> <span class="token function">exp</span><span class="token punctuation">(</span><span class="token operator">-</span>X<span class="token operator">.^</span><span class="token number">2</span> <span class="token operator">-</span> Y<span class="token operator">.^</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token operator">/</span><span class="token operator">/</span>得到Z
 <span class="token function">surf</span><span class="token punctuation">(</span>X<span class="token punctuation">,</span>Y<span class="token punctuation">,</span>Z<span class="token punctuation">)</span>；                <span class="token operator">/</span><span class="token operator">/</span>画图
 </code></pre>
-<p>成品图如下：</p>
+<p><code>成品图如下</code>：</p>
 <div align="center"><img src="https://i.loli.net/2018/10/08/5bbaf9b2535a5.png" alt=""></div>
 
 <h3 id="cylinder-和-subplot-函数"><a href="#cylinder-和-subplot-函数" class="headerlink" title="cylinder 和 subplot 函数"></a>cylinder 和 subplot 函数</h3><p> &nbsp; &nbsp; &nbsp; cylinder通常用于生成圆柱模型并返回x，y，z坐标值，subplot通常用于分割窗口用以显示不同的图形。</p>
@@ -289,7 +289,7 @@ Z <span class="token operator">=</span> X <span class="token operator">.*</span>
 <span class="token function">subplot</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token function">mesh</span><span class="token punctuation">(</span>Z<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token function">title</span><span class="token punctuation">(</span><span class="token string">'Z'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token function">subplot</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token function">mesh</span><span class="token punctuation">(</span>X<span class="token punctuation">,</span>Y<span class="token punctuation">,</span>Z<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token function">title</span><span class="token punctuation">(</span><span class="token string">'X,Y,Z'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
-<p>成品图如下：</p>
+<p><code>成品图如下</code>：</p>
 <div align="center"><img src="https://i.loli.net/2018/10/08/5bbafba7df128.png" alt=""></div>
                 </div>
                 <hr/>
