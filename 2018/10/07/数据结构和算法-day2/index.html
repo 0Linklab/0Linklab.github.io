@@ -268,32 +268,32 @@
 <blockquote>
 <p>顺序表结构算法：</p>
 </blockquote>
-<pre class=" language-C"><code class="language-C">#include<stdio.h>
-#include<stdlib.h>
-#include<windows.h>
-#define MAXSIZE 20           // 顺序表的最大存储容量
-typedef int datatype;          // 顺序表存储的数据类型
-typedef struct{
-    datatype data[MAXSIZE];    //线性表存储数据
-    int Last;                //线性表的长度
-}SeqList;
-//定义一个顺序表 SeqList L;
-//定义一个SeqList类型的指针 SeqList *L;
-SeqList * init_SeqList(){    //初始化线性表
-    SeqList *L;
-    L = (SeqList *)malloc(sizeof(SeqList));
-    L->Last=0;
-    return L;
-}
-int main(){
-    int i;
-    SeqList *L = init_SeqList();
-    for(i=0;i<10;i++){
-        L->data[i]=i;
-        L->Last +=1;
-    }
-    printf("当前顺序表的长度为 %d，顺序表的大小为 %d",L->Last,sizeof(L->data));
-} 
+<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span><span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span><span class="token string">&lt;stdlib.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span><span class="token string">&lt;windows.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">define</span> MAXSIZE 20           </span><span class="token comment" spellcheck="true">// 顺序表的最大存储容量</span>
+<span class="token keyword">typedef</span> <span class="token keyword">int</span> datatype<span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">// 顺序表存储的数据类型</span>
+<span class="token keyword">typedef</span> <span class="token keyword">struct</span><span class="token punctuation">{</span>
+    datatype data<span class="token punctuation">[</span>MAXSIZE<span class="token punctuation">]</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//线性表存储数据</span>
+    <span class="token keyword">int</span> Last<span class="token punctuation">;</span>                <span class="token comment" spellcheck="true">//线性表的长度</span>
+<span class="token punctuation">}</span>SeqList<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//定义一个顺序表 SeqList L;</span>
+<span class="token comment" spellcheck="true">//定义一个SeqList类型的指针 SeqList *L;</span>
+SeqList <span class="token operator">*</span> <span class="token function">init_SeqList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>    <span class="token comment" spellcheck="true">//初始化线性表</span>
+    SeqList <span class="token operator">*</span>L<span class="token punctuation">;</span>
+    L <span class="token operator">=</span> <span class="token punctuation">(</span>SeqList <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>SeqList<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    L<span class="token operator">-></span>Last<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> L<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+    SeqList <span class="token operator">*</span>L <span class="token operator">=</span> <span class="token function">init_SeqList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span>i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span><span class="token number">10</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        L<span class="token operator">-></span>data<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>i<span class="token punctuation">;</span>
+        L<span class="token operator">-></span>Last <span class="token operator">+</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"当前顺序表的长度为 %d，顺序表的大小为 %d"</span><span class="token punctuation">,</span>L<span class="token operator">-></span>Last<span class="token punctuation">,</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>L<span class="token operator">-></span>data<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> 
 </code></pre>
 <p> &nbsp; &nbsp; &nbsp; 顺序表应用举例：有顺序表A，B，其元素均按从小到大的升序排列，编写一个算法将他们合并成一个顺序表C，要求C的元素也是从小到大的升序排列。</p>
 <p> &nbsp; &nbsp; &nbsp; 算法思路：依次扫描A和B中的元素，比较当前元素的值，将较小值的元素赋给C，直到一个线性表扫描完毕之后将未完的那个顺序表中余下的那部分赋给C，且C的容量需要能够容纳A,B两个线性表相加的长度，<strong>算法如下</strong>：</p>
