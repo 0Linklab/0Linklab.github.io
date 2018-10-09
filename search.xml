@@ -3,6 +3,29 @@
   
     
     <entry>
+      <title>数学建模-day4</title>
+      <link href="/2018/10/09/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-day4/"/>
+      <url>/2018/10/09/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-day4/</url>
+      
+        <content type="html"><![CDATA[<p>[TOC]</p><h1 id="数学建模-day4-matlab编程和脚本"><a href="#数学建模-day4-matlab编程和脚本" class="headerlink" title="数学建模_day4 - matlab编程和脚本"></a>数学建模_day4 - matlab编程和脚本</h1><blockquote><p>​    <em>脚本</em>是最简单的一种 MATLAB® 程序。脚本是一个包含多行连续 MATLAB 命令和函数调用的扩展名为 <code>.m</code> 的文件。在命令行中键入脚本名称即可运行该脚本。 </p></blockquote><p>&nbsp; &nbsp; &nbsp; &nbsp; 要创建脚本，可以使用 <code>edit &quot;filename&quot;</code></p><p>待更新。。。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数学建模 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 数模 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>数学建模-day3</title>
       <link href="/2018/10/07/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-day3/"/>
       <url>/2018/10/07/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-day3/</url>
