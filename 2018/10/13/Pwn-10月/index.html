@@ -245,7 +245,13 @@
 <p><img src="https://i.loli.net/2018/10/13/5bc20e49c32cb.png" alt=""></p>
 <p>​    突破点是通过read函数，在buf处进行溢出，进而覆盖v7，v8的值，达到else的条件，即v7==0x7FFFFFFFFFFFFFFF,v8==0.1。</p>
 <p>​    这里我们需要知道的是，浮点数在内存中表现的形式是什么样子的，它与普通的整型不同，会做出转换，比较晦涩。这里简单写一个C语言程序看看0.1是怎么表示的：</p>
-<pre class=" language-c"><code class="language-c">
+<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span><span class="token string">&lt;stdio.h></span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">double</span> a<span class="token operator">=</span><span class="token number">0.1</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%lf"</span><span class="token punctuation">,</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>​    通过<code>gcc -o test test.c -z noexecstack -no-pie</code>进行编译，然后使用gdb看看：</p>
 <p><img src="https://i.loli.net/2018/10/13/5bc213eed9cfc.png" alt=""></p>
