@@ -329,7 +329,15 @@ ans <span class="token operator">=</span>
 <h2 id="矩阵的乘积"><a href="#矩阵的乘积" class="headerlink" title="矩阵的乘积"></a>矩阵的乘积</h2><blockquote>
 <p>​    之前学习线性代数的时候，计算矩阵的乘积都是按公式来算，现在可以通过matlab for循环来实现这个计算：</p>
 </blockquote>
-<pre class=" language-matlab"><code class="language-matlab">
+<pre class=" language-matlab"><code class="language-matlab">A <span class="token operator">=</span> <span class="token function">pascal</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+B <span class="token operator">=</span> <span class="token function">magic</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+m <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span> 
+n <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token number">i</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">:</span>m
+     <span class="token keyword">for</span> <span class="token number">j</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">:</span>n
+        <span class="token function">C</span><span class="token punctuation">(</span><span class="token number">i</span><span class="token punctuation">,</span><span class="token number">j</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token function">A</span><span class="token punctuation">(</span><span class="token number">i</span><span class="token punctuation">,</span><span class="token operator">:</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token function">B</span><span class="token punctuation">(</span><span class="token operator">:</span><span class="token punctuation">,</span><span class="token number">j</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token keyword">end</span>
+<span class="token keyword">end</span>
 </code></pre>
 <blockquote>
 <p>​    按矩阵乘法规则，矩阵可以在其右侧乘以列向量，在左侧乘以行向量。</p>
