@@ -279,147 +279,128 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
 
     
 
-<div id="tags" class="container chip-container">
+<div id="category-cloud" class="container chip-container">
     <div class="card">
         <div class="card-content">
-            <div class="tag-title center-align">文章标签</div>
+            <div class="tag-title center-align">文章分类</div>
             <div class="tag-chips">
                 
                 
-                <a href="/tags/Linux/" title="Linux: 1">
+                
+                <a href="/categories/环境配置/" title="环境配置: 1">
                     <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="Linux" style="background-color: #F9EBEA;">Linux
+                             chip-active "
+                            style="background-color: #F9EBEA;">环境配置
                         <span class="tag-length">1</span>
                     </span>
                 </a>
                 
                 
-                <a href="/tags/Pwn环境配置/" title="Pwn环境配置: 1">
+                <a href="/categories/杂文/" title="杂文: 2">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            data-tagname="Pwn环境配置" style="background-color: #F5EEF8;">Pwn环境配置
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/APT/" title="APT: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="APT" style="background-color: #D5F5E3;">APT
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/数模/" title="数模: 5">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="数模" style="background-color: #E8F8F5;">数模
-                        <span class="tag-length">5</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/Pwn/" title="Pwn: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="Pwn" style="background-color: #FEF9E7;">Pwn
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/算法/" title="算法: 2">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="算法" style="background-color: #F8F9F9;">算法
+                            style="background-color: #F5EEF8;">杂文
                         <span class="tag-length">2</span>
                     </span>
                 </a>
                 
                 
-                <a href="/tags/靶机/" title="靶机: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-active "
-                            data-tagname="靶机" style="background-color: #82E0AA;">靶机
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/渗透/" title="渗透: 1">
+                <a href="/categories/数学建模/" title="数学建模: 5">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            data-tagname="渗透" style="background-color: #D7BDE2;">渗透
-                        <span class="tag-length">1</span>
+                            style="background-color: #D5F5E3;">数学建模
+                        <span class="tag-length">5</span>
                     </span>
                 </a>
                 
                 
-                <a href="/tags/Git账户/" title="Git账户: 1">
+                <a href="/categories/CTF/" title="CTF: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            data-tagname="Git账户" style="background-color: #A3E4D7;">Git账户
+                            style="background-color: #E8F8F5;">CTF
                         <span class="tag-length">1</span>
                     </span>
                 </a>
                 
                 
-                <a href="/tags/Hexo搭建/" title="Hexo搭建: 1">
+                <a href="/categories/算法/" title="算法: 2">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            data-tagname="Hexo搭建" style="background-color: #85C1E9;">Hexo搭建
+                            style="background-color: #FEF9E7;">算法
+                        <span class="tag-length">2</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/渗透/" title="渗透: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            style="background-color: #F8F9F9;">渗透
                         <span class="tag-length">1</span>
                     </span>
                 </a>
+                
                 
             </div>
         </div>
     </div>
 </div>
 
-    <div class="container">
-        
+    
 
-        <article>
-            <div class="row tags-posts">
-                
-                
-                <div class="article tag-post col s12 m6 l4" data-tags="靶机, 渗透" data-aos="fade-up">
-                    <div class="card">
-                        <a href="/2018/09/15/wakanda-1-靶机渗透/">
-                            <div class="card-image tag-image">
+    <article id="articles" class="container articles">
+        <div class="row tags-posts">
+            
+            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2018/10/14/Linux环境配置/">
+                        <div class="card-image tag-image">
+                            
+                            
+                            <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Linux环境配置">
+                            
+                            <span class="card-title">Linux环境配置</span>
+                        </div>
+                    </a>
+                    <div class="card-content article-content">
+                        <div class="summary">[TOC]
+Linux环境配置
+​    作为一个信安学习者，和环境打交道是经常的事，那么接下来为二进制学习开始做准备，配置各种架构的调试环</div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-14
+                            </span>
+                            <span class="publish-author">
                                 
-                                <img src="https://raw.githubusercontent.com/Yof3ng/yof3ng.github.io/master/medias/featureimages/19.jpg" class="responsive-img" alt="wakanda-1-靶机渗透">
+                                <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <span class="card-title">wakanda-1-靶机渗透</span>
-                            </div>
-                        </a>
-                        <div class="card-content article-content">
-                            <div class="publish-info">
-                                <span class="publish-date">
-                                    <i class="fa fa-clock-o fa-fw icon-date"></i>2018-09-15
-                                </span>
-                                <span class="publish-author">
-                                    
-                                    <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                    
-                                    <a href="/categories/渗透/" class="post-category" target="_blank">
-                                    渗透
-                                    </a>
-                                    
-                                    
-                                </span>
-                            </div>
+                                <a href="/categories/环境配置/" class="post-category" target="_blank">
+                                    环境配置
+                                </a>
+                                
+                                
+                            </span>
                         </div>
                     </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/Linux/" target="_blank">
+                            <span class="chip bg-color">Linux</span>
+                        </a>
+                        
+                        <a href="/tags/Pwn环境配置/" target="_blank">
+                            <span class="chip bg-color">Pwn环境配置</span>
+                        </a>
+                        
+                    </div>
+                    
                 </div>
-                
             </div>
-        </article>
-    </div>
+            
+        </div>
+    </article>
 </main>
 
 

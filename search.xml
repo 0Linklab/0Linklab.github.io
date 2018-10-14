@@ -3,6 +3,31 @@
   
     
     <entry>
+      <title>Linux环境配置</title>
+      <link href="/2018/10/14/Linux%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
+      <url>/2018/10/14/Linux%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
+      
+        <content type="html"><![CDATA[<p>[TOC]</p><h1 id="Linux环境配置"><a href="#Linux环境配置" class="headerlink" title="Linux环境配置"></a>Linux环境配置</h1><blockquote><p>​    作为一个信安学习者，和环境打交道是经常的事，那么接下来为二进制学习开始做准备，配置各种架构的调试环境，提高效率。</p></blockquote><h2 id="oh-my-zsh"><a href="#oh-my-zsh" class="headerlink" title="oh-my-zsh"></a>oh-my-zsh</h2><blockquote><p>​    zsh是一个很强大的linux终端shell工具，而oh-my-zsh是一个高效率的配置工具，通过oh-my-zsh可以很快地配置zsh，那么如何进行完整地安装呢：</p><blockquote><p>首先需要安装python的pip，然后安装zsh，再通过<code>sh -c&quot;$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;</code>命令来安装oh-my-zsh。</p><p>通过修改<code>~/.zshrc</code>里的参数，如主题<code>ZSH_THEME=&quot;random&quot;</code>来设置终端的样式。</p><p>配置zsh语法高亮，<code>git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting</code>通过此命令下载插件，并按下图添加参数<code>zsh-syntax-highlighting</code>。</p><p><img src="https://i.loli.net/2018/10/14/5bc346022c416.png" alt=""></p><p>代码自动补插件下载 <code>git clone https://github.com/zsh-users/zsh-autosuggestions</code> 并放在<code>~/.oh-my-zsh/custom/plugins</code>目录下面，然后像上面一样添加参数即可</p></blockquote></blockquote><h2 id="pwn环境配置"><a href="#pwn环境配置" class="headerlink" title="pwn环境配置"></a>pwn环境配置</h2><blockquote><p>参照m4x大佬的博客<a href="https://m4x.fun/post/how-2-pwn-an-arm-binary/" target="_blank" rel="noopener">https://m4x.fun/post/how-2-pwn-an-arm-binary/</a></p><ul><li>安装 git，gdb 和 gdb-multiarch，同时安装 binfmt*用来识别文件类型</li></ul><pre class=" language-bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt-get</span> update$ <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> <span class="token function">git</span> gdb gdb-multiarch$ <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> <span class="token string">"binfmt*"</span></code></pre><ul><li>安装 gdb 的插件 pwndbg（或者 gef 等支持多架构的插件）</li></ul><pre class=" language-bash"><code class="language-bash">$ <span class="token function">git</span> clone https://github.com/pwndbg/pwndbg$ <span class="token function">cd</span> pwndbg$ ./setup.sh</code></pre><ul><li>安装qemu模拟环境</li></ul><pre class=" language-bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> qemu-user</code></pre></blockquote><blockquote><p>通过 qemu 模拟 arm/mips 环境，进而进行调试 </p><p><img src="https://i.loli.net/2018/10/14/5bc34c058efc2.png" alt=""></p><p>运行动态的binary 需要我们查询对应架构的共享库：</p><p><code>apt-cache search &quot;libc6&quot; | grep ARCH</code></p><p>我们只需安装类似 <strong>libc6-ARCH-cross</strong> 形式的即可 ,静态链接的 binary 直接运行即可，会自动调用对应架构的 qemu；</p><p>动态链接的 bianry 需要用对应的 qemu 同时指定共享库路径，如下图32位的动态链接 mips binary.</p><h3 id="调试："><a href="#调试：" class="headerlink" title="调试："></a>调试：</h3><p>可以使用 qemu 的 -g 指定端口</p><pre class=" language-bash"><code class="language-bash">$ qemu-mipsel -g 1234 -L /usr/mipsel-linux-gnu/ ./add</code></pre><p><img src="https://i.loli.net/2018/10/14/5bc359ad27655.png" alt=""></p><p>然后使用<code>gdb-multiarch</code>进行调试，先指定架构，然后使用remote功能 </p><pre class=" language-bash"><code class="language-bash">pwndbg<span class="token operator">></span> <span class="token keyword">set</span> architecture mips <span class="token punctuation">(</span>但大多数情况下这一步可以省略, 似乎 pwndbg 能自动识别架构<span class="token punctuation">)</span>pwndbg<span class="token operator">></span> target remote localhost:1234<span class="token comment" spellcheck="true">#peda应该问题不大</span></code></pre></blockquote><blockquote><p>下载共享库存在<code>/usr/</code>目录：</p><p><img src="https://i.loli.net/2018/10/14/5bc3583d78da3.png" alt=""></p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 环境配置 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> Pwn环境配置 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>2017APT报告研读</title>
       <link href="/2018/10/14/2017APT%E6%8A%A5%E5%91%8A%E7%A0%94%E8%AF%BB/"/>
       <url>/2018/10/14/2017APT%E6%8A%A5%E5%91%8A%E7%A0%94%E8%AF%BB/</url>
