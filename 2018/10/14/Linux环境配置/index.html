@@ -483,7 +483,7 @@ $ ./setup.sh
 <p>动态链接的 bianry 需要用对应的 qemu 同时指定共享库路径，例如：</p>
 <p><code>qemu-mipsel -L /usr/mipselbalalbala/  ./add</code></p>
 <blockquote>
-<p>mips（大端）和mipsel（小端）有什么区别呢，一个是大端（低序存在高地址，按顺序来）一个是小端序（将低序的存在低地址），一个。形象地说：大端是从上往下掉，小端是从下往上飞。</p>
+<p>mips（大端）和mipsel（小端）有什么区别呢，在于存储方式，一个是大端（低序存在高地址，按顺序来），一个是小端序（将低序的存在低地址，反常识来）。形象地说：大端是从上往下掉，小端是从下往上飞。</p>
 </blockquote>
 <p>我们只需安装类似 <strong>libc6-ARCH-cross</strong> 形式的即可 ,静态链接的 binary 直接运行即可，会自动调用对应架构的 qemu；</p>
 <p>调试可以使用 qemu 的 -g 指定端口</p>
