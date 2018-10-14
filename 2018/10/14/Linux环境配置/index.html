@@ -349,6 +349,10 @@
                     <span class="chip bg-color">Pwn环境配置</span>
                 </a>
                 
+                <a href="/tags/qemu/" target="_blank">
+                    <span class="chip bg-color">qemu</span>
+                </a>
+                
             </div>
             
             <div class="post-info">
@@ -472,13 +476,16 @@ $ ./setup.sh
 </code></pre>
 </blockquote>
 <blockquote>
-<p>通过 qemu 模拟 arm/mips 环境，进而进行调试 </p>
+<p>通过 qemu 模拟 arm/mips 环境，进而进行调试 ，</p>
 <p><img src="https://i.loli.net/2018/10/14/5bc34c058efc2.png" alt=""></p>
 <p>运行动态的binary 需要我们查询对应架构的共享库：</p>
-<p><code>apt-cache search &quot;libc6&quot; | grep ARCH</code></p>
+<p><code>apt-cache search &quot;libc6&quot; | grep ARCH</code> </p>
+<p>动态链接的 bianry 需要用对应的 qemu 同时指定共享库路径，例如：</p>
+<p><code>qemu-mipsel -L /usr/mipselbalalbala/  ./add</code></p>
+<blockquote>
+<p>mips（大端）和mipsel（小端）有什么区别呢，一个是大端（低序存在高地址，按顺序来）一个是小端序（将低序的存在低地址），一个。形象地说：大端是从上往下掉，小端是从下往上飞。</p>
+</blockquote>
 <p>我们只需安装类似 <strong>libc6-ARCH-cross</strong> 形式的即可 ,静态链接的 binary 直接运行即可，会自动调用对应架构的 qemu；</p>
-<p>动态链接的 bianry 需要用对应的 qemu 同时指定共享库路径，如下图32位的动态链接 mips binary.</p>
-<p>### </p>
 <p>调试可以使用 qemu 的 -g 指定端口</p>
 <pre class=" language-bash"><code class="language-bash">$ qemu-mipsel -g 1234 -L /usr/mipsel-linux-gnu/ ./add
 </code></pre>
@@ -499,6 +506,9 @@ pwndbg<span class="token operator">></span> target remote localhost:1234
 <p>设置好动态调试端口，选择好共享库：</p>
 <p><img src="https://i.loli.net/2018/10/14/5bc364862d2ce.png" alt=""></p>
 <p>然后用<code>gdb-multiarch</code> -q启动 pwndbg，设置好文件架构，连接端口，开始动态调试：<br><img src="https://i.loli.net/2018/10/14/5bc364ebc9a23.png" alt=""></p>
+</blockquote>
+<blockquote>
+<p>加油学习吧！</p>
 </blockquote>
 
             </div>
@@ -722,6 +732,10 @@ oh-my-zsh
                     
                     <a href="/tags/Pwn环境配置/" target="_blank">
                         <span class="chip bg-color">Pwn环境配置</span>
+                    </a>
+                    
+                    <a href="/tags/qemu/" target="_blank">
+                        <span class="chip bg-color">qemu</span>
                     </a>
                     
                 </div>
