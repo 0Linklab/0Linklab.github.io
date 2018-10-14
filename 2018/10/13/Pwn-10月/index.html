@@ -233,7 +233,7 @@
             </div>
             <hr>
             <div class="card-content article-card-content">
-			<ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Pwn-10-13"><span class="post-toc-text">Pwn-10/13</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#gettingstart"><span class="post-toc-text">gettingstart</span></a></li></ol></li></ol>
+			<ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Pwn-10-13"><span class="post-toc-text">Pwn-10/13</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#gettingstart"><span class="post-toc-text">gettingstart</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#验证数组越界"><span class="post-toc-text">验证数组越界</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#验证int溢出"><span class="post-toc-text">验证int溢出</span></a></li></ol></li></ol>
                 <div id="articleContent">
                     <p>[TOC]</p>
 <h1 id="Pwn-10-13"><a href="#Pwn-10-13" class="headerlink" title="Pwn-10/13"></a>Pwn-10/13</h1><blockquote>
@@ -273,7 +273,56 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
 <p>运行exp，效果图：</p>
 <p><img src="https://i.loli.net/2018/10/13/5bc214f6668a4.png" alt=""></p>
 </blockquote>
-<p>加油！</p>
+<h2 id="验证数组越界"><a href="#验证数组越界" class="headerlink" title="验证数组越界"></a>验证数组越界</h2><blockquote>
+<p>​    写一段简单的代码来验证一下，新生经常会犯错的数组越界问题</p>
+<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span><span class="token string">&lt;stdio.h></span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+
+        <span class="token keyword">int</span> a<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        a<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+        a<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+        a<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">;</span>
+        a<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">;</span>
+
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span>a<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span>a<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span>a<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span>a<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<p>​    运行结果：</p>
+<p><img src="https://i.loli.net/2018/10/14/5bc299e356904.png" alt=""></p>
+<p>​    因为a[4]并不在我们定义的数组范围，属于数组越界，接下来调试一下看看具体情况：</p>
+<p><img src="https://i.loli.net/2018/10/14/5bc2998608bee.png" alt=""></p>
+<p>​    而就在0，1，2，3后面是不是我们运行输出的那个值呢？正是如此，因为我们通过a[4]访问的并不是我们曾经定义过的元素，而是程序运行中的产生的随机值，如函数地址等。</p>
+</blockquote>
+<h2 id="验证int溢出"><a href="#验证int溢出" class="headerlink" title="验证int溢出"></a>验证int溢出</h2><blockquote>
+<p>​    在64位系统中 <code>int</code>型变量是占用4个字节大小的，而4个字节用16进制表示就是<code>0x00000000-0xffffffff</code>，并且正数负数都在其中，而负数是用补码表示的，<code>0x7fffffff&lt;=&gt;2147483647</code>，<code>0x80000000=2147483648&lt;=&gt;-2147483648</code>。</p>
+<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span><span class="token string">&lt;stdio.h></span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"四个字节最大值0x7fffffff十进制为:\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span><span class="token number">0x7fffffff</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"请输入你想要赋给int的值:\n"</span><span class="token punctuation">)</span>
+        <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<p>运行结果：</p>
+<p><img src="https://i.loli.net/2018/10/14/5bc29c77aa16d.png" alt=""></p>
+<p>​    果不其然，我们赋给int的2147483648变成了负数，-2147483648。</p>
+<p><img src="https://i.loli.net/2018/10/14/5bc29d54a35a3.png" alt=""></p>
+</blockquote>
+<blockquote>
+<p>have a good weekend everybody!</p>
+</blockquote>
 
                 </div>
                 <hr/>
