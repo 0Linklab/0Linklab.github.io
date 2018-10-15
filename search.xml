@@ -80,7 +80,7 @@
     </entry>
     
     <entry>
-      <title>Pwn-10月</title>
+      <title>Pwn-10月14-护网杯</title>
       <link href="/2018/10/13/Pwn-10%E6%9C%8814-%E6%8A%A4%E7%BD%91%E6%9D%AF/"/>
       <url>/2018/10/13/Pwn-10%E6%9C%8814-%E6%8A%A4%E7%BD%91%E6%9D%AF/</url>
       
@@ -97,6 +97,10 @@
         <tags>
             
             <tag> Pwn </tag>
+            
+            <tag> 二进制安全 </tag>
+            
+            <tag> CTF </tag>
             
         </tags>
       
