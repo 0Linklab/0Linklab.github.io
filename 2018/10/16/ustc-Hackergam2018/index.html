@@ -392,25 +392,19 @@ The flag is: flag{Hackergame2018_Have_Fun!}
 <p>  <img src="https://i.loli.net/2018/10/12/5bc02bfb8a96d.png" alt="">  </p>
 <h2 id="猫咪问答"><a href="#猫咪问答" class="headerlink" title="猫咪问答"></a>猫咪问答</h2><blockquote>
 <pre><code>这一题虽然表面上是对中科大新生有优势，但是实际上是个社工题。考验学生的搜索能力，信息收集能力。毕竟信安肯定是要跟这个打交道的啦。简单搜索（百度，必应，谷歌）一下，提交得到flag：
-
-```shell
-flag{G00G1E-is-always-YOUR-FRIEND} 
-```
-</code></pre></blockquote>
+</code></pre><p>flag{G00G1E-is-always-YOUR-FRIEND} </p>
+</blockquote>
 <p>  <img src="https://i.loli.net/2018/10/12/5bc02da7e38a4.png" alt=""></p>
 <h2 id="游园会的集章卡片"><a href="#游园会的集章卡片" class="headerlink" title="游园会的集章卡片"></a>游园会的集章卡片</h2><blockquote>
 <pre><code>这一题实际上考验学生的拼图能力，只不过是花的实时间长短而已，需要注意的就是字母和数字的分辨，可能有的其他题目会需要一个前面的过程来获取到零碎的图片，再到这一步拼图。拼完图可以得到flag：
 
-
-
-    flag{H4PPY_1M4GE_PR0CE551NG}
+​    flag{H4PPY_1M4GE_PR0CE551NG}
 </code></pre></blockquote>
 <p>  <img src="https://i.loli.net/2018/10/12/5bc02e508ccdd.png" alt=""></p>
 <h2 id="猫咪和键盘"><a href="#猫咪和键盘" class="headerlink" title="猫咪和键盘"></a>猫咪和键盘</h2><blockquote>
 <pre><code>题目是一份经过了乱序处理的代码，虽然说是乱序，但还是有一定规律的，比如说可以看出跟列有关系，某列整体移到另一个位置之类的。
-
-    简单来说，要还原整个项目是不太可能实现的，所以我们需要根据出题人给我们的路，认真抉择，然后行动。比如源码首部的author，name，url等信息，可以谷歌得到项目的一部分源码，再还原一部分关键性的代码，理解逻辑即可。
-</code></pre></blockquote>
+</code></pre><p>简单来说，要还原整个项目是不太可能实现的，所以我们需要根据出题人给我们的路，认真抉择，然后行动。比如源码首部的author，name，url等信息，可以谷歌得到项目的一部分源码，再还原一部分关键性的代码，理解逻辑即可。</p>
+</blockquote>
 <p>  <img src="https://i.loli.net/2018/10/12/5bc0378f2d30c.png" alt=""></p>
 <p>  <img src="https://i.loli.net/2018/10/12/5bc0317a3d624.png" alt=""></p>
 <blockquote>
@@ -435,9 +429,8 @@ flag{FfQ47if9Zxw9jXE68VtGAJDk6Y6Xc88UrUtpK3iF8p7BMs4y2gzdG8Ao2gv6aiJ125type_prin
 <h2 id="猫咪银行"><a href="#猫咪银行" class="headerlink" title="猫咪银行"></a>猫咪银行</h2><p><img src="https://i.loli.net/2018/10/12/5bc03afaf3184.png" alt=""></p>
 <blockquote>
 <pre><code>又是一通过非法获取钱财买flag的题目呢，经过简单的尝试输入后发现没什么特殊的漏洞，不能以科学计数（如 0e516516）的方式作为切入点，改cookie只能重置账户，买1/4个flag跟没买似的。
-
-    仔细看可以发现，理财时间有下限，但是没有上限，先兑换TDSU，输一个大数试试看，oh一不小心就溢出了：
-</code></pre></blockquote>
+</code></pre><p>​    仔细看可以发现，理财时间有下限，但是没有上限，先兑换TDSU，输一个大数试试看，oh一不小心就溢出了：</p>
+</blockquote>
 <p>  <img src="https://i.loli.net/2018/10/12/5bc03c707e924.png" alt=""></p>
 <blockquote>
 <pre><code>但是我们需要控制溢出的收益，不然收益为负，够你受的了。通过控制输入的大数的大小来调节：922337203685477500
@@ -448,18 +441,15 @@ flag{FfQ47if9Zxw9jXE68VtGAJDk6Y6Xc88UrUtpK3iF8p7BMs4y2gzdG8Ao2gv6aiJ125type_prin
 <p>护网杯中那个辣条之王溢出的题比较精妙，需要通过条件竞争的手法（即多线程同时购买，同一时间多次购买只需要一次付钱），再判断溢出点，从而getflag：题解 <a href="https://qingchenldl.github.io/2018/10/13/%E6%8A%A4%E7%BD%91%E6%9D%AFWP-BitPwn/?tdsourcetag=s_pcqq_aiomsg" target="_blank" rel="noopener">https://qingchenldl.github.io/2018/10/13/%E6%8A%A4%E7%BD%91%E6%9D%AFWP-BitPwn/?tdsourcetag=s_pcqq_aiomsg</a></p>
 </blockquote>
 <h2 id="黑曜石浏览器"><a href="#黑曜石浏览器" class="headerlink" title="黑曜石浏览器"></a>黑曜石浏览器</h2><blockquote>
-<pre><code>这就是那个坑到无数老少爷们，一时风头无俩的黑曜石浏览器(HeiCore)，确实出题人比较良心，为这个题目甚至专门写了一个前端页面来迷惑各位CTFer，这个黑曜石浏览器主页是在百度上不能搜索到的，在必应和谷歌上可以查到，很明显这个页面很不正经，简直是在嘲笑各位CTFer的智商嘛是不是？
-
-    好回到题目，实际上我们也做了比较久，尝试过各种方法之后回到了原点：黑曜石浏览器主页，这个主页除了假正经之外还有就是，不能查看源码，用谷歌的开发者工具看主页时会返回404。那么问题已经比较明显了，这里就是出题人的阻碍，为啥要阻碍，因为关键在这里，拿到关键的东西之后我们就可以去题目那里获取flag了。
-
-    谷歌用不了我们用火狐嘛，来看看network，看看源码：
-</code></pre></blockquote>
+<p>这就是那个坑到无数老少爷们，一时风头无俩的黑曜石浏览器(HeiCore)，确实出题人比较良心，为这个题目甚至专门写了一个前端页面来迷惑各位CTFer，这个黑曜石浏览器主页是在百度上不能搜索到的，在必应和谷歌上可以查到，很明显这个页面很不正经，简直是在嘲笑各位CTFer的智商嘛是不是？</p>
+<p>好回到题目，实际上我们也做了比较久，尝试过各种方法之后回到了原点：黑曜石浏览器主页，这个主页除了假正经之外还有就是，不能查看源码，用谷歌的开发者工具看主页时会返回404。那么问题已经比较明显了，这里就是出题人的阻碍，为啥要阻碍，因为关键在这里，拿到关键的东西之后我们就可以去题目那里获取flag了。</p>
+<p>谷歌用不了我们用火狐嘛，来看看network，看看源码：</p>
+</blockquote>
 <p><img src="https://i.loli.net/2018/10/12/5bc0424f6bfaf.png" alt=""></p>
 <blockquote>
 <pre><code>哦嚯，获得了一个user-agent，题目页面不是需要通过黑曜石浏览器访问吗，既然我们没有黑曜石浏览器这个东西，当然也可以通过user-agent来代表我们是黑曜石浏览器的身份咯，构造请求，加上user-agnet，getflag。
-
-The flag is: `flag{H3ic0re_49.1.2623.213_sai_kou}` 
-</code></pre></blockquote>
+</code></pre><p>The flag is: <code>flag{H3ic0re_49.1.2623.213_sai_kou}</code> </p>
+</blockquote>
 <h2 id="回到过去"><a href="#回到过去" class="headerlink" title="回到过去"></a>回到过去</h2><pre class=" language-shell"><code class="language-shell">#input_sequence
 q
 ed
@@ -483,16 +473,12 @@ q
 </code></pre>
 <blockquote>
 <pre><code>这一题介绍了一下ed编辑器的使用，给出了一个文件如上，里面有键盘记录，实际上根据键盘记录，利用ed编辑器重写一遍就可获得flag，但是这个还是有一个坑点，那就是那个多出来的 ESC特殊符，刚开始在MobaXterm上面自带的ed做题，发现 2m3之类的换行命令无法实现，后来使用云服务器进行一波操作得到flag：
-
-flag{t4a2b8c44039f93345a3d9b2}
-</code></pre></blockquote>
+</code></pre><p>flag{t4a2b8c44039f93345a3d9b2}</p>
+</blockquote>
 <h2 id="我是谁"><a href="#我是谁" class="headerlink" title="我是谁"></a>我是谁</h2><blockquote>
 <pre><code>这一题有两个小题，充满哲学。考察的是客户端错误相应代码和 “递茶”协议。。。
-
-    第一题通过查看network，可以看到status code里面有 ` 418 I AM A TEAPOT`，正好问我是谁嘛，把TEAPOT填进去，getflag1:
-
-flag{i_canN0t_BReW_c0ffEE!} 
-</code></pre></blockquote>
+</code></pre><p>第一题通过查看network，可以看到status code里面有 <code>418 I AM A TEAPOT</code>，正好问我是谁嘛，把TEAPOT填进去，getflag1:<br>flag{i_canN0t_BReW_c0ffEE!} </p>
+</blockquote>
 <p><img src="https://i.loli.net/2018/10/12/5bc0460ef19b2.png" alt=""></p>
 <p><img src="https://i.loli.net/2018/10/12/5bc0464a1b3a2.png" alt=""></p>
 <blockquote>
@@ -508,12 +494,10 @@ See RFC-7168 for more information.
 Please check if there is anything missing in your header.
 </code></pre>
 <blockquote>
-<pre><code>结合两题的信息 I AM A TEAPOT  + brew tea + RFC-7168搜索一下，可以得到说明文档：
-
-https://tools.ietf.org/html/rfc7168
-
-    根据文档构造请求header里面的Content-Type: message/teapot，发送过去得到如下信息:
-</code></pre></blockquote>
+<p>结合两题的信息 I AM A TEAPOT  + brew tea + RFC-7168搜索一下，可以得到说明文档：</p>
+<pre><code>https://tools.ietf.org/html/rfc7168
+</code></pre><p>根据文档构造请求header里面的Content-Type: message/teapot，发送过去得到如下信息:</p>
+</blockquote>
 <p><img src="https://i.loli.net/2018/10/12/5bc04932d86c3.png" alt=""></p>
 <blockquote>
 <p>根据返回的信息，我们需要将构造的请求发送到另一个url,即在原url后面加上递茶类型black_tea:</p>
@@ -532,17 +516,12 @@ https://tools.ietf.org/html/rfc7168
 </blockquote>
 <h2 id="秘籍残篇"><a href="#秘籍残篇" class="headerlink" title="秘籍残篇"></a>秘籍残篇</h2><blockquote>
 <pre><code>从这题就开始涉及古文化，玄学知识了。这题也是一个两小题的题目，第一题给出了一段malbolge语言的代码在文件中。一个骚操作。。直接用火狐浏览器打开文件，然后调整页面大小(%30)，宽度得到以下嘲讽CTFer的图案:
-
-![](https://i.loli.net/2018/10/12/5bc052d4be6b1.png)
-
-flxg{University_Ridiculous}
-
-第二题待更新。
-</code></pre></blockquote>
+</code></pre><p><img src="https://i.loli.net/2018/10/12/5bc052d4be6b1.png" alt=""><br>   ​<br>flxg{University_Ridiculous}<br>   ​<br>第二题待更新。</p>
+</blockquote>
 <h2 id="猫咪遥控器"><a href="#猫咪遥控器" class="headerlink" title="猫咪遥控器"></a>猫咪遥控器</h2><blockquote>
 <p>为了报复猫咪把自己的代码打乱（见：猫咪与键盘），D 同学把猫咪遥控器绑在可以上（UP）下（DOWN）左（LEFT）右（RIGHT）移动的三轴机械臂上，开始使用树莓派（一款基于 Linux 的单片机计算机）控制三轴机械臂，进而控制猫咪在草地上跑来跑去。 </p>
-<pre><code>此题给出的txt文件中有 U(UP),D(DOWN),L(LEFT),R(RIGHT)，即上下左右咯，既然是让猫咪按这个跑，很简单就是画出路线图嘛，写一个简单的python脚本，利用tutle海龟库写，getflag：
-</code></pre><p>flag{MeowMeow}</p>
+<p>此题给出的txt文件中有 U(UP),D(DOWN),L(LEFT),R(RIGHT)，即上下左右咯，既然是让猫咪按这个跑，很简单就是画出路线图嘛，写一个简单的python脚本，利用tutle海龟库写，getflag：</p>
+<p>flag{MeowMeow}</p>
 </blockquote>
 <pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding=utf-8</span>
 
@@ -573,7 +552,7 @@ T<span class="token punctuation">.</span>speed<span class="token punctuation">(<
 </blockquote>
 <p><img src="https://i.loli.net/2018/10/12/5bc0561d47cad.png" alt=""></p>
 <h2 id="她的诗"><a href="#她的诗" class="headerlink" title="她的诗"></a>她的诗</h2><blockquote>
-<p>   题目给了一个poem.zip，包含一个python解密脚本和一个包含加密后诗的文件。根据解密脚本可以知道是uuencode，开始过于相信这个解密脚本，没想到出题人在这儿动手脚</p>
+<p>题目给了一个poem.zip，包含一个python解密脚本和一个包含加密后诗的文件。根据解密脚本可以知道是uuencode，开始过于相信这个解密脚本，没想到出题人在这儿动手脚</p>
 <pre class=" language-python"><code class="language-python">   <span class="token comment" spellcheck="true">#!/usr/bin/env python3</span>
    <span class="token comment" spellcheck="true"># This script helps you decode "her poem"</span>
 
@@ -597,10 +576,8 @@ T<span class="token punctuation">.</span>speed<span class="token punctuation">(<
 <h2 id="猫咪克星"><a href="#猫咪克星" class="headerlink" title="猫咪克星"></a>猫咪克星</h2><blockquote>
 <p>nc 202.38.95.46 12009 </p>
 <p>蟒蛇是一种非常容易使用的编程语言，考验你像不像蟒蛇的标准就是给你一些 Python 3 表达式。如果你能正确计算出来，你就通过了验证。 </p>
-<pre><code>简单来说就是要在30秒内完成指定次数表达式的计算，然后可以得到服务器给出的flag，但是坑爹的是表达式中有一些特殊函数，类似于目录遍历 find ~,sleep(100),exit()，所以这种东西我采取了替换的方法。
-
-因为print函数在python3和python2中不同，而我需要使用python2中的pwntools库（python3的socket不知为何无用），同时拥有python3的print函数特性，这时候就需要:
-</code></pre><p>from _ _ future _ _ import print_function</p>
+<p>简单来说就是要在30秒内完成指定次数表达式的计算，然后可以得到服务器给出的flag，但是坑爹的是表达式中有一些特殊函数，类似于目录遍历 find ~,sleep(100),exit()，所以这种东西我采取了替换的方法。<br>​<br>因为print函数在python3和python2中不同，而我需要使用python2中的pwntools库（python3的socket不知为何无用），同时拥有python3的print函数特性，这时候就需要:</p>
+<p>from _ _ future _ _ import print_function</p>
 <p>引入python3 print函数。</p>
 <p>最终脚本如下(脚本比较简陋，可能需要多跑几次才能出flag)：</p>
 </blockquote>
@@ -633,10 +610,9 @@ getit <span class="token operator">=</span> sh<span class="token punctuation">.<
 <p>当年玩的minercraft被做成了题目，好吧，红石电路，这是一个存档，需要我们按规律输入信号，然后直到光柱亮起，正确的信号即为flag:</p>
 <p>flag{0110101000111100101111111111111111111010} </p>
 </blockquote>
-<p><img src="C:\Users\HP\AppData\Local\Temp\1539333133273.png" alt="1539333133273"></p>
 <h2 id="FLXG-的秘密"><a href="#FLXG-的秘密" class="headerlink" title="FLXG 的秘密"></a>FLXG 的秘密</h2><blockquote>
-<pre><code>题目有点长，我总结一下，给出的文件中是伏羲六十四卦的卦象，简单搜索一下可以知道，伏羲六十四卦可以跟二进制扯上关系，六十四卦分别对应二进制000000-111111，对应关系如下:
-</code></pre></blockquote>
+<p>题目有点长，我总结一下，给出的文件中是伏羲六十四卦的卦象，简单搜索一下可以知道，伏羲六十四卦可以跟二进制扯上关系，六十四卦分别对应二进制000000-111111，对应关系如下:</p>
+</blockquote>
 <pre class=" language-shell"><code class="language-shell">'坤': '000000', '剥': '000001', '比': '000010', '观': '000011', '豫': '000100', '晋': '000101', '萃': '000110', '否': '000111', '谦': '001000', '艮': '001001', '蹇': '001010', '渐': '001011', '小过': '001100', '旅': '001101', '咸': '001110', '遁': '001111', '师': '010000', '蒙': '010001', '坎': '010010', '涣': '010011', '解': '010100', '未济': '010101', '困': '010110', '讼': '010111', '升': '011000', '蛊': '011001', '井': '011010', '巽': '011011', '恒': '011100', '鼎': '011101', '大过': '011110', '姤': '011111', '复': '100000', '颐': '100001', '屯': '100010', '益': '100011', '震': '100100', '噬嗑': '100101', '随': '100110', '无妄': '100111', '明夷': '101000', '贲': '101001', '既济': '101010', '家人': '101011', '丰': '101100', '离': '101101', '革': '101110', '同人': '101111', '临': '110000', '损': '110001', '节': '110010', '中孚': '110011', '归妹': '110100', '睽': '110101', '兑': '110110', '履': '110111', '泰': '111000', '大畜': '111001', '需': '111010', '小畜': '111011', '大壮': '111100', '大有': '111101', '夬': '111110', '乾': '111111'
 </code></pre>
 <blockquote>
