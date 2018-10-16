@@ -51,12 +51,28 @@
     <link href="http://www.yof3ng.xyz/2018/10/16/Pwn-10%E6%9C%8816-Codegate2018-melong/"/>
     <id>http://www.yof3ng.xyz/2018/10/16/Pwn-10月16-Codegate2018-melong/</id>
     <published>2018-10-16T03:13:17.000Z</published>
-    <updated>2018-10-16T03:13:17.615Z</updated>
+    <updated>2018-10-16T04:36:58.035Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p><h1 id="Pwn-10月16-Codegate2018-melong"><a href="#Pwn-10月16-Codegate2018-melong" class="headerlink" title="Pwn-10月16-Codegate2018-melong"></a>Pwn-10月16-Codegate2018-melong</h1><blockquote><p>同样借助<a href="https://m4x.fun/post/how-2-pwn-an-arm-binary/" target="_blank" rel="noopener">m4x大佬</a>的博客来看一看这一题是一个怎么样的解题思路。</p><p>根据大佬原话<code>漏洞很好找, write_diary 中 read 的长度是由我们输入的, 可以栈溢出, 先进入 PT 函数, 输入 -1, 再进入 write_diary, 就可以实现 arbitrary overflow 了, 因此思路同 x64 下的 rop 相同, 先 leak 出 libc 基址, 然后控制执行 system(“/bin/sh”) 即可</code>，我们来进行分析：</p></blockquote><h2 id="一-查看保护措施"><a href="#一-查看保护措施" class="headerlink" title="一.查看保护措施"></a>一.查看保护措施</h2><blockquote><p>先看一下程序的基本信息咯：</p><p><img src="https://i.loli.net/2018/10/16/5bc55a518786c.png" alt=""></p><p>可以知道这个是个32位arm架构的程序，并且需要动态链接共享库来运行。看一下它的保护措施：</p><p>​    <img src="https://i.loli.net/2018/10/16/5bc55b1e51a4f.png" alt=""></p><p>可以看到并没有开启栈溢出保护，以及nx，pie等保护措施。</p></blockquote><h2 id="二-静态分析程序逻辑"><a href="#二-静态分析程序逻辑" class="headerlink" title="二.静态分析程序逻辑"></a>二.静态分析程序逻辑</h2><p>待更新。。。</p>]]></content>
     
     <summary type="html">
     
+      
+      
+        &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;h1 id=&quot;Pwn-10月16-Codegate2018-melong&quot;&gt;&lt;a href=&quot;#Pwn-10月16-Codegate2018-melong&quot; class=&quot;headerlink&quot; title=&quot;Pwn-10月16-Codegate201
+      
+    
     </summary>
     
+      <category term="CTF" scheme="http://www.yof3ng.xyz/categories/CTF/"/>
+    
+    
+      <category term="Pwn" scheme="http://www.yof3ng.xyz/tags/Pwn/"/>
+    
+      <category term="CTF" scheme="http://www.yof3ng.xyz/tags/CTF/"/>
+    
+      <category term="二进制安全" scheme="http://www.yof3ng.xyz/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/"/>
     
   </entry>
   

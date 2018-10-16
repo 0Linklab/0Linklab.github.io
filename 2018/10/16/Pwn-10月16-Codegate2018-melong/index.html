@@ -249,7 +249,7 @@
 
 
 
-<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
+<div class="bg-cover post-cover" style="background-image: url('https://i.loli.net/2018/10/16/5bc55817b7dd3.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -339,7 +339,32 @@
     <div class="card">
         <div class="card-content article-info">
             
+            <div class="article-tag">
+                
+                <a href="/tags/Pwn/" target="_blank">
+                    <span class="chip bg-color">Pwn</span>
+                </a>
+                
+                <a href="/tags/CTF/" target="_blank">
+                    <span class="chip bg-color">CTF</span>
+                </a>
+                
+                <a href="/tags/二进制安全/" target="_blank">
+                    <span class="chip bg-color">二进制安全</span>
+                </a>
+                
+            </div>
+            
             <div class="post-info">
+                
+                <span class="post-cate">
+                    <i class="fa fa-bookmark fa-fw icon-category"></i>
+                    
+                    <a href="/categories/CTF/" class="post-category" target="_blank">
+                        CTF
+                    </a>
+                    
+                </span>
                 
 
                 <span class="post-date">
@@ -350,7 +375,20 @@
         <hr>
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <p>[TOC]</p>
+<h1 id="Pwn-10月16-Codegate2018-melong"><a href="#Pwn-10月16-Codegate2018-melong" class="headerlink" title="Pwn-10月16-Codegate2018-melong"></a>Pwn-10月16-Codegate2018-melong</h1><blockquote>
+<p>同样借助<a href="https://m4x.fun/post/how-2-pwn-an-arm-binary/" target="_blank" rel="noopener">m4x大佬</a>的博客来看一看这一题是一个怎么样的解题思路。</p>
+<p>根据大佬原话<code>漏洞很好找, write_diary 中 read 的长度是由我们输入的, 可以栈溢出, 先进入 PT 函数, 输入 -1, 再进入 write_diary, 就可以实现 arbitrary overflow 了, 因此思路同 x64 下的 rop 相同, 先 leak 出 libc 基址, 然后控制执行 system(“/bin/sh”) 即可</code>，我们来进行分析：</p>
+</blockquote>
+<h2 id="一-查看保护措施"><a href="#一-查看保护措施" class="headerlink" title="一.查看保护措施"></a>一.查看保护措施</h2><blockquote>
+<p>先看一下程序的基本信息咯：</p>
+<p><img src="https://i.loli.net/2018/10/16/5bc55a518786c.png" alt=""></p>
+<p>可以知道这个是个32位arm架构的程序，并且需要动态链接共享库来运行。看一下它的保护措施：</p>
+<p>​    <img src="https://i.loli.net/2018/10/16/5bc55b1e51a4f.png" alt=""></p>
+<p>可以看到并没有开启栈溢出保护，以及nx，pie等保护措施。</p>
+</blockquote>
+<h2 id="二-静态分析程序逻辑"><a href="#二-静态分析程序逻辑" class="headerlink" title="二.静态分析程序逻辑"></a>二.静态分析程序逻辑</h2><p>待更新。。。</p>
+
             </div>
             <hr/>
 
@@ -639,7 +677,7 @@ Pwn-10月15-简单了解异构pwn题
         <div class="toc-widget">
             <h4>目录</h4>
             <div id="toc-content">
-                
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Pwn-10月16-Codegate2018-melong"><span class="post-toc-text">Pwn-10月16-Codegate2018-melong</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一-查看保护措施"><span class="post-toc-text">一.查看保护措施</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二-静态分析程序逻辑"><span class="post-toc-text">二.静态分析程序逻辑</span></a></li></ol></li></ol>
             </div>
         </div>
     </div>
