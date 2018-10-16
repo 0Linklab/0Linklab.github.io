@@ -249,13 +249,13 @@
 
 
 
-<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Linux环境配置
+                        Pwn-10月16-Codegate2018-melong
                     </div>
                 </div>
             </div>
@@ -339,179 +339,18 @@
     <div class="card">
         <div class="card-content article-info">
             
-            <div class="article-tag">
-                
-                <a href="/tags/Linux/" target="_blank">
-                    <span class="chip bg-color">Linux</span>
-                </a>
-                
-                <a href="/tags/Pwn环境配置/" target="_blank">
-                    <span class="chip bg-color">Pwn环境配置</span>
-                </a>
-                
-                <a href="/tags/qemu/" target="_blank">
-                    <span class="chip bg-color">qemu</span>
-                </a>
-                
-            </div>
-            
             <div class="post-info">
-                
-                <span class="post-cate">
-                    <i class="fa fa-bookmark fa-fw icon-category"></i>
-                    
-                    <a href="/categories/环境配置/" class="post-category" target="_blank">
-                        环境配置
-                    </a>
-                    
-                </span>
                 
 
                 <span class="post-date">
-                    <i class="fa fa-clock-o fa-fw"></i>2018-10-14
+                    <i class="fa fa-clock-o fa-fw"></i>2018-10-16
                 </span>
             </div>
         </div>
         <hr>
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>[TOC]</p>
-<h1 id="Linux环境配置"><a href="#Linux环境配置" class="headerlink" title="Linux环境配置"></a>Linux环境配置</h1><blockquote>
-<p>​    作为一个信安学习者，和环境打交道是经常的事，那么接下来为二进制学习开始做准备，配置各种架构的调试环境，提高效率。</p>
-</blockquote>
-<h2 id="oh-my-zsh"><a href="#oh-my-zsh" class="headerlink" title="oh-my-zsh"></a>oh-my-zsh</h2><blockquote>
-<p>​    zsh是一个很强大的linux终端shell工具，而oh-my-zsh是一个高效率的配置工具，通过oh-my-zsh可以很快地配置zsh，那么如何进行完整地安装呢：</p>
-<blockquote>
-<p>首先需要安装python的pip，然后安装zsh，再通过<code>sh -c&quot;$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;</code>命令来安装oh-my-zsh。</p>
-<p>通过修改<code>~/.zshrc</code>里的参数，如主题<code>ZSH_THEME=&quot;random&quot;</code>来设置终端的样式。</p>
-<p>配置zsh语法高亮，<code>git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting</code>通过此命令下载插件，并按下图添加参数<code>zsh-syntax-highlighting</code>。</p>
-<p><img src="https://i.loli.net/2018/10/14/5bc346022c416.png" alt=""></p>
-<p>代码自动补插件下载 <code>git clone https://github.com/zsh-users/zsh-autosuggestions</code> 并放在<code>~/.oh-my-zsh/custom/plugins</code>目录下面，然后像上面一样添加参数即可</p>
-</blockquote>
-</blockquote>
-<h2 id="pwn环境配置"><a href="#pwn环境配置" class="headerlink" title="pwn环境配置"></a>pwn环境配置</h2><blockquote>
-<p>参照m4x大佬的博客<a href="https://m4x.fun/post/how-2-pwn-an-arm-binary/" target="_blank" rel="noopener">https://m4x.fun/post/how-2-pwn-an-arm-binary/</a></p>
-<ul>
-<li>安装 git，gdb 和 gdb-multiarch，同时安装 binfmt*用来识别文件类型</li>
-</ul>
-<pre class=" language-bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt-get</span> update
-$ <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> <span class="token function">git</span> gdb gdb-multiarch
-$ <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> <span class="token string">"binfmt*"</span>
-</code></pre>
-<ul>
-<li>安装 gdb 的插件 pwndbg（或者 gef 等支持多架构的插件），需要pip，pip3等模块</li>
-</ul>
-<pre><code>$ git clone https://github.com/pwndbg/pwndbg
-$ cd pwndbg
-</code></pre><ul>
-<li>因为我用的是deepin安装的pwndbg（这是个坑点），所以需要对setup.sh稍作修改，如下：</li>
-</ul>
-<pre class=" language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
-<span class="token keyword">set</span> -ex
-
-
-<span class="token comment" spellcheck="true"># Helper functions</span>
-linux<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token function">uname</span> <span class="token operator">|</span> <span class="token function">grep</span> -i Linux <span class="token operator">&amp;</span><span class="token operator">></span>/dev/null
-<span class="token punctuation">}</span>
-osx<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token function">uname</span> <span class="token operator">|</span> <span class="token function">grep</span> -i Darwin <span class="token operator">&amp;</span><span class="token operator">></span>/dev/null
-<span class="token punctuation">}</span>
-
-
-PYTHON<span class="token operator">=</span><span class="token string">''</span>
-INSTALLFLAGS<span class="token operator">=</span><span class="token string">''</span>
-
-<span class="token keyword">if</span> osx <span class="token operator">||</span> <span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$1</span>"</span> <span class="token operator">==</span> <span class="token string">"--user"</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
-    INSTALLFLAGS<span class="token operator">=</span><span class="token string">"--user"</span>
-<span class="token keyword">else</span>
-    PYTHON<span class="token operator">=</span><span class="token string">"sudo "</span>
-<span class="token keyword">fi</span>
-
-
-<span class="token keyword">if</span> <span class="token operator">!</span> <span class="token function">hash</span> gdb<span class="token punctuation">;</span> <span class="token keyword">then</span>
-    <span class="token keyword">echo</span> <span class="token string">'Could not find gdb in <span class="token variable">$PATH</span>'</span>
-    <span class="token keyword">exit</span>
-<span class="token keyword">fi</span>
-
-<span class="token comment" spellcheck="true"># Update all submodules</span>
-<span class="token comment" spellcheck="true">#git submodule update --init --recursive</span>
-
-<span class="token comment" spellcheck="true"># Find the Python version used by GDB.</span>
-PYVER<span class="token operator">=</span><span class="token punctuation">$(</span>gdb -batch -q --nx -ex <span class="token string">'pi import platform; print(".".join(platform.python_version_tuple()[:2]))'</span><span class="token punctuation">)</span>
-PYTHON+<span class="token operator">=</span><span class="token punctuation">$(</span>gdb -batch -q --nx -ex <span class="token string">'pi import sys; print(sys.executable)'</span><span class="token punctuation">)</span>
-PYTHON+<span class="token operator">=</span><span class="token string">"<span class="token variable">${PYVER}</span>"</span>
-
-<span class="token comment" spellcheck="true"># Find the Python site-packages that we need to use so that</span>
-<span class="token comment" spellcheck="true"># GDB can find the files once we've installed them.</span>
-<span class="token keyword">if</span> linux <span class="token operator">&amp;&amp;</span> <span class="token punctuation">[</span> -z <span class="token string">"<span class="token variable">$INSTALLFLAGS</span>"</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
-    SITE_PACKAGES<span class="token operator">=</span><span class="token punctuation">$(</span>gdb -batch -q --nx -ex <span class="token string">'pi import site; print(site.getsitepackages()[0])'</span><span class="token punctuation">)</span>
-    INSTALLFLAGS<span class="token operator">=</span><span class="token string">"--target <span class="token variable">${SITE_PACKAGES}</span>"</span>
-<span class="token keyword">fi</span>
-
-<span class="token comment" spellcheck="true"># Make sure that pip is available</span>
-<span class="token keyword">if</span> <span class="token operator">!</span> <span class="token variable">${PYTHON}</span> -m pip -V<span class="token punctuation">;</span> <span class="token keyword">then</span>
-    <span class="token variable">${PYTHON}</span> -m ensurepip <span class="token variable">${INSTALLFLAGS}</span> --upgrade
-<span class="token keyword">fi</span>
-
-<span class="token comment" spellcheck="true"># Upgrade pip itself</span>
-<span class="token variable">${PYTHON}</span> -m pip <span class="token function">install</span> <span class="token variable">${INSTALLFLAGS}</span> --upgrade pip
-
-<span class="token comment" spellcheck="true"># Install Python dependencies</span>
-<span class="token variable">${PYTHON}</span> -m pip <span class="token function">install</span> <span class="token variable">${INSTALLFLAGS}</span> -Ur requirements.txt
-
-<span class="token comment" spellcheck="true"># Load Pwndbg into GDB on every launch.</span>
-<span class="token keyword">if</span> <span class="token operator">!</span> <span class="token function">grep</span> pwndbg ~/.gdbinit <span class="token operator">&amp;</span><span class="token operator">></span>/dev/null<span class="token punctuation">;</span> <span class="token keyword">then</span>
-    <span class="token keyword">echo</span> <span class="token string">"source <span class="token variable">$PWD</span>/gdbinit.py"</span> <span class="token operator">>></span> ~/.gdbinit
-<span class="token keyword">fi</span>
-
-</code></pre>
-<pre class=" language-bash"><code class="language-bash">
-$ ./setup.sh
-</code></pre>
-<ul>
-<li>安装qemu模拟环境</li>
-</ul>
-<pre class=" language-bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> qemu-user
-</code></pre>
-</blockquote>
-<blockquote>
-<p>通过 qemu 模拟 arm/mips 环境，进而进行调试 ，</p>
-<p><img src="https://i.loli.net/2018/10/14/5bc34c058efc2.png" alt=""></p>
-<p>运行动态的binary 需要我们查询对应架构的共享库：</p>
-<p><code>apt-cache search &quot;libc6&quot; | grep ARCH</code> </p>
-<p>动态链接的 bianry 需要用对应的 qemu 同时指定共享库路径，例如：</p>
-<p><code>qemu-mipsel -L /usr/mipselbalalbala/  ./add</code></p>
-<blockquote>
-<p>mips（大端）和mipsel（小端）有什么区别呢，在于存储方式，一个是大端（低序存在高地址，按顺序来），一个是小端序（将低序的存在低地址，反常识来）。形象地说：大端是从上往下掉，小端是从下往上飞。</p>
-</blockquote>
-<p>我们只需安装类似 <strong>libc6-ARCH-cross</strong> 形式的即可 ,静态链接的 binary 直接运行即可，会自动调用对应架构的 qemu；</p>
-<p>调试可以使用 qemu 的 -g 指定端口</p>
-<pre class=" language-bash"><code class="language-bash">$ qemu-mipsel -g 1234 -L /usr/mipsel-linux-gnu/ ./add
-</code></pre>
-<p><img src="https://i.loli.net/2018/10/14/5bc359ad27655.png" alt=""></p>
-<p>然后使用<code>gdb-multiarch</code>进行调试，先指定架构，然后使用remote功能 </p>
-<pre class=" language-bash"><code class="language-bash">pwndbg<span class="token operator">></span> <span class="token keyword">set</span> architecture mips <span class="token punctuation">(</span>但大多数情况下这一步可以省略, 似乎 pwndbg 能自动识别架构<span class="token punctuation">)</span>
-pwndbg<span class="token operator">></span> target remote localhost:1234
-
-<span class="token comment" spellcheck="true">#peda应该问题不大</span>
-</code></pre>
-</blockquote>
-<blockquote>
-<p>下载共享库存在<code>/usr/</code>目录：</p>
-<p><img src="https://i.loli.net/2018/10/14/5bc3583d78da3.png" alt=""></p>
-</blockquote>
-<h2 id="开始使用pwndbg调试"><a href="#开始使用pwndbg调试" class="headerlink" title="开始使用pwndbg调试"></a>开始使用pwndbg调试</h2><blockquote>
-<p> pwndbg正常启动（开心😄）：<img src="https://i.loli.net/2018/10/14/5bc363e61dd11.png" alt=""></p>
-<p>设置好动态调试端口，选择好共享库：</p>
-<p><img src="https://i.loli.net/2018/10/14/5bc364862d2ce.png" alt=""></p>
-<p>然后用<code>gdb-multiarch</code> -q启动 pwndbg，设置好文件架构，连接端口，开始动态调试：<br><img src="https://i.loli.net/2018/10/14/5bc364ebc9a23.png" alt=""></p>
-</blockquote>
-<blockquote>
-<p>​    对于静态编译的 bianry， 可以使用 lscan, flirt, rizzo, bindiff 等多种方法恢复部分符号表</p>
-<p>加油学习吧！</p>
-</blockquote>
-
+                
             </div>
             <hr/>
 
@@ -649,7 +488,7 @@ pwndbg<span class="token operator">></span> target remote localhost:1234
                     <span class="reprint-tip">转载请注明: </span>
                     <a href="http://www.yof3ng.xyz" class="b-link-green">Yof3ng's Blog | 热爱分享</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2018/10/14/Linux环境配置/" class="b-link-green">Linux环境配置</a>
+                    <a href="/2018/10/16/Pwn-10月16-Codegate2018-melong/" class="b-link-green">Pwn-10月16-Codegate2018-melong</a>
                 </p>
             </div>
         </div>
@@ -671,7 +510,7 @@ pwndbg<span class="token operator">></span> target remote localhost:1234
         repo: 'yof3ng.github.io',
         owner: 'Yof3ng',
         admin: "Yof3ng",
-        id: '2018-10-14T21-24-38',
+        id: '2018-10-16T11-13-17',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -691,6 +530,58 @@ pwndbg<span class="token operator">></span> target remote localhost:1234
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">上一篇</div>
             <div class="card">
+                <a href="/2018/10/16/ustc-Hackergam2018/">
+                    <div class="card-image">
+                        
+                        <img src="https://i.loli.net/2018/10/16/5bc56a8b3d195.png" class="responsive-img" alt="ustc-Hackergam2018">
+                        
+                        <span class="card-title">ustc-Hackergam2018</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">[TOC]
+中科大-Hackergame2018 write-up
+这个比赛主要面向新生，较为友好，链接：https://hack.lug.ustc.edu.cn/，此场比赛充满了猫咪与flxg（废理兴工），虽然作为一个老腊肉去做小鲜肉的题</div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-16
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CTF/" class="post-category" target="_blank">
+                                    CTF
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/CTF/" target="_blank">
+                        <span class="chip bg-color">CTF</span>
+                    </a>
+                    
+                    <a href="/tags/writeup/" target="_blank">
+                        <span class="chip bg-color">writeup</span>
+                    </a>
+                    
+                    <a href="/tags/ustc/" target="_blank">
+                        <span class="chip bg-color">ustc</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">下一篇</div>
+            <div class="card">
                 <a href="/2018/10/15/Pwn-10月15-qemu/">
                     <div class="card-image">
                         
@@ -705,9 +596,9 @@ pwndbg<span class="token operator">></span> target remote localhost:1234
 Pwn-10月15-简单了解异构pwn题
 &nbsp; &nbsp; &nbsp; &nbsp; 参照m4x大佬的博客简单地搭建了一下环境后，继续来练练手，简单了解一下异构binary调试，如arm，mips，环境搭建参照上一篇</div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-15
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-15
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -740,50 +631,6 @@ Pwn-10月15-简单了解异构pwn题
             </div>
         </div>
         
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">下一篇</div>
-            <div class="card">
-                <a href="/2018/10/14/2017APT报告研读/">
-                    <div class="card-image">
-                        
-                        <img src="https://i.loli.net/2018/10/14/5bc2c4e0cff6e.jpg" class="responsive-img" alt="2017APT报告研读">
-                        
-                        <span class="card-title">2017APT报告研读</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary">[TOC]
-2017 APT 报告研读APT 与网络战争中的大国博弈
-&nbsp; &nbsp; &nbsp; &nbsp; 为什么对APT方面的研究让美国，让中国，让世界各国开始重视起来？据数据，2017年遭受APT攻击最多的国家依次是：</div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-14
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/杂文/" class="post-category" target="_blank">
-                                    杂文
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/APT/" target="_blank">
-                        <span class="chip bg-color">APT</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
     </div>
 </article>
 </div>
@@ -792,7 +639,7 @@ Pwn-10月15-简单了解异构pwn题
         <div class="toc-widget">
             <h4>目录</h4>
             <div id="toc-content">
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Linux环境配置"><span class="post-toc-text">Linux环境配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#oh-my-zsh"><span class="post-toc-text">oh-my-zsh</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#pwn环境配置"><span class="post-toc-text">pwn环境配置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#开始使用pwndbg调试"><span class="post-toc-text">开始使用pwndbg调试</span></a></li></ol></li></ol>
+                
             </div>
         </div>
     </div>
