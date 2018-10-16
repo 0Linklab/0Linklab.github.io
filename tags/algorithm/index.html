@@ -279,294 +279,183 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
 
     
 
-<div id="category-cloud" class="container chip-container">
+<div id="tags" class="container chip-container">
     <div class="card">
         <div class="card-content">
-            <div class="tag-title center-align">文章分类</div>
+            <div class="tag-title center-align">文章标签</div>
             <div class="tag-chips">
                 
                 
-                
-                <a href="/categories/环境配置/" title="环境配置: 1">
+                <a href="/tags/Linux/" title="Linux: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #F9EBEA;">环境配置
+                            data-tagname="Linux" style="background-color: #F9EBEA;">Linux
                         <span class="tag-length">1</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/杂文/" title="杂文: 2">
+                <a href="/tags/Pwn环境配置/" title="Pwn环境配置: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #F5EEF8;">杂文
+                            data-tagname="Pwn环境配置" style="background-color: #F5EEF8;">Pwn环境配置
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/tags/qemu/" title="qemu: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            data-tagname="qemu" style="background-color: #D5F5E3;">qemu
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/tags/APT/" title="APT: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            data-tagname="APT" style="background-color: #E8F8F5;">APT
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/tags/Pwn/" title="Pwn: 2">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            data-tagname="Pwn" style="background-color: #FEF9E7;">Pwn
                         <span class="tag-length">2</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/CTF/" title="CTF: 2">
+                <a href="/tags/二进制安全/" title="二进制安全: 2">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #D5F5E3;">CTF
+                            data-tagname="二进制安全" style="background-color: #F8F9F9;">二进制安全
                         <span class="tag-length">2</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/数学建模/" title="数学建模: 5">
+                <a href="/tags/CTF/" title="CTF: 2">
                     <span class="chip center-align waves-effect waves-light
-                             chip-active "
-                            style="background-color: #E8F8F5;">数学建模
+                             chip-default "
+                            data-tagname="CTF" style="background-color: #82E0AA;">CTF
+                        <span class="tag-length">2</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/tags/数模/" title="数模: 5">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            data-tagname="数模" style="background-color: #D7BDE2;">数模
                         <span class="tag-length">5</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/算法/" title="算法: 2">
+                <a href="/tags/算法/" title="算法: 2">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #FEF9E7;">算法
+                            data-tagname="算法" style="background-color: #A3E4D7;">算法
                         <span class="tag-length">2</span>
                     </span>
                 </a>
                 
                 
-                <a href="/categories/渗透/" title="渗透: 1">
+                <a href="/tags/靶机/" title="靶机: 1">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
-                            style="background-color: #F8F9F9;">渗透
+                            data-tagname="靶机" style="background-color: #85C1E9;">靶机
                         <span class="tag-length">1</span>
                     </span>
                 </a>
                 
+                
+                <a href="/tags/渗透/" title="渗透: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            data-tagname="渗透" style="background-color: #F8C471;">渗透
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/tags/Git账户/" title="Git账户: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            data-tagname="Git账户" style="background-color: #F9E79F;">Git账户
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/tags/Hexo搭建/" title="Hexo搭建: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            data-tagname="Hexo搭建" style="background-color: #D5F5E3;">Hexo搭建
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/tags/algorithm/" title="algorithm: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-active "
+                            data-tagname="algorithm" style="background-color: #F9EBEA;">algorithm
+                        <span class="tag-length">1</span>
+                    </span>
+                </a>
                 
             </div>
         </div>
     </div>
 </div>
 
-    
+    <div class="container">
+        
 
-    <article id="articles" class="container articles">
-        <div class="row tags-posts">
-            
-            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/10/13/数学建模-day5/">
-                        <div class="card-image tag-image">
-                            
-                            <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1540039782&amp;di=1f2a7693a843ded05cbe3be4abc5c6ef&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fg.hiphotos.baidu.com%2Fbaike%2Fc0%253Dbaike60%252C5%252C5%252C60%252C20%253Bt%253Dgif%2Fsign%3De731d2d8972bd40756cadbaf1ae0f534%2Fb3119313b07eca808b2d7517912397dda1448312.jpg" class="responsive-img" alt="数学建模-day5">
-                            
-                            <span class="card-title">数学建模-day5</span>
-                        </div>
-                    </a>
-                    <div class="card-content article-content">
-                        <div class="summary">[TOC]
-数学建模_day5 - 线性代数
-​    线性代数相信大家都学过哒，基本是大学的理科必修课，而线性代数常用于工程数学，自然而然</div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-13
-                            </span>
-                            <span class="publish-author">
+        <article>
+            <div class="row tags-posts">
+                
+                
+                <div class="article tag-post col s12 m6 l4" data-tags="算法, algorithm" data-aos="fade-up">
+                    <div class="card">
+                        <a href="/2018/10/07/数据结构和算法-day2/">
+                            <div class="card-image tag-image">
                                 
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
+                                <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1539066969226&amp;di=d0ecf508fdab9370a396a5a6297a0bdb&amp;imgtype=0&amp;src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0117e2571b8b246ac72538120dd8a4.jpg%401280w_1l_2o_100sh.jpg" class="responsive-img" alt="数据结构和算法-day2">
                                 
-                                <a href="/categories/数学建模/" class="post-category" target="_blank">
-                                    数学建模
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/数模/" target="_blank">
-                            <span class="chip bg-color">数模</span>
+                                <span class="card-title">数据结构和算法-day2</span>
+                            </div>
                         </a>
-                        
+                        <div class="card-content article-content">
+                            <div class="publish-info">
+                                <span class="publish-date">
+                                    <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-07
+                                </span>
+                                <span class="publish-author">
+                                    
+                                    <i class="fa fa-bookmark fa-fw icon-category"></i>
+                                    
+                                    <a href="/categories/算法/" class="post-category" target="_blank">
+                                    算法
+                                    </a>
+                                    
+                                    
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    
                 </div>
+                
             </div>
-            
-            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/10/09/数学建模-day4/">
-                        <div class="card-image tag-image">
-                            
-                            <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1539107568550&amp;di=b594a3efed8276ebb264318180c10d73&amp;imgtype=0&amp;src=http%3A%2F%2Fpic.3h3.com%2Fup%2F2014-5%2F20145517170837519095.jpg" class="responsive-img" alt="数学建模-day4">
-                            
-                            <span class="card-title">数学建模-day4</span>
-                        </div>
-                    </a>
-                    <div class="card-content article-content">
-                        <div class="summary">[TOC]
-数学建模_day4 - matlab编程和脚本创建与运行脚本
-​    脚本是最简单的一种 MATLAB® 程序。脚本是一个包含</div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-09
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/数学建模/" class="post-category" target="_blank">
-                                    数学建模
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/数模/" target="_blank">
-                            <span class="chip bg-color">数模</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/10/07/数学建模-day3/">
-                        <div class="card-image tag-image">
-                            
-                            <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1538991809564&amp;di=a39e2aa7ff59c221d0a9c52ddd984c8c&amp;imgtype=0&amp;src=http%3A%2F%2Fwww.leewiart.com%2Fuserfiles%2F18573%2F1756b215a1834ac2a831020e54884853.jpg" class="responsive-img" alt="数学建模-day3">
-                            
-                            <span class="card-title">数学建模-day3</span>
-                        </div>
-                    </a>
-                    <div class="card-content article-content">
-                        <div class="summary">[TOC]
-数学建模_day3 - matlab 基本用法&nbsp; &nbsp; &nbsp; &nbsp; day3 继续 day2的</div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-07
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/数学建模/" class="post-category" target="_blank">
-                                    数学建模
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/数模/" target="_blank">
-                            <span class="chip bg-color">数模</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/10/07/数学建模-day2/">
-                        <div class="card-image tag-image">
-                            
-                            
-                            <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="数学建模-day2">
-                            
-                            <span class="card-title">数学建模-day2</span>
-                        </div>
-                    </a>
-                    <div class="card-content article-content">
-                        <div class="summary">[TOC]
-数学建模_day2 – matlab 基本用法&nbsp; &nbsp; &nbsp; &nbsp; matlab 整体界面如上</div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-07
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/数学建模/" class="post-category" target="_blank">
-                                    数学建模
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/数模/" target="_blank">
-                            <span class="chip bg-color">数模</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/10/06/数学建模-day1/">
-                        <div class="card-image tag-image">
-                            
-                            
-                            <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="数学建模_day1">
-                            
-                            <span class="card-title">数学建模_day1</span>
-                        </div>
-                    </a>
-                    <div class="card-content article-content">
-                        <div class="summary">[TOC]
-数学建模_day1–初入数模&nbsp; &nbsp; &nbsp; &nbsp; 作为一个大二刚开始的学生才真正接触数模，虽然</div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-06
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/数学建模/" class="post-category" target="_blank">
-                                    数学建模
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/数模/" target="_blank">
-                            <span class="chip bg-color">数模</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-        </div>
-    </article>
+        </article>
+    </div>
 </main>
 
 
