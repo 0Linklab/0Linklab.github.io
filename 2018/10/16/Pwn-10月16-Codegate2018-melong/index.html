@@ -498,13 +498,13 @@ LABEL_14<span class="token punctuation">:</span>
   nbytes <span class="token operator">=</span> <span class="token operator">*</span>result<span class="token punctuation">;</span>
   <span class="token keyword">if</span> <span class="token punctuation">(</span> nbytes <span class="token punctuation">)</span>
   <span class="token punctuation">{</span>
-    <span class="token function">read</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> a2<span class="token punctuation">,</span> nbytes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">read</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> a2<span class="token punctuation">,</span> nbytes<span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token comment" spellcheck="true">//溢出点啦</span>
     result <span class="token operator">=</span> <span class="token punctuation">(</span>_DWORD <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"you wrote %s\n"</span><span class="token punctuation">,</span> buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
   <span class="token punctuation">}</span>
   <span class="token keyword">return</span> result<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>然后呢，从这里就到了开始疯狂的补姿势的时候了。因为这题和上题类似，需要我们找到system函数的地址才行呢。</p>
+<p>然后呢，从这里就到了开始疯狂的补姿势的时候了。因为这题和上题类似，需要我们找到system函数的地址才行呢，给自己挖了个大坑，以后再来填吧。</p>
 </blockquote>
 <h3 id="system地址泄露-amp-amp-leak-libc"><a href="#system地址泄露-amp-amp-leak-libc" class="headerlink" title="system地址泄露&amp;&amp;leak libc"></a>system地址泄露&amp;&amp;leak libc</h3><p><a href="http://www.freebuf.com/articles/rookie/155971.html" target="_blank" rel="noopener">参考文章1</a></p>
 <p><a href="https://www.cnblogs.com/HacTF/p/8052175.html" target="_blank" rel="noopener">参考文章2</a></p>
@@ -513,8 +513,8 @@ LABEL_14<span class="token punctuation">:</span>
 <p>【2】利用write这个函数，pwntools有个很好用的函数DynELF去利用这个函数计算出程序的各种地址，包括函数的基地址，libc的基地址，libc中system的地址。</p>
 <p>【3】利用printf函数，printf函数输出的时候遇到0x00时候会停止输出，如果输入的时候没有在最后的字节处填充0x00，那么输出的时候就可能泄露栈中的重要数据，比如libc的某个函数地址。</p>
 </blockquote>
-<p>待更新。。。努力学习GOT表，plt，symbols，libc</p>
 <blockquote>
+<p><strong>关于PLT（进程链接表）和GOT（Global Offset Table-全局偏移表）</strong>：为了灵活利用虚拟内存空间，所以编译器可以产生位置无关的代码。可执行文件可以是位置无关的，也可以是位置相关的， 动态链接库绝大多数都是位置无关的。 GOT表可写不可执行， PLT可执行不可写。他们相互作用来实现函数符号的延时绑定.。ASLR并不随机化PLT部分，所以对ret2plt攻击没有直接影响。 为防止恶意修改got， 链接器提供了RELRO选项,，去除got的写权限， 但也牺牲了延时绑定带来的好处。</p>
 </blockquote>
 
             </div>
