@@ -522,6 +522,7 @@ plt<span class="token punctuation">.</span>show<span class="token punctuation">(
 <h2 id="定义交叉方法"><a href="#定义交叉方法" class="headerlink" title="定义交叉方法"></a>定义交叉方法</h2><blockquote>
 <p>像染色体一样，也进行交叉操作，并且给与交叉操作产生的概率：</p>
 <pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#交叉算子</span>
+<span class="token comment" spellcheck="true">#population_new为选择下来的种群，pc为交叉概率</span>
 <span class="token keyword">def</span> <span class="token function">crossover</span><span class="token punctuation">(</span>population_new<span class="token punctuation">,</span> pc<span class="token punctuation">)</span><span class="token punctuation">:</span>
     half<span class="token operator">=</span>int<span class="token punctuation">(</span>len<span class="token punctuation">(</span>population_new<span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span>
     father<span class="token operator">=</span>population_new<span class="token punctuation">[</span><span class="token punctuation">:</span>half<span class="token punctuation">]</span>
@@ -546,6 +547,7 @@ plt<span class="token punctuation">.</span>show<span class="token punctuation">(
 <h2 id="定义变异方法"><a href="#定义变异方法" class="headerlink" title="定义变异方法"></a>定义变异方法</h2><blockquote>
 <p>即使基因突变的概率极小，但也需要定义一个基因突变方法：</p>
 <pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#变异算子</span>
+<span class="token comment" spellcheck="true">#offspring为交叉后的种群，pm为基因变异概率</span>
 <span class="token keyword">def</span> <span class="token function">mutation</span><span class="token punctuation">(</span>offspring<span class="token punctuation">,</span>pm<span class="token punctuation">)</span><span class="token punctuation">:</span>
     <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>offspring<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
         <span class="token keyword">if</span> np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>uniform<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">&lt;=</span>pm<span class="token punctuation">:</span>
