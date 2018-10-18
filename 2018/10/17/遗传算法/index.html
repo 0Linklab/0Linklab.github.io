@@ -341,16 +341,16 @@
             
             <div class="article-tag">
                 
-                <a href="/tags/数学建模/" target="_blank">
-                    <span class="chip bg-color">数学建模</span>
-                </a>
-                
                 <a href="/tags/算法/" target="_blank">
                     <span class="chip bg-color">算法</span>
                 </a>
                 
                 <a href="/tags/algorithm/" target="_blank">
                     <span class="chip bg-color">algorithm</span>
+                </a>
+                
+                <a href="/tags/数学建模/" target="_blank">
+                    <span class="chip bg-color">数学建模</span>
                 </a>
                 
             </div>
@@ -360,8 +360,8 @@
                 <span class="post-cate">
                     <i class="fa fa-bookmark fa-fw icon-category"></i>
                     
-                    <a href="/categories/数学建模/" class="post-category" target="_blank">
-                        数学建模
+                    <a href="/categories/算法/" class="post-category" target="_blank">
+                        算法
                     </a>
                     
                 </span>
@@ -389,7 +389,9 @@
 </blockquote>
 <h2 id="编码与解码"><a href="#编码与解码" class="headerlink" title="编码与解码"></a>编码与解码</h2><blockquote>
 <p>&nbsp; &nbsp; &nbsp; &nbsp; 遗传算法的实行，首先需要确定编码和解码的形式，生物体的遗传就是通过染色体以及基因进行，编码形式多种多样，能够使用字母，实数，或者是二进制来进行编码。但是因为博主刚开始学遗传算法，便拿SGA（基本遗传算法）来对遗传算法进行一个简单的理解。</p>
-<p>直接上例题说明：<br>$$<br>maxf(x)=200e^{-0.05x}sin(x),x∈[-2,2]<br>$$<br>我们需要求此函数在[-2,2]区间下的最大值，先用python画一下函数图形。</p>
+<p>直接上例题说明：</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181018095823.png" alt=""></p>
+<p>我们需要求此函数在[-2,2]区间下的最大值，先用python画一下函数图形。</p>
 <pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding:utf-8</span>
 __Author__ <span class="token operator">=</span> <span class="token string">"Yof3ng"</span>
 
@@ -412,9 +414,398 @@ plt<span class="token punctuation">.</span>show<span class="token punctuation">(
 
 </code></pre>
 <p>函数图像如下：</p>
-<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181018090406.png" alt=""></p>
-<p>[-2,2]区间已经分为10000个等份，而我们需要找出最大值，SGA基本遗传算法就是用二进制编码来表示的，那么我们把这10000个等份简单编码一下：<br>$$<br>已知:2^{13} &lt;10000&lt;2^{14}<br>$$</p>
-<p>$$<br>p(x_i)=\frac{f(x_i)}{Σ^n_{i=1}f(x_i)}<br>$$</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181018183218.png" alt=""></p>
+<p>[-2,2]区间已经分为10000个等份，而我们需要找出最大值，SGA基本遗传算法就是用二进制编码来表示的，那么我们把2^14，即十四位二进制用作编码来表示个体：</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181018105024.png" alt=""></p>
+</blockquote>
+<h2 id="初始化种群"><a href="#初始化种群" class="headerlink" title="初始化种群"></a>初始化种群</h2><blockquote>
+<p>已经决定用十四位二进制来表示种群个体了，那么我们就可以对种群进行初始化：</p>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#初始化种群个体</span>
+<span class="token keyword">def</span> <span class="token function">Init_popu</span><span class="token punctuation">(</span>number<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    population<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> i  <span class="token keyword">in</span> range<span class="token punctuation">(</span>number<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        entity<span class="token operator">=</span><span class="token string">''</span>
+       <span class="token comment" spellcheck="true">#随机产生个体</span>
+        <span class="token keyword">for</span> j <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">14</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            entity <span class="token operator">=</span> entity<span class="token operator">+</span>str<span class="token punctuation">(</span>np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>randint<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        population<span class="token punctuation">.</span>append<span class="token punctuation">(</span>entity<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> population
+
+</code></pre>
+<p>将种群初始化编码后，自定义解码方法：</p>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#解码</span>
+<span class="token keyword">def</span> <span class="token function">Decode</span><span class="token punctuation">(</span>population<span class="token punctuation">)</span><span class="token punctuation">:</span>
+   flag <span class="token operator">=</span> <span class="token number">0</span>
+   Dpopulation <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+   <span class="token comment" spellcheck="true">#print(population)</span>
+   <span class="token keyword">for</span> i <span class="token keyword">in</span> population<span class="token punctuation">:</span>
+       <span class="token comment" spellcheck="true">#将二进制转换为整型数值</span>
+       x <span class="token operator">=</span> eval<span class="token punctuation">(</span><span class="token string">'0b'</span><span class="token operator">+</span>i<span class="token punctuation">)</span>
+       x <span class="token operator">=</span> x<span class="token operator">/</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token operator">**</span><span class="token number">14</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">4</span><span class="token operator">-</span><span class="token number">2</span>
+       Dpopulation<span class="token punctuation">.</span>append<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+       <span class="token comment" spellcheck="true"># someone = str(population[flag])</span>
+       <span class="token comment" spellcheck="true"># express[i] = DNAdict[someone]</span>
+   <span class="token keyword">return</span> population<span class="token punctuation">,</span>Dpopulation
+   <span class="token comment" spellcheck="true">#return express</span>
+   <span class="token comment" spellcheck="true"># print(bx[0:100])</span>
+   <span class="token comment" spellcheck="true"># print(ast.literal_eval('0b'+bx[1]))</span>
+</code></pre>
+</blockquote>
+<h2 id="计算适应度"><a href="#计算适应度" class="headerlink" title="计算适应度"></a>计算适应度</h2><blockquote>
+<p>根据种群个体的适应度我们可以进行后面的选择淘汰方法，不同的问题有不同的适应度计算方法<br> 而本例题则，直接用目标函数作为适应度函数</p>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#根据函数原型计算表现型（y值)，即适应度</span>
+<span class="token keyword">def</span> <span class="token function">gafunction</span><span class="token punctuation">(</span>population<span class="token punctuation">,</span>dpopulation<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    y<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    flag<span class="token operator">=</span><span class="token number">0</span>
+    pp<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token comment" spellcheck="true">#通过循环计算每一个x值对应的y值</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> dpopulation<span class="token punctuation">:</span>
+        a<span class="token operator">=</span> <span class="token number">200</span><span class="token operator">*</span>np<span class="token punctuation">.</span>exp<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">0.05</span><span class="token operator">*</span>i<span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>math<span class="token punctuation">.</span>sin<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        y<span class="token punctuation">.</span>append<span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">#由于是计算最大值，若存在正数则直接去除负数个体</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> y<span class="token punctuation">:</span>
+        <span class="token keyword">if</span> i<span class="token operator">></span><span class="token number">0</span><span class="token punctuation">:</span>
+            flag<span class="token operator">=</span><span class="token number">1</span>
+    yy <span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    n<span class="token operator">=</span><span class="token number">0</span>
+    <span class="token keyword">if</span> flag<span class="token operator">==</span><span class="token number">1</span><span class="token punctuation">:</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> y<span class="token punctuation">:</span>
+            <span class="token keyword">if</span> i<span class="token operator">></span><span class="token number">0</span><span class="token punctuation">:</span>
+                yy<span class="token punctuation">.</span>append<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+                pp<span class="token punctuation">.</span>append<span class="token punctuation">(</span>population<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            n<span class="token operator">+=</span><span class="token number">1</span>
+        <span class="token keyword">return</span> yy<span class="token punctuation">,</span>pp
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> y<span class="token punctuation">,</span>population
+</code></pre>
+</blockquote>
+<h2 id="定义选择方法"><a href="#定义选择方法" class="headerlink" title="定义选择方法"></a>定义选择方法</h2><blockquote>
+<p>个体生存概率公式：</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181018105143.png" alt=""></p>
+</blockquote>
+<blockquote>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181018145013.png" alt=""></p>
+<p>根据适应度以及遗传概率，进行选择：</p>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#定义物竞天择,弱者淘汰</span>
+<span class="token keyword">def</span> <span class="token function">selection</span><span class="token punctuation">(</span>population<span class="token punctuation">,</span>y<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true">#轮盘赌选择,染色体累计概率</span>
+    fitness_sum<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> i<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">:</span>
+            fitness_sum<span class="token punctuation">.</span>append<span class="token punctuation">(</span>y<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            fitness_sum<span class="token punctuation">.</span>append<span class="token punctuation">(</span>fitness_sum<span class="token punctuation">[</span>i<span class="token number">-1</span><span class="token punctuation">]</span><span class="token operator">+</span>y<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>fitness_sum<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        fitness_sum<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">/=</span>sum<span class="token punctuation">(</span>y<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">#进行选择，淘汰弱者，获取新种群</span>
+    population_new<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        rand<span class="token operator">=</span>np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>uniform<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> j <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> j<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">:</span>
+                <span class="token keyword">if</span> <span class="token number">0</span><span class="token operator">&lt;</span>rand <span class="token operator">and</span> rand<span class="token operator">&lt;=</span>fitness_sum<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">:</span>
+                    population_new<span class="token punctuation">.</span>append<span class="token punctuation">(</span>population<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                <span class="token keyword">if</span> fitness_sum<span class="token punctuation">[</span>j<span class="token number">-1</span><span class="token punctuation">]</span><span class="token operator">&lt;</span>rand <span class="token operator">and</span> rand<span class="token operator">&lt;=</span>fitness_sum<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">:</span>
+                    population_new<span class="token punctuation">.</span>append<span class="token punctuation">(</span>population<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span>
+    flag <span class="token operator">=</span> <span class="token number">0</span>
+
+    new_population<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token comment" spellcheck="true">#留下优秀个体</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> set<span class="token punctuation">(</span>population_new<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        new_population<span class="token punctuation">.</span>append<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> new_population
+    <span class="token comment" spellcheck="true">#return population_new</span>
+
+</code></pre>
+</blockquote>
+<h2 id="定义交叉方法"><a href="#定义交叉方法" class="headerlink" title="定义交叉方法"></a>定义交叉方法</h2><blockquote>
+<p>像染色体一样，也进行交叉操作，并且给与交叉操作产生的概率：</p>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#交叉算子</span>
+<span class="token keyword">def</span> <span class="token function">crossover</span><span class="token punctuation">(</span>population_new<span class="token punctuation">,</span> pc<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    half<span class="token operator">=</span>int<span class="token punctuation">(</span>len<span class="token punctuation">(</span>population_new<span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span>
+    father<span class="token operator">=</span>population_new<span class="token punctuation">[</span><span class="token punctuation">:</span>half<span class="token punctuation">]</span>
+    mother<span class="token operator">=</span>population_new<span class="token punctuation">[</span>half<span class="token punctuation">:</span><span class="token punctuation">]</span>
+    np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>shuffle<span class="token punctuation">(</span>father<span class="token punctuation">)</span>
+    np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>shuffle<span class="token punctuation">(</span>mother<span class="token punctuation">)</span>
+    offspring<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>half<span class="token punctuation">)</span><span class="token punctuation">:</span>      
+        <span class="token keyword">if</span> np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>uniform<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">&lt;=</span>pc<span class="token punctuation">:</span>
+            copint <span class="token operator">=</span> np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>randint<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>int<span class="token punctuation">(</span>len<span class="token punctuation">(</span>father<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            son<span class="token operator">=</span>father<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">:</span>copint<span class="token punctuation">]</span><span class="token operator">+</span><span class="token punctuation">(</span>mother<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>copint<span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            daughter<span class="token operator">=</span>mother<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">:</span>copint<span class="token punctuation">]</span><span class="token operator">+</span><span class="token punctuation">(</span>father<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>copint<span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            son<span class="token operator">=</span>father<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+            daughter<span class="token operator">=</span>mother<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+        offspring<span class="token punctuation">.</span>append<span class="token punctuation">(</span>son<span class="token punctuation">)</span>
+        offspring<span class="token punctuation">.</span>append<span class="token punctuation">(</span>daughter<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> offspring
+
+</code></pre>
+</blockquote>
+<h2 id="定义变异方法"><a href="#定义变异方法" class="headerlink" title="定义变异方法"></a>定义变异方法</h2><blockquote>
+<p>即使基因突变的概率极小，但也需要定义一个基因突变方法：</p>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#变异算子</span>
+<span class="token keyword">def</span> <span class="token function">mutation</span><span class="token punctuation">(</span>offspring<span class="token punctuation">,</span>pm<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>offspring<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>uniform<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">&lt;=</span>pm<span class="token punctuation">:</span>
+            position<span class="token operator">=</span>np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>randint<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>len<span class="token punctuation">(</span>offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token comment" spellcheck="true">#'str' object does not support item assignment,cannot use = to change value</span>
+            <span class="token keyword">if</span> position<span class="token operator">!=</span><span class="token number">0</span><span class="token punctuation">:</span>
+                <span class="token keyword">if</span> offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>position<span class="token punctuation">]</span><span class="token operator">==</span><span class="token string">'1'</span><span class="token punctuation">:</span>
+                    offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">:</span>position<span class="token number">-1</span><span class="token punctuation">]</span><span class="token operator">+</span><span class="token string">'0'</span><span class="token operator">+</span>offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>position<span class="token punctuation">:</span><span class="token punctuation">]</span>
+                <span class="token keyword">else</span><span class="token punctuation">:</span>
+                    offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">:</span>position<span class="token number">-1</span><span class="token punctuation">]</span><span class="token operator">+</span><span class="token string">'1'</span><span class="token operator">+</span>offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>position<span class="token punctuation">:</span><span class="token punctuation">]</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                <span class="token keyword">if</span> offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>position<span class="token punctuation">]</span><span class="token operator">==</span><span class="token string">'1'</span><span class="token punctuation">:</span>
+                    offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">'0'</span><span class="token operator">+</span>offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span>
+                <span class="token keyword">else</span><span class="token punctuation">:</span>
+                    offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">'1'</span><span class="token operator">+</span>offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span>
+    <span class="token keyword">return</span> offspring
+</code></pre>
+</blockquote>
+<h2 id="开始迭代进化"><a href="#开始迭代进化" class="headerlink" title="开始迭代进化"></a>开始迭代进化</h2><blockquote>
+<p>主函数如下：</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">if</span> __name__<span class="token operator">==</span><span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true">#通过matplotlib库绘出函数图形</span>
+    <span class="token comment" spellcheck="true"># plt.plot(x,y)</span>
+    <span class="token comment" spellcheck="true"># plt.annotate('local max', xy=(1.4, max(y)), xytext=(0, 200),</span>
+    <span class="token comment" spellcheck="true">#             arrowprops=dict(facecolor='black', shrink=0.05),</span>
+    <span class="token comment" spellcheck="true">#             )</span>
+    <span class="token comment" spellcheck="true"># plt.show()</span>
+    population <span class="token operator">=</span> Init_popu<span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">)</span>
+    mean <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    X<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    Y<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    Y1<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    Y2<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        population<span class="token punctuation">,</span>Dpopulation <span class="token operator">=</span> Decode<span class="token punctuation">(</span>population<span class="token punctuation">)</span>
+        y<span class="token punctuation">,</span>population <span class="token operator">=</span> gafunction<span class="token punctuation">(</span>population<span class="token punctuation">,</span>Dpopulation<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#print(DNAdict)</span>
+        new_population <span class="token operator">=</span> selection<span class="token punctuation">(</span>population<span class="token punctuation">,</span>y<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#crossover 交叉</span>
+        offspring <span class="token operator">=</span>crossover<span class="token punctuation">(</span>new_population<span class="token punctuation">,</span><span class="token number">0.8</span><span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#mutation 变异</span>
+        population<span class="token operator">=</span>mutation<span class="token punctuation">(</span>offspring<span class="token punctuation">,</span><span class="token number">0.001</span><span class="token punctuation">)</span>
+        population<span class="token punctuation">,</span>Dpopulation <span class="token operator">=</span> Decode<span class="token punctuation">(</span>population<span class="token punctuation">)</span>
+        y<span class="token punctuation">,</span>population <span class="token operator">=</span> gafunction<span class="token punctuation">(</span>population<span class="token punctuation">,</span>Dpopulation<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#通过平均值表示迭代进化</span>
+        meannum <span class="token operator">=</span> np<span class="token punctuation">.</span>mean<span class="token punctuation">(</span>y<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#通过最小值表示迭代进化</span>
+        minnum <span class="token operator">=</span> min<span class="token punctuation">(</span>y<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#通过最大值表示迭代进化</span>
+        maxnum <span class="token operator">=</span> max<span class="token punctuation">(</span>y<span class="token punctuation">)</span>
+        X<span class="token punctuation">.</span>append<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+        Y<span class="token punctuation">.</span>append<span class="token punctuation">(</span>minnum<span class="token punctuation">)</span>
+        Y1<span class="token punctuation">.</span>append<span class="token punctuation">(</span>meannum<span class="token punctuation">)</span>
+        Y2<span class="token punctuation">.</span>append<span class="token punctuation">(</span>maxnum<span class="token punctuation">)</span>
+
+    plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>X<span class="token punctuation">,</span>Y<span class="token punctuation">,</span>color<span class="token operator">=</span><span class="token string">'b'</span><span class="token punctuation">)</span>
+    plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>X<span class="token punctuation">,</span>Y2<span class="token punctuation">,</span>color<span class="token operator">=</span><span class="token string">'g'</span><span class="token punctuation">)</span>
+    plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>X<span class="token punctuation">,</span>Y1<span class="token punctuation">,</span>color<span class="token operator">=</span><span class="token string">'y'</span><span class="token punctuation">)</span>
+    plt<span class="token punctuation">.</span>axhline<span class="token punctuation">(</span>FuncMax<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> linewidth<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> color<span class="token operator">=</span><span class="token string">'r'</span><span class="token punctuation">)</span>  
+    plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>    
+
+
+
+
+
+</code></pre>
+<p>遗传算法实例运行效果如下：</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181018180316.png" alt=""></p>
+<blockquote>
+<p>现在对遗传算法也大概有个简单的了解啦，暂时到这儿。</p>
+</blockquote>
+<p>附上完整代码：<a href="https://github.com/Yof3ng/algorithm/blob/master/SGA.py" target="_blank" rel="noopener">https://github.com/Yof3ng/algorithm/blob/master/SGA.py</a></p>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding:utf-8</span>
+__Author__ <span class="token operator">=</span> <span class="token string">"Yof3ng"</span>
+
+<span class="token keyword">import</span> math
+<span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
+<span class="token keyword">import</span> matplotlib<span class="token punctuation">.</span>pyplot <span class="token keyword">as</span> plt
+
+<span class="token keyword">def</span> <span class="token function">FuncMax</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    xx <span class="token operator">=</span> np<span class="token punctuation">.</span>linspace<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1000</span><span class="token punctuation">)</span>
+    yy<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token comment" spellcheck="true">#通过循环计算每一个x值对应的y值</span>
+    <span class="token keyword">for</span> ii <span class="token keyword">in</span> xx<span class="token punctuation">:</span>
+        a<span class="token operator">=</span> <span class="token number">200</span><span class="token operator">*</span>np<span class="token punctuation">.</span>exp<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">0.05</span><span class="token operator">*</span>ii<span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>math<span class="token punctuation">.</span>sin<span class="token punctuation">(</span>ii<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        yy<span class="token punctuation">.</span>append<span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> max<span class="token punctuation">(</span>yy<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">#根据函数原型计算表现型（y值)，即适应度</span>
+<span class="token keyword">def</span> <span class="token function">gafunction</span><span class="token punctuation">(</span>population<span class="token punctuation">,</span>dpopulation<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    y<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    flag<span class="token operator">=</span><span class="token number">0</span>
+    pp<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token comment" spellcheck="true">#通过循环计算每一个x值对应的y值</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> dpopulation<span class="token punctuation">:</span>
+        a<span class="token operator">=</span> <span class="token number">200</span><span class="token operator">*</span>np<span class="token punctuation">.</span>exp<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">0.05</span><span class="token operator">*</span>i<span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>math<span class="token punctuation">.</span>sin<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        y<span class="token punctuation">.</span>append<span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">#由于是计算最大值，若存在正数则直接去除负数个体</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> y<span class="token punctuation">:</span>
+        <span class="token keyword">if</span> i<span class="token operator">></span><span class="token number">0</span><span class="token punctuation">:</span>
+            flag<span class="token operator">=</span><span class="token number">1</span>
+    yy <span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    n<span class="token operator">=</span><span class="token number">0</span>
+    <span class="token keyword">if</span> flag<span class="token operator">==</span><span class="token number">1</span><span class="token punctuation">:</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> y<span class="token punctuation">:</span>
+            <span class="token keyword">if</span> i<span class="token operator">></span><span class="token number">0</span><span class="token punctuation">:</span>
+                yy<span class="token punctuation">.</span>append<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+                pp<span class="token punctuation">.</span>append<span class="token punctuation">(</span>population<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            n<span class="token operator">+=</span><span class="token number">1</span>
+        <span class="token keyword">return</span> yy<span class="token punctuation">,</span>pp
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> y<span class="token punctuation">,</span>population
+
+
+<span class="token comment" spellcheck="true">#解码</span>
+<span class="token keyword">def</span> <span class="token function">Decode</span><span class="token punctuation">(</span>population<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    flag <span class="token operator">=</span> <span class="token number">0</span>
+    Dpopulation <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token comment" spellcheck="true">#print(population)</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> population<span class="token punctuation">:</span>
+        <span class="token comment" spellcheck="true">#将二进制转换为整型数值</span>
+        x <span class="token operator">=</span> eval<span class="token punctuation">(</span><span class="token string">'0b'</span><span class="token operator">+</span>i<span class="token punctuation">)</span>
+        x <span class="token operator">=</span> x<span class="token operator">/</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token operator">**</span><span class="token number">14</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">4</span><span class="token operator">-</span><span class="token number">2</span>
+        Dpopulation<span class="token punctuation">.</span>append<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true"># someone = str(population[flag])</span>
+        <span class="token comment" spellcheck="true"># express[i] = DNAdict[someone]</span>
+    <span class="token keyword">return</span> population<span class="token punctuation">,</span>Dpopulation
+    <span class="token comment" spellcheck="true">#return express</span>
+    <span class="token comment" spellcheck="true"># print(bx[0:100])</span>
+    <span class="token comment" spellcheck="true"># print(ast.literal_eval('0b'+bx[1]))</span>
+
+<span class="token comment" spellcheck="true">#初始化个体</span>
+<span class="token keyword">def</span> <span class="token function">Init_popu</span><span class="token punctuation">(</span>number<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    population<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> i  <span class="token keyword">in</span> range<span class="token punctuation">(</span>number<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        entity<span class="token operator">=</span><span class="token string">''</span>
+        <span class="token keyword">for</span> j <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">14</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            entity <span class="token operator">=</span> entity<span class="token operator">+</span>str<span class="token punctuation">(</span>np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>randint<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        population<span class="token punctuation">.</span>append<span class="token punctuation">(</span>entity<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> population
+
+<span class="token comment" spellcheck="true">#定义物竞天择,弱者淘汰</span>
+<span class="token keyword">def</span> <span class="token function">selection</span><span class="token punctuation">(</span>population<span class="token punctuation">,</span>y<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true">#轮盘赌选择,染色体累计概率</span>
+    fitness_sum<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> i<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">:</span>
+            fitness_sum<span class="token punctuation">.</span>append<span class="token punctuation">(</span>y<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            fitness_sum<span class="token punctuation">.</span>append<span class="token punctuation">(</span>fitness_sum<span class="token punctuation">[</span>i<span class="token number">-1</span><span class="token punctuation">]</span><span class="token operator">+</span>y<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>fitness_sum<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        fitness_sum<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">/=</span>sum<span class="token punctuation">(</span>y<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">#进行选择，淘汰弱者，获取新种群</span>
+    population_new<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        rand<span class="token operator">=</span>np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>uniform<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> j <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> j<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">:</span>
+                <span class="token keyword">if</span> <span class="token number">0</span><span class="token operator">&lt;</span>rand <span class="token operator">and</span> rand<span class="token operator">&lt;=</span>fitness_sum<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">:</span>
+                    population_new<span class="token punctuation">.</span>append<span class="token punctuation">(</span>population<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                <span class="token keyword">if</span> fitness_sum<span class="token punctuation">[</span>j<span class="token number">-1</span><span class="token punctuation">]</span><span class="token operator">&lt;</span>rand <span class="token operator">and</span> rand<span class="token operator">&lt;=</span>fitness_sum<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">:</span>
+                    population_new<span class="token punctuation">.</span>append<span class="token punctuation">(</span>population<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span>
+    flag <span class="token operator">=</span> <span class="token number">0</span>
+
+    new_population<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token comment" spellcheck="true">#留下优秀个体</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> set<span class="token punctuation">(</span>population_new<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        new_population<span class="token punctuation">.</span>append<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> new_population
+    <span class="token comment" spellcheck="true">#return population_new</span>
+
+<span class="token comment" spellcheck="true">#交叉算子</span>
+<span class="token keyword">def</span> <span class="token function">crossover</span><span class="token punctuation">(</span>population_new<span class="token punctuation">,</span> pc<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    half<span class="token operator">=</span>int<span class="token punctuation">(</span>len<span class="token punctuation">(</span>population_new<span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span>
+    father<span class="token operator">=</span>population_new<span class="token punctuation">[</span><span class="token punctuation">:</span>half<span class="token punctuation">]</span>
+    mother<span class="token operator">=</span>population_new<span class="token punctuation">[</span>half<span class="token punctuation">:</span><span class="token punctuation">]</span>
+    np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>shuffle<span class="token punctuation">(</span>father<span class="token punctuation">)</span>
+    np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>shuffle<span class="token punctuation">(</span>mother<span class="token punctuation">)</span>
+    offspring<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>half<span class="token punctuation">)</span><span class="token punctuation">:</span>      
+        <span class="token keyword">if</span> np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>uniform<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">&lt;=</span>pc<span class="token punctuation">:</span>
+            copint <span class="token operator">=</span> np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>randint<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>int<span class="token punctuation">(</span>len<span class="token punctuation">(</span>father<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            son<span class="token operator">=</span>father<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">:</span>copint<span class="token punctuation">]</span><span class="token operator">+</span><span class="token punctuation">(</span>mother<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>copint<span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            daughter<span class="token operator">=</span>mother<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">:</span>copint<span class="token punctuation">]</span><span class="token operator">+</span><span class="token punctuation">(</span>father<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>copint<span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            son<span class="token operator">=</span>father<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+            daughter<span class="token operator">=</span>mother<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+        offspring<span class="token punctuation">.</span>append<span class="token punctuation">(</span>son<span class="token punctuation">)</span>
+        offspring<span class="token punctuation">.</span>append<span class="token punctuation">(</span>daughter<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> offspring
+
+<span class="token comment" spellcheck="true">#变异算子</span>
+<span class="token keyword">def</span> <span class="token function">mutation</span><span class="token punctuation">(</span>offspring<span class="token punctuation">,</span>pm<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>offspring<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>uniform<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">&lt;=</span>pm<span class="token punctuation">:</span>
+            position<span class="token operator">=</span>np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>randint<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>len<span class="token punctuation">(</span>offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token comment" spellcheck="true">#'str' object does not support item assignment,cannot use = to change value</span>
+            <span class="token keyword">if</span> position<span class="token operator">!=</span><span class="token number">0</span><span class="token punctuation">:</span>
+                <span class="token keyword">if</span> offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>position<span class="token punctuation">]</span><span class="token operator">==</span><span class="token string">'1'</span><span class="token punctuation">:</span>
+                    offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">:</span>position<span class="token number">-1</span><span class="token punctuation">]</span><span class="token operator">+</span><span class="token string">'0'</span><span class="token operator">+</span>offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>position<span class="token punctuation">:</span><span class="token punctuation">]</span>
+                <span class="token keyword">else</span><span class="token punctuation">:</span>
+                    offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">:</span>position<span class="token number">-1</span><span class="token punctuation">]</span><span class="token operator">+</span><span class="token string">'1'</span><span class="token operator">+</span>offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>position<span class="token punctuation">:</span><span class="token punctuation">]</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                <span class="token keyword">if</span> offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>position<span class="token punctuation">]</span><span class="token operator">==</span><span class="token string">'1'</span><span class="token punctuation">:</span>
+                    offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">'0'</span><span class="token operator">+</span>offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span>
+                <span class="token keyword">else</span><span class="token punctuation">:</span>
+                    offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">'1'</span><span class="token operator">+</span>offspring<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span>
+    <span class="token keyword">return</span> offspring
+
+<span class="token keyword">if</span> __name__<span class="token operator">==</span><span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true">#通过matplotlib库绘出函数图形</span>
+    <span class="token comment" spellcheck="true"># plt.plot(x,y)</span>
+    <span class="token comment" spellcheck="true"># plt.annotate('local max', xy=(1.4, max(y)), xytext=(0, 200),</span>
+    <span class="token comment" spellcheck="true">#             arrowprops=dict(facecolor='black', shrink=0.05),</span>
+    <span class="token comment" spellcheck="true">#             )</span>
+    <span class="token comment" spellcheck="true"># plt.show()</span>
+    population <span class="token operator">=</span> Init_popu<span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">)</span>
+    mean <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    X<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    Y<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    Y1<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    Y2<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        population<span class="token punctuation">,</span>Dpopulation <span class="token operator">=</span> Decode<span class="token punctuation">(</span>population<span class="token punctuation">)</span>
+        y<span class="token punctuation">,</span>population <span class="token operator">=</span> gafunction<span class="token punctuation">(</span>population<span class="token punctuation">,</span>Dpopulation<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#print(DNAdict)</span>
+        new_population <span class="token operator">=</span> selection<span class="token punctuation">(</span>population<span class="token punctuation">,</span>y<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#crossover 交叉</span>
+        offspring <span class="token operator">=</span>crossover<span class="token punctuation">(</span>new_population<span class="token punctuation">,</span><span class="token number">0.8</span><span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#mutation 变异</span>
+        population<span class="token operator">=</span>mutation<span class="token punctuation">(</span>offspring<span class="token punctuation">,</span><span class="token number">0.001</span><span class="token punctuation">)</span>
+        population<span class="token punctuation">,</span>Dpopulation <span class="token operator">=</span> Decode<span class="token punctuation">(</span>population<span class="token punctuation">)</span>
+        y<span class="token punctuation">,</span>population <span class="token operator">=</span> gafunction<span class="token punctuation">(</span>population<span class="token punctuation">,</span>Dpopulation<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#通过平均值表示迭代进化</span>
+        meannum <span class="token operator">=</span> np<span class="token punctuation">.</span>mean<span class="token punctuation">(</span>y<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#通过最小值表示迭代进化</span>
+        minnum <span class="token operator">=</span> min<span class="token punctuation">(</span>y<span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true">#通过最大值表示迭代进化</span>
+        maxnum <span class="token operator">=</span> max<span class="token punctuation">(</span>y<span class="token punctuation">)</span>
+        X<span class="token punctuation">.</span>append<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+        Y<span class="token punctuation">.</span>append<span class="token punctuation">(</span>minnum<span class="token punctuation">)</span>
+        Y1<span class="token punctuation">.</span>append<span class="token punctuation">(</span>meannum<span class="token punctuation">)</span>
+        Y2<span class="token punctuation">.</span>append<span class="token punctuation">(</span>maxnum<span class="token punctuation">)</span>
+
+    plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>X<span class="token punctuation">,</span>Y<span class="token punctuation">,</span>color<span class="token operator">=</span><span class="token string">'b'</span><span class="token punctuation">)</span>
+    plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>X<span class="token punctuation">,</span>Y2<span class="token punctuation">,</span>color<span class="token operator">=</span><span class="token string">'g'</span><span class="token punctuation">)</span>
+    plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>X<span class="token punctuation">,</span>Y1<span class="token punctuation">,</span>color<span class="token operator">=</span><span class="token string">'y'</span><span class="token punctuation">)</span>
+    plt<span class="token punctuation">.</span>axhline<span class="token punctuation">(</span>FuncMax<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> linewidth<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> color<span class="token operator">=</span><span class="token string">'r'</span><span class="token punctuation">)</span>  
+    plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>    
+
+
+
+
+</code></pre>
+<blockquote>
+<p>参考：</p>
+<p><a href="https://www.cnblogs.com/ECJTUACM-873284962/p/8857950.html" target="_blank" rel="noopener">https://www.cnblogs.com/ECJTUACM-873284962/p/8857950.html</a></p>
+<p><a href="https://blog.csdn.net/WFRainn/article/details/80458246" target="_blank" rel="noopener">https://blog.csdn.net/WFRainn/article/details/80458246</a></p>
 </blockquote>
 
             </div>
@@ -703,7 +1094,7 @@ strip是linux下的一个命令，用于给特定文件消除，剥离一些符�
         <div class="toc-widget">
             <h4>目录</h4>
             <div id="toc-content">
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#遗传算法（Genetic-Algorithm）"><span class="post-toc-text">遗传算法（Genetic Algorithm）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#简介"><span class="post-toc-text">简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#编码与解码"><span class="post-toc-text">编码与解码</span></a></li></ol></li></ol>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#遗传算法（Genetic-Algorithm）"><span class="post-toc-text">遗传算法（Genetic Algorithm）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#简介"><span class="post-toc-text">简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#编码与解码"><span class="post-toc-text">编码与解码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#初始化种群"><span class="post-toc-text">初始化种群</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#计算适应度"><span class="post-toc-text">计算适应度</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#定义选择方法"><span class="post-toc-text">定义选择方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#定义交叉方法"><span class="post-toc-text">定义交叉方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#定义变异方法"><span class="post-toc-text">定义变异方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#开始迭代进化"><span class="post-toc-text">开始迭代进化</span></a></li></ol></li></ol>
             </div>
         </div>
     </div>
