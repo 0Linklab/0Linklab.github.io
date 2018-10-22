@@ -249,13 +249,13 @@
 
 
 
-<div class="bg-cover post-cover" style="background-image: url('https://i.loli.net/2018/10/21/5bcbd05266bda.jpg')">
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Pwn-10月21-jarvis-level0
+                        Re-10月22-shiyanbar-10000
                     </div>
                 </div>
             </div>
@@ -341,16 +341,16 @@
             
             <div class="article-tag">
                 
-                <a href="/tags/Pwn/" target="_blank">
-                    <span class="chip bg-color">Pwn</span>
-                </a>
-                
                 <a href="/tags/二进制安全/" target="_blank">
                     <span class="chip bg-color">二进制安全</span>
                 </a>
                 
                 <a href="/tags/CTF/" target="_blank">
                     <span class="chip bg-color">CTF</span>
+                </a>
+                
+                <a href="/tags/RE/" target="_blank">
+                    <span class="chip bg-color">RE</span>
                 </a>
                 
             </div>
@@ -368,7 +368,7 @@
                 
 
                 <span class="post-date">
-                    <i class="fa fa-clock-o fa-fw"></i>2018-10-21
+                    <i class="fa fa-clock-o fa-fw"></i>2018-10-22
                 </span>
             </div>
         </div>
@@ -376,53 +376,54 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>[TOC]</p>
-<h1 id="Pwn-10月21-jarvis-level0"><a href="#Pwn-10月21-jarvis-level0" class="headerlink" title="Pwn-10月21-jarvis-level0"></a>Pwn-10月21-jarvis-level0</h1><blockquote>
-<p>这题是补上昨天没写完的一题。。。虽然很简单😭😭</p>
+<h1 id="Re-10月22-shiyanbar-10000"><a href="#Re-10月22-shiyanbar-10000" class="headerlink" title="Re-10月22-shiyanbar-10000"></a>Re-10月22-shiyanbar-10000</h1><blockquote>
+<p>emmm记录一下实验吧里一道简单的逆向，实际上就是一种思维方式。</p>
 </blockquote>
-<h2 id="检查保护措施"><a href="#检查保护措施" class="headerlink" title="检查保护措施"></a>检查保护措施</h2><blockquote>
-<p><code>file level0</code> and <code>checksec level0</code>:</p>
-<p><img src="https://i.loli.net/2018/10/21/5bcbd13050ba5.png" alt=""></p>
-<p>可以看到这种简单的pwn题基本不开保护措施，不然菜鸡我也玩不下去。。。</p>
+<blockquote>
+<p>拿到一个exe文件,运行效果如下：</p>
+<p><img src="https://i.loli.net/2018/10/22/5bcd6ebe22927.png" alt=""></p>
+<p>对没错就是一个喵字，然后输入内容，会输出wrong，可以猜测输入了正确的字符后会输出good。</p>
 </blockquote>
 <h2 id="静态分析程序逻辑"><a href="#静态分析程序逻辑" class="headerlink" title="静态分析程序逻辑"></a>静态分析程序逻辑</h2><blockquote>
-<p>一用IDA Pro打开程序文件看看main函数就脑残地看到了<code>return vulnerable_function()</code></p>
-<p><img src="https://i.loli.net/2018/10/21/5bcbd173656cc.png" alt=""></p>
-<p>跟着去这个函数看一看:</p>
-<p><img src="https://i.loli.net/2018/10/21/5bcbd20189ae1.png" alt=""></p>
-<p>可以看到定义的buf空间为0x80,而能够用read函数读取的为0x200，能够造成栈溢出，并且实现函数地址覆盖。而且我们也可以看到一个callsystem函数，点进去看看可以发现<code>system(&quot;/bin/sh&quot;)</code>:</p>
-<p><img src="https://i.loli.net/2018/10/21/5bcbd2752027e.png" alt=""></p>
-<p>那么根据静态分析出来的信息大概可以确定：首先通过main函数返回到vulnerable_function函数，然后通过vulnerable_function函数将某处返回地址覆盖为callsystem函数的地址，然后getshell。</p>
+<p>令人绝望的是，ida6.8和ida7.0对此程序main函数分析的伪代码居然不同，这里我们看7.0的：</p>
+<p><img src="https://i.loli.net/2018/10/22/5bcd72ad9ac34.png" alt=""></p>
+<p>简单分析可以知道，这里是将我们的输入按字节与0x80u进行或操作，即按位或，然后对处理后的内容进行字符串比较，然后得出结果。上图中的v4到v16实际上都是下图中的16进制转为整型的内容，因为一个字节可以表示的数字范围为-128到127。</p>
+<p><img src="https://i.loli.net/2018/10/22/5bcd71a486530.png" alt=""></p>
+<p>然后我就要傻逼😭地说，这些内容肯定跟比较是有关系的。</p>
+<p>试试将0xe6与0x80</p>
+<p>我们注意到<code>.text:004013F8</code>位置的命令是将eax与0xFFFFFF80相或，为啥我们的伪代码中却是与0x80u相或呢？因为我们是按字节来进行或操作，所以0xFFFFFF80前面的三个字节也就没有了必要。</p>
+<p>唉实在是这题目逻辑太含糊不清（可能是我太菜┭┮﹏┭┮）</p>
 </blockquote>
-<h2 id="动态分析程序逻辑"><a href="#动态分析程序逻辑" class="headerlink" title="动态分析程序逻辑"></a>动态分析程序逻辑</h2><blockquote>
-<p>gdb 调试一下level0，先单步执行到vulnerable_function()函数：</p>
-<p><img src="https://i.loli.net/2018/10/21/5bcbd5dc96afe.png" alt=""></p>
-<p>先过一遍该函数，然后记录关键信息：</p>
-<p><img src="https://i.loli.net/2018/10/21/5bcbd6954fadf.png" alt=""></p>
-<p>计算一下距离：<code>hex(0x7fffffffdfc0 + 8 - 0x7fffffffdf40) = 0x88</code>，那为什么比定义的0x80要多0x08的距离呢？这里我们可以通过ida pro的<code>alt + k</code>快捷键查看buf的栈帧，会发现：</p>
-<p><img src="https://i.loli.net/2018/10/21/5bcbd939b1a8b.png" alt=""></p>
-<p>通过gdb调试里面的多个关键信息对比，其实多出来的0x08是栈底的内容，继续下一步，就可以看到最开始被压入栈中的返回地址被置栈顶，准备返回：</p>
-<p><img src="https://i.loli.net/2018/10/21/5bcbda659d6b6.png" alt=""></p>
-<p>那么我们就可以开始构造exp啦😄。</p>
-</blockquote>
-<h2 id="攻破"><a href="#攻破" class="headerlink" title="攻破"></a>攻破</h2><blockquote>
-<p>通过上面的逻辑我们可以写出如下exp：</p>
-<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding:utf-8</span>
-Author <span class="token operator">=</span> <span class="token string">"Yof3ng"</span>
-<span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
+<h2 id="动态程序逻辑分析"><a href="#动态程序逻辑分析" class="headerlink" title="动态程序逻辑分析"></a>动态程序逻辑分析</h2><blockquote>
+<p>通过ollydbg我们来进行动态调试，首先载入程序，查找字符串：</p>
+<p><img src="https://i.loli.net/2018/10/22/5bcd7825508d0.png" alt=""></p>
+<p>然后我们找一下”喵”，出现的位置，并且在找到的字符串比较函数下断点：</p>
+<p><img src="https://i.loli.net/2018/10/22/5bcd78b3669b0.png" alt=""></p>
+<p>然后运行，并且随便输入一个字符串：</p>
+<p><img src="https://i.loli.net/2018/10/22/5bcd790b40671.png" alt=""></p>
+<p>栈中出现了两个字符串比较的数据，在数据窗口跟随，可以发现s2为13个字节，正好对应前面的那13个数据</p>
+<p><img src="https://i.loli.net/2018/10/22/5bcd79f764ec2.png" alt=""></p>
+<p>但是光靠这些信息我们能拿到我们想要的答案吗？我们可以对s1进行一些操作，之前输入的字符串为<code>helloword 或操作处理后==&gt; E8 E5 EC EC EF F7 EF F2 E4</code>。我看网上很多教程是直接通过异或，将s2异或0x80得到结果（脑洞？？）</p>
+<p><img src="https://i.loli.net/2018/10/22/5bcd7e34f2571.png" alt=""></p>
+<p>一个字节的情况下，可能通过异或操作并且根据已知条件能够得到或操作的原操作数，但是我可能太菜了不求甚解，只能写个脚本枚举一下flag好了（根据ida根本难以看出来好不好😭还是太菜了不能怪ida)。</p>
+<pre class=" language-python"><code class="language-python">
+<span class="token comment" spellcheck="true">#coding:utf-8</span>
+<span class="token comment" spellcheck="true">#</span>
+__Author__ <span class="token operator">=</span><span class="token string">"Yof3ng"</span>
 
-io <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token string">"level0"</span><span class="token punctuation">)</span>
-callsystem_addr <span class="token operator">=</span> <span class="token number">0x400596</span>
-padding <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">0x80</span> <span class="token operator">+</span> <span class="token number">0x08</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token string">"a"</span>
-payload <span class="token operator">=</span> padding <span class="token operator">+</span> callsystem_addr
-io<span class="token punctuation">.</span>recvline<span class="token punctuation">(</span><span class="token punctuation">)</span>
-io<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
-io<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span>
+lists <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0xE6</span><span class="token punctuation">,</span><span class="token number">0xEC</span><span class="token punctuation">,</span><span class="token number">0xE1</span><span class="token punctuation">,</span><span class="token number">0xE7</span><span class="token punctuation">,</span><span class="token number">0xBA</span><span class="token punctuation">,</span><span class="token number">0xF4</span><span class="token punctuation">,</span><span class="token number">0xE5</span><span class="token punctuation">,</span><span class="token number">0xF3</span><span class="token punctuation">,</span><span class="token number">0xF4</span><span class="token punctuation">,</span><span class="token number">0xF4</span><span class="token punctuation">,</span><span class="token number">0xE5</span><span class="token punctuation">,</span><span class="token number">0xF3</span><span class="token punctuation">,</span><span class="token number">0xF4</span><span class="token punctuation">]</span>
+flag<span class="token operator">=</span><span class="token string">""</span>
+<span class="token keyword">for</span> a <span class="token keyword">in</span> lists<span class="token punctuation">:</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">128</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> i<span class="token operator">|</span><span class="token number">0x80</span><span class="token operator">==</span>a<span class="token punctuation">:</span>
+            flag <span class="token operator">+=</span> chr<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>flag<span class="token punctuation">)</span>
 
 </code></pre>
 </blockquote>
 <p>运行效果：</p>
-<p><img src="https://i.loli.net/2018/10/21/5bcbdc2dbe46c.png" alt=""></p>
-<p>然后就getshell啦😍。</p>
+<p><img src="https://i.loli.net/2018/10/22/5bcd7ed7225ae.png" alt=""></p>
 
             </div>
             <hr/>
@@ -561,7 +562,7 @@ io<span class="token punctuation">.</span>interactive<span class="token punctuat
                     <span class="reprint-tip">转载请注明: </span>
                     <a href="http://www.yof3ng.xyz" class="b-link-green">Yof3ng's Blog | 热爱分享</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2018/10/21/Pwn-10月21-jarvis-level0/" class="b-link-green">Pwn-10月21-jarvis-level0</a>
+                    <a href="/2018/10/22/Re-10月22-shiyanbar-10000/" class="b-link-green">Re-10月22-shiyanbar-10000</a>
                 </p>
             </div>
         </div>
@@ -583,7 +584,7 @@ io<span class="token punctuation">.</span>interactive<span class="token punctuat
         repo: 'yof3ng.github.io',
         owner: 'Yof3ng',
         admin: "Yof3ng",
-        id: '2018-10-21T09-01-10',
+        id: '2018-10-22T14-23-30',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -600,8 +601,8 @@ io<span class="token punctuation">.</span>interactive<span class="token punctuat
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">上一篇</div>
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">本篇</div>
             <div class="card">
                 <a href="/2018/10/22/Re-10月22-shiyanbar-10000/">
                     <div class="card-image">
@@ -622,9 +623,9 @@ emmm记录一下实验吧里一道简单的逆向，实际上就是一种思维�
 
 对没错就是一个喵字，然后输入内容，会输出wrong，可以猜测输入了正确</div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-22
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-22
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -637,6 +638,7 @@ emmm记录一下实验吧里一道简单的逆向，实际上就是一种思维�
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -661,22 +663,26 @@ emmm记录一下实验吧里一道简单的逆向，实际上就是一种思维�
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">下一篇</div>
             <div class="card">
-                <a href="/2018/10/20/Pwn-10月20-two-of-jarvis/">
+                <a href="/2018/10/21/Pwn-10月21-jarvis-level0/">
                     <div class="card-image">
                         
-                        <img src="https://i.loli.net/2018/10/16/5bc55817b7dd3.jpg" class="responsive-img" alt="Pwn-10月20-one-of-jarvis">
+                        <img src="https://i.loli.net/2018/10/21/5bcbd05266bda.jpg" class="responsive-img" alt="Pwn-10月21-jarvis-level0">
                         
-                        <span class="card-title">Pwn-10月20-one-of-jarvis</span>
+                        <span class="card-title">Pwn-10月21-jarvis-level0</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary">[TOC]
-Pwn-10月20-jarvis-Tell_me_something
-今天简单地做一下jarvis oj的两道题，level0和Tell_me_something.
-PS:凌晨0:07  明天写level0，其实两题差不多的逻辑</div>
+Pwn-10月21-jarvis-level0
+这题是补上昨天没写完的一题。。。虽然很简单😭😭
+
+检查保护措施
+file level0 and checksec level0:
+
+可以看到这种简单的pwn题基本不开保护措施，</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-20
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-21
                             </span>
                         <span class="publish-author">
                             
@@ -718,7 +724,7 @@ PS:凌晨0:07  明天写level0，其实两题差不多的逻辑</div>
         <div class="toc-widget">
             <h4>目录</h4>
             <div id="toc-content">
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Pwn-10月21-jarvis-level0"><span class="post-toc-text">Pwn-10月21-jarvis-level0</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#检查保护措施"><span class="post-toc-text">检查保护措施</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#静态分析程序逻辑"><span class="post-toc-text">静态分析程序逻辑</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#动态分析程序逻辑"><span class="post-toc-text">动态分析程序逻辑</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#攻破"><span class="post-toc-text">攻破</span></a></li></ol></li></ol>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Re-10月22-shiyanbar-10000"><span class="post-toc-text">Re-10月22-shiyanbar-10000</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#静态分析程序逻辑"><span class="post-toc-text">静态分析程序逻辑</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#动态程序逻辑分析"><span class="post-toc-text">动态程序逻辑分析</span></a></li></ol></li></ol>
             </div>
         </div>
     </div>

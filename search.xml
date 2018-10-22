@@ -3,6 +3,33 @@
   
     
     <entry>
+      <title>Re-10月22-shiyanbar-10000</title>
+      <link href="/2018/10/22/Re-10%E6%9C%8822-shiyanbar-10000/"/>
+      <url>/2018/10/22/Re-10%E6%9C%8822-shiyanbar-10000/</url>
+      
+        <content type="html"><![CDATA[<p>[TOC]</p><h1 id="Re-10月22-shiyanbar-10000"><a href="#Re-10月22-shiyanbar-10000" class="headerlink" title="Re-10月22-shiyanbar-10000"></a>Re-10月22-shiyanbar-10000</h1><blockquote><p>emmm记录一下实验吧里一道简单的逆向，实际上就是一种思维方式。</p></blockquote><blockquote><p>拿到一个exe文件,运行效果如下：</p><p><img src="https://i.loli.net/2018/10/22/5bcd6ebe22927.png" alt=""></p><p>对没错就是一个喵字，然后输入内容，会输出wrong，可以猜测输入了正确的字符后会输出good。</p></blockquote><h2 id="静态分析程序逻辑"><a href="#静态分析程序逻辑" class="headerlink" title="静态分析程序逻辑"></a>静态分析程序逻辑</h2><blockquote><p>令人绝望的是，ida6.8和ida7.0对此程序main函数分析的伪代码居然不同，这里我们看7.0的：</p><p><img src="https://i.loli.net/2018/10/22/5bcd72ad9ac34.png" alt=""></p><p>简单分析可以知道，这里是将我们的输入按字节与0x80u进行或操作，即按位或，然后对处理后的内容进行字符串比较，然后得出结果。上图中的v4到v16实际上都是下图中的16进制转为整型的内容，因为一个字节可以表示的数字范围为-128到127。</p><p><img src="https://i.loli.net/2018/10/22/5bcd71a486530.png" alt=""></p><p>然后我就要傻逼😭地说，这些内容肯定跟比较是有关系的。</p><p>试试将0xe6与0x80</p><p>我们注意到<code>.text:004013F8</code>位置的命令是将eax与0xFFFFFF80相或，为啥我们的伪代码中却是与0x80u相或呢？因为我们是按字节来进行或操作，所以0xFFFFFF80前面的三个字节也就没有了必要。</p><p>唉实在是这题目逻辑太含糊不清（可能是我太菜┭┮﹏┭┮）</p></blockquote><h2 id="动态程序逻辑分析"><a href="#动态程序逻辑分析" class="headerlink" title="动态程序逻辑分析"></a>动态程序逻辑分析</h2><blockquote><p>通过ollydbg我们来进行动态调试，首先载入程序，查找字符串：</p><p><img src="https://i.loli.net/2018/10/22/5bcd7825508d0.png" alt=""></p><p>然后我们找一下”喵”，出现的位置，并且在找到的字符串比较函数下断点：</p><p><img src="https://i.loli.net/2018/10/22/5bcd78b3669b0.png" alt=""></p><p>然后运行，并且随便输入一个字符串：</p><p><img src="https://i.loli.net/2018/10/22/5bcd790b40671.png" alt=""></p><p>栈中出现了两个字符串比较的数据，在数据窗口跟随，可以发现s2为13个字节，正好对应前面的那13个数据</p><p><img src="https://i.loli.net/2018/10/22/5bcd79f764ec2.png" alt=""></p><p>但是光靠这些信息我们能拿到我们想要的答案吗？我们可以对s1进行一些操作，之前输入的字符串为<code>helloword 或操作处理后==&gt; E8 E5 EC EC EF F7 EF F2 E4</code>。我看网上很多教程是直接通过异或，将s2异或0x80得到结果（脑洞？？）</p><p><img src="https://i.loli.net/2018/10/22/5bcd7e34f2571.png" alt=""></p><p>一个字节的情况下，可能通过异或操作并且根据已知条件能够得到或操作的原操作数，但是我可能太菜了不求甚解，只能写个脚本枚举一下flag好了（根据ida根本难以看出来好不好😭还是太菜了不能怪ida)。</p><pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding:utf-8</span><span class="token comment" spellcheck="true">#</span>__Author__ <span class="token operator">=</span><span class="token string">"Yof3ng"</span>lists <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0xE6</span><span class="token punctuation">,</span><span class="token number">0xEC</span><span class="token punctuation">,</span><span class="token number">0xE1</span><span class="token punctuation">,</span><span class="token number">0xE7</span><span class="token punctuation">,</span><span class="token number">0xBA</span><span class="token punctuation">,</span><span class="token number">0xF4</span><span class="token punctuation">,</span><span class="token number">0xE5</span><span class="token punctuation">,</span><span class="token number">0xF3</span><span class="token punctuation">,</span><span class="token number">0xF4</span><span class="token punctuation">,</span><span class="token number">0xF4</span><span class="token punctuation">,</span><span class="token number">0xE5</span><span class="token punctuation">,</span><span class="token number">0xF3</span><span class="token punctuation">,</span><span class="token number">0xF4</span><span class="token punctuation">]</span>flag<span class="token operator">=</span><span class="token string">""</span><span class="token keyword">for</span> a <span class="token keyword">in</span> lists<span class="token punctuation">:</span>    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">128</span><span class="token punctuation">)</span><span class="token punctuation">:</span>        <span class="token keyword">if</span> i<span class="token operator">|</span><span class="token number">0x80</span><span class="token operator">==</span>a<span class="token punctuation">:</span>            flag <span class="token operator">+=</span> chr<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token keyword">print</span><span class="token punctuation">(</span>flag<span class="token punctuation">)</span></code></pre></blockquote><p>运行效果：</p><p><img src="https://i.loli.net/2018/10/22/5bcd7ed7225ae.png" alt=""></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> CTF </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 二进制安全 </tag>
+            
+            <tag> CTF </tag>
+            
+            <tag> RE </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>Pwn-10月21-jarvis-level0</title>
       <link href="/2018/10/21/Pwn-10%E6%9C%8821-jarvis-level0/"/>
       <url>/2018/10/21/Pwn-10%E6%9C%8821-jarvis-level0/</url>
