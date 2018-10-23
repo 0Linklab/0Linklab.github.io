@@ -249,13 +249,13 @@
 
 
 
-<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Pwn-10月23-Hiton(一)
+                        Pwn-10月23-Hitcon(一)
                     </div>
                 </div>
             </div>
@@ -376,7 +376,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>[TOC]</p>
-<h1 id="Pwn-10月23-Hiton-一"><a href="#Pwn-10月23-Hiton-一" class="headerlink" title="Pwn-10月23-Hiton(一)"></a>Pwn-10月23-Hiton(一)</h1><blockquote>
+<h1 id="Pwn-10月23-Hitcon-一"><a href="#Pwn-10月23-Hitcon-一" class="headerlink" title="Pwn-10月23-Hitcon(一)"></a>Pwn-10月23-Hitcon(一)</h1><blockquote>
 <p>继续二进制修炼，今天开始肝Hiton-training，膜着<a href="https://m4x.fun/post/hitcon-training-writeup/" target="_blank" rel="noopener">m4x</a>，以及另一位大佬<a href="https://www.jianshu.com/p/2cae38284bff" target="_blank" rel="noopener">23R3F</a>的题解蹒跚前行。</p>
 </blockquote>
 <h2 id="lab1-sysmagic"><a href="#lab1-sysmagic" class="headerlink" title="lab1-sysmagic"></a>lab1-sysmagic</h2><blockquote>
@@ -648,7 +648,7 @@ io<span class="token punctuation">.</span>close<span class="token punctuation">(
                     <span class="reprint-tip">转载请注明: </span>
                     <a href="http://www.yof3ng.xyz" class="b-link-green">Yof3ng's Blog | 热爱分享</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2018/10/23/Pwn-10月23/" class="b-link-green">Pwn-10月23-Hiton(一)</a>
+                    <a href="/2018/10/23/Pwn-10月23/" class="b-link-green">Pwn-10月23-Hitcon(一)</a>
                 </p>
             </div>
         </div>
@@ -694,18 +694,18 @@ io<span class="token punctuation">.</span>close<span class="token punctuation">(
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Pwn-10月23-Hiton(一)">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Pwn-10月23-Hitcon(一)">
                         
-                        <span class="card-title">Pwn-10月23-Hiton(一)</span>
+                        <span class="card-title">Pwn-10月23-Hitcon(一)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary">[TOC]
-Pwn-10月23-Hiton(一)
+Pwn-10月23-Hitcon(一)
 继续二进制修炼，今天开始肝Hiton-training，膜着m4x，以及另一位大佬23R3F的题解蹒跚前行。
 
 lab1-sysmagic
-貌似第一题会比较简单，先用IDA-Pro静态分析一</div>
+貌似第一题会比较简单，先用IDA-Pro静态分析</div>
                     <div class="publish-info">
                             <span class="publish-date">
                                 <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-23
@@ -809,7 +809,7 @@ emmm记录一下实验吧里一道简单的逆向，实际上就是一种思维�
         <div class="toc-widget">
             <h4>目录</h4>
             <div id="toc-content">
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Pwn-10月23-Hiton-一"><span class="post-toc-text">Pwn-10月23-Hiton(一)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab1-sysmagic"><span class="post-toc-text">lab1-sysmagic</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解法1-patch"><span class="post-toc-text">解法1 - patch</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解法2-gdb-set-register-value"><span class="post-toc-text">解法2 - gdb set register value</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab2-orw"><span class="post-toc-text">lab2-orw</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查保护措施"><span class="post-toc-text">检查保护措施</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#逻辑分析"><span class="post-toc-text">逻辑分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#exp"><span class="post-toc-text">exp</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab3-ret2sc"><span class="post-toc-text">lab3-ret2sc</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查保护措施-1"><span class="post-toc-text">检查保护措施</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#逻辑分析-1"><span class="post-toc-text">逻辑分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构造EXP"><span class="post-toc-text">构造EXP</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#小结"><span class="post-toc-text">小结</span></a></li></ol></li></ol>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Pwn-10月23-Hitcon-一"><span class="post-toc-text">Pwn-10月23-Hitcon(一)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab1-sysmagic"><span class="post-toc-text">lab1-sysmagic</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解法1-patch"><span class="post-toc-text">解法1 - patch</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解法2-gdb-set-register-value"><span class="post-toc-text">解法2 - gdb set register value</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab2-orw"><span class="post-toc-text">lab2-orw</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查保护措施"><span class="post-toc-text">检查保护措施</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#逻辑分析"><span class="post-toc-text">逻辑分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#exp"><span class="post-toc-text">exp</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab3-ret2sc"><span class="post-toc-text">lab3-ret2sc</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查保护措施-1"><span class="post-toc-text">检查保护措施</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#逻辑分析-1"><span class="post-toc-text">逻辑分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构造EXP"><span class="post-toc-text">构造EXP</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#小结"><span class="post-toc-text">小结</span></a></li></ol></li></ol>
             </div>
         </div>
     </div>
