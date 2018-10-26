@@ -452,7 +452,8 @@
 <p>简单测试一下我们可以看到一些有趣的东西，这些应该是<code>printf</code>栈中的数据，那么我们只要找到栈中存储我们输入的内容的位置，假如输入的是某地址，再用%s解析就可获得该地址下的内容：</p>
 <p><img src="https://i.loli.net/2018/10/26/5bd2bb34567e1.png" alt=""></p>
 <p><img src="https://i.loli.net/2018/10/26/5bd2c986ab76f.png" alt=""></p>
-<p>可以看到输入的内容在栈中的第十个位置，这里学到一个小知识，<code>%10$s</code>中格式化字符串的“$”操作符，其允许我们从格式化字符串中选取一个位置的参数作为特定的参数。我们可以从IDA中得到<code>password_addr=0x804A080</code>，然后构造EXP。</p>
+<p>可以看到输入的内容在栈中的第十个位置，至于为什么在gdb看栈中数据在第十一个位置，是因为”Hello ,”还没有被输出，待其输出后我们的输入就来到了第十个位置。</p>
+<p>这里学到一个小知识，<code>%10$s</code>中格式化字符串的“$”操作符，其允许我们从格式化字符串中选取一个位置的参数作为特定的参数。我们可以从IDA中得到<code>password_addr=0x804A080</code>，然后构造EXP。</p>
 </blockquote>
 <pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding:utf-8</span>
 
