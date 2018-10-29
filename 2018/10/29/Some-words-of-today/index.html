@@ -249,13 +249,13 @@
 
 
 
-<div class="bg-cover post-cover" style="background-image: url('https://i.loli.net/2018/10/16/5bc55817b7dd3.jpg')">
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Pwn-10月20-one-of-jarvis
+                        Some_words_of_today
                     </div>
                 </div>
             </div>
@@ -341,16 +341,8 @@
             
             <div class="article-tag">
                 
-                <a href="/tags/Pwn/" target="_blank">
-                    <span class="chip bg-color">Pwn</span>
-                </a>
-                
-                <a href="/tags/CTF/" target="_blank">
-                    <span class="chip bg-color">CTF</span>
-                </a>
-                
-                <a href="/tags/二进制安全/" target="_blank">
-                    <span class="chip bg-color">二进制安全</span>
+                <a href="/tags/杂文/" target="_blank">
+                    <span class="chip bg-color">杂文</span>
                 </a>
                 
             </div>
@@ -360,78 +352,37 @@
                 <span class="post-cate">
                     <i class="fa fa-bookmark fa-fw icon-category"></i>
                     
-                    <a href="/categories/CTF/" class="post-category" target="_blank">
-                        CTF
+                    <a href="/categories/杂文/" class="post-category" target="_blank">
+                        杂文
                     </a>
                     
                 </span>
                 
 
                 <span class="post-date">
-                    <i class="fa fa-clock-o fa-fw"></i>2018-10-20
+                    <i class="fa fa-clock-o fa-fw"></i>2018-10-29
                 </span>
             </div>
         </div>
         <hr>
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>[TOC]</p>
-<h1 id="Pwn-10月20-jarvis-Tell-me-something"><a href="#Pwn-10月20-jarvis-Tell-me-something" class="headerlink" title="Pwn-10月20-jarvis-Tell_me_something"></a>Pwn-10月20-jarvis-Tell_me_something</h1><blockquote>
-<p>今天简单地做一下jarvis oj的两道题，<code>level0</code>和<code>Tell_me_something</code>.</p>
-<p>PS:凌晨0:07  明天写level0，其实两题差不多的逻辑，挺简单的。</p>
+                <h1 id="Some-words-of-today"><a href="#Some-words-of-today" class="headerlink" title="Some_words_of_today"></a>Some_words_of_today</h1><blockquote>
+<p>今日份闲扯。🙃</p>
 </blockquote>
-<h2 id="Tell-me-something"><a href="#Tell-me-something" class="headerlink" title="Tell_me_something"></a>Tell_me_something</h2><h3 id="检查保护措施"><a href="#检查保护措施" class="headerlink" title="检查保护措施"></a>检查保护措施</h3><blockquote>
-<p>首先，<code>file gestbook</code>and<code>checksec guestbook</code>，简单地看看文件信息和保护措施</p>
-<p><img src="https://i.loli.net/2018/10/20/5bcb420ce98b7.png" alt=""></p>
-<p>可以看到它是没有脱衣服的，然后没有开启保护措施。</p>
-</blockquote>
-<h3 id="静态分析程序逻辑"><a href="#静态分析程序逻辑" class="headerlink" title="静态分析程序逻辑"></a>静态分析程序逻辑</h3><blockquote>
-<p>用IDA pro 看一下该程序的汇编代码，可以看到main函数：</p>
-<p><img src="https://i.loli.net/2018/10/20/5bcb42684db9f.png" alt=""></p>
-<p>F5大法，看看伪代码，很简单就可以判断出溢出点，因为read函数可以将超出0x88大小的数据读入栈空间：</p>
-<p><img src="https://i.loli.net/2018/10/20/5bcb42f7dd043.png" alt=""></p>
-<p>然后我们也可以看到good_game函数里面有我们要的关键信息：</p>
-<p><img src="https://i.loli.net/2018/10/20/5bcb498c0b0c9.png" alt=""></p>
-<p>那么到这里基本上可以确定，是通过溢出来使程序跳转到good_game函数从而得到flag。</p>
-</blockquote>
-<h3 id="动态分析程序逻辑"><a href="#动态分析程序逻辑" class="headerlink" title="动态分析程序逻辑"></a>动态分析程序逻辑</h3><blockquote>
-<p>首先放linux里面跑一跑：</p>
-<p><img src="https://i.loli.net/2018/10/20/5bcb48a91dfc9.png" alt=""></p>
-<p>确实产生了溢出的问题，然后这里我们用一下linux平台的一个二进制分析软件，radare2，说实话还是可以用的，这个软件集成了很多工具，并且也可以进行部分地动态调试（<a href="https://xz.aliyun.com/t/1514/#toc-7" target="_blank" rel="noopener">radare2详细教程</a>）：</p>
-<p><img src="https://i.loli.net/2018/10/20/5bcb495987b21.png" alt=""></p>
-<p>接下来我们用gdb调试一下，先构造一个0x88长度的padding输入，再看看栈空间：</p>
-<p><img src="https://i.loli.net/2018/10/20/5bcb4c838d5dd.png" alt=""></p>
-<p>可以知道将长度为0x88的padding填充到栈空间之后，还可以进行覆盖，因为可以读取最大0x100（256）大小的字符，而ebp栈底出界就是一个函数地址，我们可以看看这个函数地址有什么关键性的操作举动：</p>
-<p><img src="https://i.loli.net/2018/10/20/5bcb4d6959622.png" alt=""></p>
-<p>进行单步执行测试查看该溢出点能够被覆盖的地址是否会被返回，先重新查看一下该栈位置存储的函数地址为多少：</p>
-<p><img src="https://i.loli.net/2018/10/20/5bcb4f4e7f83a.png" alt=""></p>
-<p>可以看到存储的函数地址为0x7ffff7a3fa87，到栈位置即将改变时，进行下一步验证：</p>
-<p><img src="https://i.loli.net/2018/10/20/5bcb4e0d8a46d.png" alt=""></p>
-<p>执行下一步：</p>
-<p><img src="https://i.loli.net/2018/10/20/5bcb4e84bc436.png" alt=""></p>
-<p>再下一步就将该函数地址放入了RIP，作为下一步运行的函数指令：<br><img src="https://i.loli.net/2018/10/20/5bcb4ed83e345.png" alt=""></p>
-<p>那么到这里已经明白可以返回该地址覆盖的内容，写exp了。</p>
-</blockquote>
-<h3 id="攻破"><a href="#攻破" class="headerlink" title="攻破"></a>攻破</h3><blockquote>
-<p>用0x88长度的内容做padding，然后将good_game的地址放到尾部，然后执行即可。</p>
-<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding:utf-8</span>
-<span class="token comment" spellcheck="true">#exp.py</span>
-Author <span class="token operator">=</span> <span class="token string">"Yof3ng"</span>
-<span class="token keyword">from</span> pwn impor <span class="token operator">*</span>
-io <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token string">'guestbook'</span><span class="token punctuation">)</span>
-good_game_addr <span class="token operator">=</span> <span class="token number">0x400620</span>
-padding <span class="token operator">=</span> <span class="token string">'a'</span><span class="token operator">*</span><span class="token number">0x88</span>
-payload <span class="token operator">=</span> padding <span class="token operator">+</span> p64<span class="token punctuation">(</span>good_game_addr<span class="token punctuation">)</span>
-io<span class="token punctuation">.</span>recvline<span class="token punctuation">(</span><span class="token punctuation">)</span>
-io<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
-<span class="token keyword">print</span> io<span class="token punctuation">.</span>recvline<span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span> io<span class="token punctuation">.</span>recvline<span class="token punctuation">(</span><span class="token punctuation">)</span>
-
-</code></pre>
-</blockquote>
-<p>运行结果：</p>
-<p><img src="https://i.loli.net/2018/10/21/5bcb5203a355b.png" alt=""></p>
-<p>啊本来今天打算写两题的博客，看来这篇只能水了，太晚了先睡了。😭😭</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 现在时间已经23:06了，今天给几位学弟简单讲了一些小知识（虽然自己很low，但希望学弟可以很强），写完这篇水文就睡吧。不知道什么时候开始就已经习惯了这么晚睡，虽然知道晚睡啥的，熬夜什么的对身体不好balabala，但是生活所迫，被生活安排的明明白白，虽然目前国内计算机行业现状如下图：</p>
+<p><img src="https://i.loli.net/2018/10/29/5bd722c007501.png" alt=""></p>
+<p>抑或是如下图：</p>
+<p><img src="https://i.loli.net/2018/10/29/5bd72383adca2.png" alt=""></p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 刚入学那会儿，大学嘛，憧憬的是啥？无非就是吃喝玩乐，交朋友（找女票？）以及少部分学习。对啊，就是这样没错啊，大家都是这么认为的嘛，一直到大一过去一大半，我也是学学停停，玩玩游戏，<del>以及一场起于高中，止于大一末，经历过一起，也经历过分离，还经历过异地，像电视剧一样的恋爱</del>,呸呸呸 。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 很普遍的一个现象是：很多刚踏入大学校门的人，就想开始来一场轰轰烈烈的恋爱，来释放自己的天性，拥抱心中的美好😄，到后来却往往是最初开始的人走不到一块儿。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 或许得到了什么东西，就该失去点另外的什么东西。所以那段时间我只是生活在一个小圈子里，虽然错过了很多很多的精彩，虚度了些许时日，但也成长了许多。经历了种种后，我才逐渐明白我的大学生活，乃至人生意义所在😥，风花雪月不过偶尔，自强不息便有远方。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 所谓大学者，非谓有大楼之谓也，有大师之谓也，但是现在又有几个能做到？。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 与其奢望平台如何如何帮自己，那为何不“天行健，君子以自强不息”呢？</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 大学只是一个平台，一个给你去生活，去展示，去实现，去创造，去体验社会的小空间。当然，可能某些人进入大学之后，啊我的大学怎么怎么样，怎么怎么惨，抱怨资源不公，哀叹社会如何，然后转身又扑进了游戏世界。想想其实也挺傻的，不公能怎样？谁让自己搏不了一个好平台，谁让自己得不到那点仅有的资源，又是谁在一次一次堕落之后继续堕落？那肯定是自己咯😭。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 所以如果自己不去实现一点能够实现的价值，来印证一下自己的能力，那如何才能获得那所谓的公平，如何去融入你批判，哀叹的那个社会。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 未来之路虽然坎坷，但希望与诸位同行之人，共同前进。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; Publish by Yof3ng.</p>
 
             </div>
             <hr/>
@@ -570,7 +521,7 @@ io<span class="token punctuation">.</span>send<span class="token punctuation">(<
                     <span class="reprint-tip">转载请注明: </span>
                     <a href="http://www.yof3ng.xyz" class="b-link-green">Yof3ng's Blog | 热爱分享</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2018/10/20/Pwn-10月20-two-of-jarvis/" class="b-link-green">Pwn-10月20-one-of-jarvis</a>
+                    <a href="/2018/10/29/Some-words-of-today/" class="b-link-green">Some_words_of_today</a>
                 </p>
             </div>
         </div>
@@ -592,7 +543,7 @@ io<span class="token punctuation">.</span>send<span class="token punctuation">(<
         repo: 'yof3ng.github.io',
         owner: 'Yof3ng',
         admin: "Yof3ng",
-        id: '2018-10-20T22-48-18',
+        id: '2018-10-29T23-03-45',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -609,30 +560,74 @@ io<span class="token punctuation">.</span>send<span class="token punctuation">(<
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">上一篇</div>
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">本篇</div>
             <div class="card">
-                <a href="/2018/10/21/Pwn-10月21-jarvis-level0/">
+                <a href="/2018/10/29/Some-words-of-today/">
                     <div class="card-image">
                         
-                        <img src="https://i.loli.net/2018/10/21/5bcbd05266bda.jpg" class="responsive-img" alt="Pwn-10月21-jarvis-level0">
                         
-                        <span class="card-title">Pwn-10月21-jarvis-level0</span>
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="Some_words_of_today">
+                        
+                        <span class="card-title">Some_words_of_today</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary">Some_words_of_today
+今日份闲扯。🙃
+
+&nbsp; &nbsp; &nbsp; &nbsp; 现在时间已经23:06了，今天给几位学弟简单讲了一些小知识（虽然自己很low，但希望学弟可以很强），写完这篇水文就睡吧。不知</div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-29
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/杂文/" class="post-category" target="_blank">
+                                    杂文
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/杂文/" target="_blank">
+                        <span class="chip bg-color">杂文</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">下一篇</div>
+            <div class="card">
+                <a href="/2018/10/28/wandoucup-ctf/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="wandoucup-ctf">
+                        
+                        <span class="card-title">wandoucup-ctf</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary">[TOC]
-Pwn-10月21-jarvis-level0
-这题是补上昨天没写完的一题。。。虽然很简单😭😭
-
-检查保护措施
-file level0 and checksec level0:
-
-可以看到这种简单的pwn题基本不开保护措施，</div>
+wandoucup-ctf
+这两天在打一个稍微简单的CTF，写个writeup记录一下被虐的过程😭，总的来说这场小赛是个大杂烩，毕竟你懂的😏，作为做题者我们当然是有题做就ok的。
+由于比赛后环境关闭，所以有的无图片展示，现有</div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-21
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-28
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -656,56 +651,8 @@ file level0 and checksec level0:
                         <span class="chip bg-color">CTF</span>
                     </a>
                     
-                    <a href="/tags/二进制安全/" target="_blank">
-                        <span class="chip bg-color">二进制安全</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">下一篇</div>
-            <div class="card">
-                <a href="/2018/10/17/Pwn-10月17-strip/">
-                    <div class="card-image">
-                        
-                        <img src="https://i.loli.net/2018/10/16/5bc55817b7dd3.jpg" class="responsive-img" alt="Pwn-10月17-strip">
-                        
-                        <span class="card-title">Pwn-10月17-strip</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary">[TOC]
-Pwn-10月17-strip
-strip是linux下的一个命令，用于给特定文件消除，剥离一些符号信息和调试信息，通常被叫做“脱衣服”，可以减小可执行文件的体积，又不影响其运行，但是当这种程序出现在二进制分析中就比较麻烦了，因</div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-17
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/CTF/" class="post-category" target="_blank">
-                                    CTF
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Pwn/" target="_blank">
-                        <span class="chip bg-color">Pwn</span>
-                    </a>
-                    
-                    <a href="/tags/linux/" target="_blank">
-                        <span class="chip bg-color">linux</span>
+                    <a href="/tags/流量分析/" target="_blank">
+                        <span class="chip bg-color">流量分析</span>
                     </a>
                     
                 </div>
@@ -721,7 +668,7 @@ strip是linux下的一个命令，用于给特定文件消除，剥离一些符�
         <div class="toc-widget">
             <h4>目录</h4>
             <div id="toc-content">
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Pwn-10月20-jarvis-Tell-me-something"><span class="post-toc-text">Pwn-10月20-jarvis-Tell_me_something</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Tell-me-something"><span class="post-toc-text">Tell_me_something</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查保护措施"><span class="post-toc-text">检查保护措施</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#静态分析程序逻辑"><span class="post-toc-text">静态分析程序逻辑</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#动态分析程序逻辑"><span class="post-toc-text">动态分析程序逻辑</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#攻破"><span class="post-toc-text">攻破</span></a></li></ol></li></ol></li></ol>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Some-words-of-today"><span class="post-toc-text">Some_words_of_today</span></a></li></ol>
             </div>
         </div>
     </div>
