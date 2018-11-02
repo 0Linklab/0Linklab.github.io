@@ -247,6 +247,13 @@
     </nav>
 </header>
 
+<style type="text/css">
+    /* don't remove. */
+    .index-cover {
+        height: 100vh;
+    }
+</style>
+
 <div class="bg-cover  about-cover" style="background-image: url('/medias/cover.jpg')">
     <div class="container">
         <div class="row">
@@ -278,157 +285,47 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
 <main class="content">
 
     
-
-<div id="category-cloud" class="container chip-container">
-    <div class="card">
-        <div class="card-content">
-            <div class="tag-title center-align">文章分类</div>
-            <div class="tag-chips">
-                
-                
-                
-                <a href="/categories/环境配置/" title="环境配置: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F9EBEA;">环境配置
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/CTF/" title="CTF: 16">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F5EEF8;">CTF
-                        <span class="tag-length">16</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/杂文/" title="杂文: 3">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-active "
-                            style="background-color: #D5F5E3;">杂文
-                        <span class="tag-length">3</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/数学建模/" title="数学建模: 5">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #E8F8F5;">数学建模
-                        <span class="tag-length">5</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/算法/" title="算法: 4">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #FEF9E7;">算法
-                        <span class="tag-length">4</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/渗透/" title="渗透: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F8F9F9;">渗透
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/Linux/" title="Linux: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #82E0AA;">Linux
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
+    <div class="container notice">
+        <div class="card">
+            <div class="card-content">
+                <i class="fa fa-volume-up fa-lg fa-fw text-color"></i>The best preparation for tomorrow is doing your best today.
             </div>
         </div>
     </div>
-</div>
+    
 
     
 
+    
+
+    <!-- 所有文章卡片 -->
     <article id="articles" class="container articles">
-        <div class="row tags-posts">
+        <div class="row article-row">
             
-            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2018/10/29/Some-words-of-today/">
-                        <div class="card-image tag-image">
+                    <a href="/2018/09/15/wakanda-1-靶机渗透/">
+                        <div class="card-image">
                             
+                            <img src="https://raw.githubusercontent.com/Yof3ng/yof3ng.github.io/master/medias/featureimages/19.jpg" class="responsive-img" alt="wakanda-1-靶机渗透">
                             
-                            <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="Some_words_of_today">
-                            
-                            <span class="card-title">Some_words_of_today</span>
+                            <span class="card-title">wakanda-1-靶机渗透</span>
                         </div>
                     </a>
-                    <div class="card-content article-content">
-                        <div class="summary">Some_words_of_today
-今日份闲扯。🙃
 
-&nbsp; &nbsp; &nbsp; &nbsp; 现在时间已经23:06了</div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-29
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/杂文/" class="post-category" target="_blank">
-                                    杂文
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/杂文/" target="_blank">
-                            <span class="chip bg-color">杂文</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/10/14/2017APT报告研读/">
-                        <div class="card-image tag-image">
-                            
-                            <img src="https://i.loli.net/2018/10/14/5bc2c4e0cff6e.jpg" class="responsive-img" alt="2017APT报告研读">
-                            
-                            <span class="card-title">2017APT报告研读</span>
-                        </div>
-                    </a>
                     <div class="card-content article-content">
                         <div class="summary">[TOC]
-2017 APT 报告研读APT 与网络战争中的大国博弈
-&nbsp; &nbsp; &nbsp; &nbsp; 为什么对APT</div>
+-对wakanda靶机的渗透之旅​    从vulhub上下载靶机后，本打算在vm上搭建，后发现ova导入有点问题，故在virt</div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-14
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-09-15
                             </span>
                             <span class="publish-author">
                                 
                                 <i class="fa fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/杂文/" class="post-category" target="_blank">
-                                    杂文
+                                <a href="/categories/渗透/" class="post-category" target="_blank">
+                                    渗透
                                 </a>
                                 
                                 
@@ -439,58 +336,12 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/APT/" target="_blank">
-                            <span class="chip bg-color">APT</span>
+                        <a href="/tags/靶机/" target="_blank">
+                            <span class="chip bg-color">靶机</span>
                         </a>
                         
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/10/06/多Git账户以及Hexo搭建博客进阶/">
-                        <div class="card-image tag-image">
-                            
-                            
-                            <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="多Git账户以及Hexo搭建博客进阶">
-                            
-                            <span class="card-title">多Git账户以及Hexo搭建博客进阶</span>
-                        </div>
-                    </a>
-                    <div class="card-content article-content">
-                        <div class="summary">[TOC]
-多Git账户以及Hexo搭建博客进阶1.生成密钥
-
-可以看到已经生成的id_rsa是0LinkSec git账户的密钥
-而yof</div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-06
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/杂文/" class="post-category" target="_blank">
-                                    杂文
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Git账户/" target="_blank">
-                            <span class="chip bg-color">Git账户</span>
-                        </a>
-                        
-                        <a href="/tags/Hexo搭建/" target="_blank">
-                            <span class="chip bg-color">Hexo搭建</span>
+                        <a href="/tags/渗透/" target="_blank">
+                            <span class="chip bg-color">渗透</span>
                         </a>
                         
                     </div>
@@ -500,7 +351,33 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             
         </div>
     </article>
+
 </main>
+
+
+<div class="container paging">
+    <div class="row">
+        <div class="col s6 m4 l4">
+            
+            <a href="/page/3/"
+               class="left btn-floating btn-large waves-effect waves-light bg-color">
+                <i class="fa fa-angle-left"></i>
+            </a>
+            
+        </div>
+        <div class="page-info col m4 l4 hide-on-small-only">
+            <div class="center-align b-text-gray">4 / 4</div>
+        </div>
+        <div class="col s6 m4 l4">
+            
+            <a class="right btn-floating btn-large disabled">
+                <i class="fa fa-angle-right"></i>
+            </a>
+            
+        </div>
+    </div>
+</div>
+
 
 
 <footer class="page-footer bg-color">
