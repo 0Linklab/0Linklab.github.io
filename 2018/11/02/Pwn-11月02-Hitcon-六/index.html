@@ -381,6 +381,7 @@
 </blockquote>
 <h2 id="lab10-hacknote"><a href="#lab10-hacknote" class="headerlink" title="lab10-hacknote"></a>lab10-hacknote</h2><blockquote>
 <p>&nbsp; &nbsp; &nbsp; &nbsp; 这是一道 fastbin uaf利用？fastbin是什么？uaf又是什么？又是一道涨姿势的题呢。啊啊啊从这儿开始就接触堆这玩意儿了！！！</p>
+<p><a href="https://www.sohu.com/a/239388523_354899" target="_blank" rel="noopener">堆溢出学习之路</a></p>
 </blockquote>
 <h3 id="UAF-use-after-free"><a href="#UAF-use-after-free" class="headerlink" title="UAF (use after free)"></a>UAF (use after free)</h3><blockquote>
 <p>&nbsp; &nbsp; &nbsp; &nbsp; Use after free，跟字面上的意思一样：第一次申请的内存空间在释放过后没有进行内存回收，导致下次申请内存的时候再次使用该内存块，使得以前的内存指针可以访问修改过的内存。</p>
@@ -660,6 +661,33 @@ cn<span class="token punctuation">.</span>interactive<span class="token punctuat
 <p>运行效果：</p>
 <p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181102214243.png" alt=""></p>
 <h2 id="lab11-bamboobox"><a href="#lab11-bamboobox" class="headerlink" title="lab11-bamboobox"></a>lab11-bamboobox</h2><h3 id="hof-house-of-force"><a href="#hof-house-of-force" class="headerlink" title="hof (house of force)"></a>hof (house of force)</h3><p><a href="https://heap-exploitation.dhavalkapil.com/attacks/house_of_force.html" target="_blank" rel="noopener">heap-exploitation——house of force参考链接</a></p>
+<blockquote>
+<p>引用m4x大佬博客原话：</p>
+<p>简单说一下我对 hof 的理解，如果我们能控制 <strong>top_chunk</strong> 的 <strong>size</strong>，那么我们就可以通过控制 malloc 一些精心设计的<strong>大数/负数</strong>来实现控制 top_chunk 的指针，就可以实现任意地址写的效果，个人感觉，hof 的核心思想就在这个 force 上，疯狂 malloc，简单粗暴效果明显。</p>
+</blockquote>
+<h3 id="off-by-one漏洞"><a href="#off-by-one漏洞" class="headerlink" title="off_by_one漏洞"></a>off_by_one漏洞</h3><blockquote>
+<p><a href="https://blog.csdn.net/nibiru_holmes/article/details/62040763" target="_blank" rel="noopener">参考链接</a></p>
+<p>一个字节溢出被称为off-by-one，曾经的一段时间里，off-by-one被认为是不可以利用的，但是后来研究发现在堆上哪怕只有一个字节的溢出也会导致任意代码的执行。</p>
+</blockquote>
+<blockquote>
+<p>==&gt; off-by-one总共可以分为两种利用方式:</p>
+<p><strong>chunk overlapping</strong></p>
+<ul>
+<li><p>off-by-one overwrite allocated</p>
+</li>
+<li><p>off-by-one overwrite freed</p>
+</li>
+<li><p>off-by-one null byte</p>
+</li>
+</ul>
+<p><strong>unlink</strong></p>
+<ul>
+<li><p>off-by-one small bin</p>
+</li>
+<li><p>off-by-one large bin</p>
+</li>
+</ul>
+</blockquote>
 <h3 id="unlink"><a href="#unlink" class="headerlink" title="unlink"></a>unlink</h3><p><a href="https://github.com/bash-c/slides/blob/master/pwn_heap/malloc-150821074656-lva1-app6891.pdf" target="_blank" rel="noopener">unlink——pdf</a></p>
 <h3 id="检查保护措施-1"><a href="#检查保护措施-1" class="headerlink" title="检查保护措施"></a>检查保护措施</h3><blockquote>
 <p>checksec it!</p>
@@ -844,57 +872,35 @@ cn<span class="token punctuation">.</span>interactive<span class="token punctuat
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">本篇</div>
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">上一篇</div>
             <div class="card">
-                <a href="/2018/11/02/Pwn-11月02-Hitcon-六/">
+                <a href="/2018/11/04/AWD-docker/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Pwn-11月02-Hitcon-六">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">Pwn-11月02-Hitcon-六</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">[TOC]
-Pwn-11月02-Hitcon-六
-进度还是太慢了，不能再墨迹下去了💪！！
+                    <div class="summary">打造一个集web和pwn于一体的AWD docker安装docker
+之前已经讲过docker怎么安装，网上也有很多教程，sudo apt-get install docker.io，这里就不赘述了。
 
-lab10-hacknote
-&nbsp; &nbsp; &nbsp; &nbsp; 这是一道 fastbin uaf利用？fastbin是什么？</div>
+拉取具有web环境的image
+通过</div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-11-02
-                            </span>
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2018-11-04
+                        </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/CTF/" class="post-category" target="_blank">
-                                    CTF
-                                </a>
-                            
+                            <i class="fa fa-user fa-fw"></i>
+                            Yof3ng
                             
                         </span>
                     </div>
-                </div>
-
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Pwn/" target="_blank">
-                        <span class="chip bg-color">Pwn</span>
-                    </a>
-                    
-                    <a href="/tags/CTF/" target="_blank">
-                        <span class="chip bg-color">CTF</span>
-                    </a>
-                    
-                    <a href="/tags/二进制安全/" target="_blank">
-                        <span class="chip bg-color">二进制安全</span>
-                    </a>
-                    
                 </div>
                 
             </div>
@@ -959,7 +965,7 @@ lab10-hacknote
         <div class="toc-widget">
             <h4>目录</h4>
             <div id="toc-content">
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Pwn-11月02-Hitcon-六"><span class="post-toc-text">Pwn-11月02-Hitcon-六</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab10-hacknote"><span class="post-toc-text">lab10-hacknote</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#UAF-use-after-free"><span class="post-toc-text">UAF (use after free)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fastbin"><span class="post-toc-text">fastbin</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查保护措施"><span class="post-toc-text">检查保护措施</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#逻辑分析"><span class="post-toc-text">逻辑分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构造EXP"><span class="post-toc-text">构造EXP</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab11-bamboobox"><span class="post-toc-text">lab11-bamboobox</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#hof-house-of-force"><span class="post-toc-text">hof (house of force)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#unlink"><span class="post-toc-text">unlink</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查保护措施-1"><span class="post-toc-text">检查保护措施</span></a></li></ol></li></ol></li></ol>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Pwn-11月02-Hitcon-六"><span class="post-toc-text">Pwn-11月02-Hitcon-六</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab10-hacknote"><span class="post-toc-text">lab10-hacknote</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#UAF-use-after-free"><span class="post-toc-text">UAF (use after free)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fastbin"><span class="post-toc-text">fastbin</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查保护措施"><span class="post-toc-text">检查保护措施</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#逻辑分析"><span class="post-toc-text">逻辑分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构造EXP"><span class="post-toc-text">构造EXP</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab11-bamboobox"><span class="post-toc-text">lab11-bamboobox</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#hof-house-of-force"><span class="post-toc-text">hof (house of force)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#off-by-one漏洞"><span class="post-toc-text">off_by_one漏洞</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#unlink"><span class="post-toc-text">unlink</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查保护措施-1"><span class="post-toc-text">检查保护措施</span></a></li></ol></li></ol></li></ol>
             </div>
         </div>
     </div>
