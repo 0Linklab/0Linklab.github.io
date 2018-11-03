@@ -249,13 +249,13 @@
 
 
 
-<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        
+                        /dev/null和常用linux命令集
                     </div>
                 </div>
             </div>
@@ -339,11 +339,36 @@
     <div class="card">
         <div class="card-content article-info">
             
+            <div class="article-tag">
+                
+                <a href="/tags/环境部署/" target="_blank">
+                    <span class="chip bg-color">环境部署</span>
+                </a>
+                
+                <a href="/tags/docker/" target="_blank">
+                    <span class="chip bg-color">docker</span>
+                </a>
+                
+                <a href="/tags/AWD/" target="_blank">
+                    <span class="chip bg-color">AWD</span>
+                </a>
+                
+            </div>
+            
             <div class="post-info">
+                
+                <span class="post-cate">
+                    <i class="fa fa-bookmark fa-fw icon-category"></i>
+                    
+                    <a href="/categories/CTF/" class="post-category" target="_blank">
+                        CTF
+                    </a>
+                    
+                </span>
                 
 
                 <span class="post-date">
-                    <i class="fa fa-clock-o fa-fw"></i>2018-11-04
+                    <i class="fa fa-clock-o fa-fw"></i>2018-11-01
                 </span>
             </div>
         </div>
@@ -584,6 +609,7 @@ Subsystem    <span class="token function">sftp</span>    /usr/lib/openssh/sftp-s
 <p>关于具体的web题环境和pwn题环境，请自行更改相关文件。</p>
 <h2 id="演示"><a href="#演示" class="headerlink" title="演示"></a>演示</h2><p>运行起来的web服务：</p>
 <p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181103233718.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181104005557.png" alt=""></p>
 <p>运行在同一docker容器内的pwn:</p>
 <p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181103233932.png" alt=""></p>
 <blockquote>
@@ -727,7 +753,7 @@ Subsystem    <span class="token function">sftp</span>    /usr/lib/openssh/sftp-s
                     <span class="reprint-tip">转载请注明: </span>
                     <a href="http://www.yof3ng.xyz" class="b-link-green">Yof3ng's Blog | 热爱分享</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2018/11/04/AWD-docker/" class="b-link-green"></a>
+                    <a href="/2018/11/01/AWD-docker/" class="b-link-green">/dev/null和常用linux命令集</a>
                 </p>
             </div>
         </div>
@@ -749,7 +775,7 @@ Subsystem    <span class="token function">sftp</span>    /usr/lib/openssh/sftp-s
         repo: 'yof3ng.github.io',
         owner: 'Yof3ng',
         admin: "Yof3ng",
-        id: '2018-11-04T00-22-14',
+        id: '2018-11-01T23-16-26',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -766,37 +792,52 @@ Subsystem    <span class="token function">sftp</span>    /usr/lib/openssh/sftp-s
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">本篇</div>
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">上一篇</div>
             <div class="card">
-                <a href="/2018/11/04/AWD-docker/">
+                <a href="/2018/11/01/devnull和常用linux命令集/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="/dev/null和常用linux命令集">
                         
-                        <span class="card-title"></span>
+                        <span class="card-title">/dev/null和常用linux命令集</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
-                    <div class="summary">打造一个集web和pwn于一体的AWD docker安装docker
-之前已经讲过docker怎么安装，网上也有很多教程，sudo apt-get install docker.io，这里就不赘述了。
+                    <div class="summary">[TOC]
+/dev/null
+😭因为忘了参考了哪些文章，所以如若有侵权之处，还请联系博主。
 
-拉取具有web环境的image
-通过</div>
+/dev/null 与 重定向==&gt; /dev/null 是linux系统中的一个特殊文件设备，他的作用是接受一切输入它的数据并丢弃这些</div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-11-04
-                            </span>
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2018-11-01
+                        </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-user fa-fw"></i>
-                            Yof3ng
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category" target="_blank">
+                                    Linux
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Linux重定向/" target="_blank">
+                        <span class="chip bg-color">Linux重定向</span>
+                    </a>
+                    
+                    <a href="/tags/常用命令集/" target="_blank">
+                        <span class="chip bg-color">常用命令集</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -805,25 +846,25 @@ Subsystem    <span class="token function">sftp</span>    /usr/lib/openssh/sftp-s
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">下一篇</div>
             <div class="card">
-                <a href="/2018/11/02/Pwn-11月02-Hitcon-六/">
+                <a href="/2018/10/31/Pwn-10月31-Hitcon-五/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Pwn-11月02-Hitcon-六">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Pwn-10月31-Hitcon-五">
                         
-                        <span class="card-title">Pwn-11月02-Hitcon-六</span>
+                        <span class="card-title">Pwn-10月31-Hitcon-五</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary">[TOC]
-Pwn-11月02-Hitcon-六
-进度还是太慢了，不能再墨迹下去了💪！！
+Pwn-十月31-Hitcon-五
+鸽了几天之后，继续练习Hitcon😭🆒。
 
-lab10-hacknote
-&nbsp; &nbsp; &nbsp; &nbsp; 这是一道 fastbin uaf利用？fastbin是什么？</div>
+lab9-playfmt
+&nbsp; &nbsp; &nbsp; &nbsp; 同样，这一题也是格式化字符串漏洞，但是这题的格式化字符串不在栈</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-11-02
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-31
                             </span>
                         <span class="publish-author">
                             
