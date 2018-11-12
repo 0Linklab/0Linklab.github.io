@@ -436,6 +436,8 @@ COPY ./html/ /var/www/html/web/
 COPY ./bin/ /home/ctf/
 COPY ./sshd_config.txt /etc/ssh/sshd_config
 RUN chown -R root:ctf /home/ctf && \
+    chown -R awduser:users /var/www/html/* && \
+    chmod -R 777 /var/www/html/* && \
     chmod -R 750 /home/ctf && \
     chmod 740 /home/ctf/flag
 
