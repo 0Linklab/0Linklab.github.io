@@ -3,6 +3,31 @@
   
     
     <entry>
+      <title>追踪溯源_小白科普篇</title>
+      <link href="/2018/11/20/%E8%BF%BD%E8%B8%AA%E6%BA%AF%E6%BA%90-%E5%B0%8F%E7%99%BD%E7%A7%91%E6%99%AE%E7%AF%87/"/>
+      <url>/2018/11/20/%E8%BF%BD%E8%B8%AA%E6%BA%AF%E6%BA%90-%E5%B0%8F%E7%99%BD%E7%A7%91%E6%99%AE%E7%AF%87/</url>
+      
+        <content type="html"><![CDATA[<p>[TOC]</p><h1 id="追踪溯源-白话文讲盗号–科普篇"><a href="#追踪溯源-白话文讲盗号–科普篇" class="headerlink" title="追踪溯源_白话文讲盗号–科普篇"></a>追踪溯源_白话文讲盗号–科普篇</h1><blockquote><p>🆒一直一直以来，总是有人不断被盗qq，然后被用以恶意盗号者散播更多的恶意链接或者进行诈骗盈利活动，恶性循环，愈演愈烈，为了给同学们稍微科普一下基本的盗号原理，故有此文。</p><p>从扫二维码盗号，到模拟qq登录界面的钓鱼网站盗号，再到伪造qq在线文档诱导qq用户点击导致的盗号，总之盗号的方式各种各样，但都离不开一个重点，<strong>那就是你的账号是从你的设备上面传输给别人的</strong>（如果你没有到处宣扬你的密码的话😄），或是设备被植入木马，记录键盘输入，抑或是伪造页面使得用户主动输入账号密码等等等等。</p><p>既然知道，账号密码是从自己的设备上传到恶意盗号者手上的，那么问题就变得简单了。</p><p>接下来就从一个邮件钓鱼说起，事情是。</p></blockquote><h2 id="0x00-收到一封可爱的邮件"><a href="#0x00-收到一封可爱的邮件" class="headerlink" title="0x00 收到一封可爱的邮件"></a>0x00 收到一封可爱的邮件</h2><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181120225806.png" alt=""></p><blockquote><p>邮件中有可爱的萌妹变声器，有福利小电影，游戏加速器的链接，可谓是吸引人极了，我们先去这个链接下载一个萌妹变声器玩一下。</p><p>这是一个十分典型的exe文件，一般稍微有些基础素养的人都不会随便点开这种exe文件的哦。比exe文件更容易中招的是文档文件，如doc文档，恶意人员可能会利用如office的漏洞，当你点开他精心制作的文档的时候，就会触发如宏病毒，远程代码执行等问题，正中人下怀。</p></blockquote><p>虚拟机是个好东西呢，如果你有什么东西非要冒着风险去运行一下，那么不如装个虚拟机先试试水，这次分析我们就在一个win7的虚拟机中进行。</p><h2 id="0x01-使用工具（IDA-Pro）-进行简单的静态分析"><a href="#0x01-使用工具（IDA-Pro）-进行简单的静态分析" class="headerlink" title="0x01 使用工具（IDA Pro） 进行简单的静态分析"></a>0x01 使用工具（IDA Pro） 进行简单的静态分析</h2><p>下载萌妹变声器.exe后，可以先看看文件属性哦：</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181120230944.png" alt=""></p><p>文件大小仅有707kb，一个变声器你觉得只需要707kb大小吗？很明显不止的好不好，毕竟变声器这么秀的玩意儿是吧。</p><p>先用PC hunter监控一下运行该文件之前，我们的网络情况（进程，服务等信息）：</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181120231308.png" alt=""></p><p>双击运行一下<code>萌妹变声器.exe</code>，emmm事实是因为虚拟机中缺少一些文件导致无法运行，正常情况下运行之后基本上是可以看到会有多出来的异常进程，而这个进程会对某个ip或者域名进行连接，传输窃取的信息等等。</p><p>那么接下来直接分析吧，IDA Pro反汇编：</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181120232154.png" alt=""></p><p>可以看到，通过反汇编之后，程序内部的一些信息以汇编代码的形式展开，但是我们既然是以白话文的形式来讲这篇科普文章，那肯定不是分析代码咯，只要明白这个流程就行啦。</p><p>接下来我们可以使用IDA pro的<code>shift + f12</code>快捷键来提取这个<code>萌妹变声器.exe</code>中的一些字符串，来看看有没有可疑的明显的线索。</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181120232604.png" alt=""></p><p>很简单就看到了一些关键字眼，如<code>Connection==&gt;连接||Pipe==&gt;管道||Hostname==&gt;主机名</code>等信息。当然，更高级一点的软件或者钓鱼程序不会像这个这么粗糙，至少会给关键字符串加密，加壳或者加反调试措施，这都是后话了（估计小白听不懂）。</p><p>那么再细细找找，能不能找到该钓鱼程序散布者的踪迹呢？</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181120233000.png" alt=""></p><p>果不其然，IP地址拿到了，去看一眼喏：</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181120233142.png" alt=""></p><h2 id="0x02-简单地追踪溯源"><a href="#0x02-简单地追踪溯源" class="headerlink" title="0x02 简单地追踪溯源"></a>0x02 简单地追踪溯源</h2><p>上面的那个url是一个用来接收窃取到的信息的接口，那么通过现有的信息，我们如何深一步追踪溯源到这位可爱的程序散布者呢？</p><p>当然是威胁情报分析平台走一波咯（如VT，微步），其实我们一开始就可以把该exe文件上传到威胁检测平台进行检测（平台可以对URL，MD5，IP等等信息进行关联查询），但是为了情节需要，先细细分析一下文件，那么我们现在要做的是用威胁情报平台查找得到的IP关联信息：</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181120233709.png" alt=""></p><p>实际上用最开始邮箱中收到的那个域名也一样，我们可以看看关联的文件检测信息：</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181120233930.png" alt=""></p><p>可以看到检测到了威胁，具有一定的危险性：</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181120234058.png" alt=""></p><p>其实接下来就可以对该IP进行更深入的了解了（攻击是不可能攻击的，顶多扫描扫描目录，扫描目录我也是没有扫的）因为下面得到的几个url就够我们找到那个可爱的人了：</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181120234312.png" alt=""></p><p>访问一下这些url：</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20181120234500.png" alt=""></p><p>嗯差不多就得了，我们也就不打扰人家了吧。</p><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><blockquote><p>总之就是，恶意链接少点去点开啦，就算点开了，没有赋予权限，或者你没有主动输入账号密码，再或者是你没有网络，都基本不会导致被盗号的啦。</p><p>恶意文件自己需要好好分辨咯，就从上面的方法我们基本上就可以避免恶意文件了，但是恶意文档还是需要注意，虽然恶意文档的针对性，伪造难度比较高，但是不排除某天你就被针对了，你说是吧？🤣</p></blockquote><p>若有不符，还望斧正。</p><p>Published by Yof3ng.</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 信息安全 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 追踪溯源 </tag>
+            
+            <tag> 信息安全 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>HCTF2018_学习记录</title>
       <link href="/2018/11/13/HCTF2018-%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"/>
       <url>/2018/11/13/HCTF2018-%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</url>
@@ -21,9 +46,9 @@
             
             <tag> CTF </tag>
             
-            <tag> write-up </tag>
-            
             <tag> 信息安全 </tag>
+            
+            <tag> write-up </tag>
             
         </tags>
       
