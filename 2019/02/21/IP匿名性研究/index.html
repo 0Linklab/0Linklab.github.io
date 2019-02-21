@@ -265,13 +265,13 @@
 
 
 
-<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover post-cover" style="background-image: url('https://raw.githubusercontent.com/Yof3ng/images/master/img/1_l2AFc33U7grIeMML0a0unQ.jpeg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Electron-Learning-1
+                        IP匿名性研究
                     </div>
                 </div>
             </div>
@@ -357,12 +357,8 @@
             
             <div class="article-tag">
                 
-                <a href="/tags/Electron/" target="_blank">
-                    <span class="chip bg-color">Electron</span>
-                </a>
-                
-                <a href="/tags/Programming/" target="_blank">
-                    <span class="chip bg-color">Programming</span>
+                <a href="/tags/网络安全-IP匿名性-ParrotOS/" target="_blank">
+                    <span class="chip bg-color">网络安全,IP匿名性,ParrotOS</span>
                 </a>
                 
             </div>
@@ -372,15 +368,15 @@
                 <span class="post-cate">
                     <i class="fa fa-bookmark fa-fw icon-category"></i>
                     
-                    <a href="/categories/Programming/" class="post-category" target="_blank">
-                        Programming
+                    <a href="/categories/网络安全/" class="post-category" target="_blank">
+                        网络安全
                     </a>
                     
                 </span>
                 
 
                 <span class="post-date">
-                    <i class="fa fa-clock-o fa-fw"></i>2019-01-25
+                    <i class="fa fa-clock-o fa-fw"></i>2019-02-21
                 </span>
             </div>
         </div>
@@ -388,93 +384,107 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>[TOC]</p>
-<h1 id="Electron-学习记录"><a href="#Electron-学习记录" class="headerlink" title="Electron 学习记录"></a>Electron 学习记录</h1><blockquote>
-<p>参考 链接：</p>
-<p><a href="https://www.jianshu.com/p/1687f8dcd70c" target="_blank" rel="noopener">开发 Electron app 必知的 4 个 tips</a></p>
-<p><a href="https://www.w3cschool.cn/electronmanual/" target="_blank" rel="noopener">Electronn中文手册</a></p>
-<p><a href="https://mlln.cn/2018/01/08/electron%E4%BD%9C%E4%B8%BApython%E7%95%8C%E9%9D%A2%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8/" target="_blank" rel="noopener">Electron与python</a></p>
-<p><a href="https://www.jianshu.com/p/59a0a24ed388" target="_blank" rel="noopener">3分钟上手：通过vue和electron创建桌面应用</a> </p>
+<h1 id="IP匿名性研究——Anonymity"><a href="#IP匿名性研究——Anonymity" class="headerlink" title="IP匿名性研究——Anonymity"></a>IP匿名性研究——Anonymity</h1><h2 id="何谓匿名？"><a href="#何谓匿名？" class="headerlink" title="何谓匿名？"></a>何谓匿名？</h2><blockquote>
+<p>匿名定义为<strong>未知姓名或未确定身份</strong>。我们上网时并没有匿名，即使在使用隐私工具如Tor、Bitcoin或VPN的时候。每项服务至少有一条可以用于区分不同用户的信息，无论其为一套IP地址（VPN或Tor）还是一个电子钱包（Bitcoin）。这种信息本身可能不会泄露用户的任何私人信息，但其可与其它相似信息联系起来，最终确定个人的身份。</p>
+<p>VPN虽然不会使得我们完全匿名，但它会极大增强上网时的隐私和安全。</p>
 </blockquote>
-<h2 id="Electron-简介"><a href="#Electron-简介" class="headerlink" title="Electron 简介"></a>Electron 简介</h2><p>引用W3school的Electron中文文档简介：</p>
+<p>既然不可能做到完全匿名，我们只能提高相对匿名性，从而使得自己在网络中的<strong>隐私度更高</strong>，<strong>安全性更高</strong>。</p>
+<h2 id="一定的匿名性是有必要的"><a href="#一定的匿名性是有必要的" class="headerlink" title="一定的匿名性是有必要的"></a>一定的匿名性是有必要的</h2><p>互联网时代，个人隐私的保护更加复杂与困难，亟待各种保护手段的更新和创新。比如在网络立法层面，目前仍有许多空白，缺乏相应的顶层设计。有必要在个人信息保护、电子商务等领域建立严格健全的法律规定，划定互联网服务商的“禁区”，明确权责，让处在弱势的普通用户拥有知情权、选择权与维权的依据。</p>
+<p>因而在当今这个时代，不论是信息/网络安全从业者，还是普通群众都应该自主地去提高自己的安全意识，通过一些措施防止自己的信息泄露。</p>
+<h2 id="什么因素会泄露你的真实IP信息？"><a href="#什么因素会泄露你的真实IP信息？" class="headerlink" title="什么因素会泄露你的真实IP信息？"></a>什么因素会泄露你的真实IP信息？</h2><p>可以小结出以下因素：</p>
+<ul>
+<li>IPV4地址泄露</li>
+<li>IPV6地址泄露</li>
+<li>DNS泄露</li>
+<li>WebRTC泄露</li>
+<li>HTTPHeader信息泄露</li>
+<li>等等…..</li>
+</ul>
+<h3 id="IPV4泄露"><a href="#IPV4泄露" class="headerlink" title="IPV4泄露"></a>IPV4泄露</h3><blockquote>
+<p>IPv4使用32位（4字节）地址，因此地址空间中只有4,294,967,296（232）个地址。不过，一些地址是为特殊用途所保留的，如专用网络（约1800万个地址）和多播地址（约2.7亿个地址），这减少了可在互联网上路由的地址数量。随着地址不断被分配给最终用户，IPv4地址枯竭问题也在随之产生。基于分类网络、无类别域间路由和网络地址转换的地址结构重构显著地减少了地址枯竭的速度。但在2011年2月3日，在最后5个地址块被分配给5个区域互联网注册管理机构之后，IANA的主要地址池已经用尽。</p>
+</blockquote>
+<p>我们现在常说的IP地址就是指IPV4地址，通常我们在使用浏览器访问web站点时，请求头中会包含我们的IPV4地址，因此可以被服务器获取到我们的IP并记录进入日志。</p>
+<h3 id="IPV6泄露"><a href="#IPV6泄露" class="headerlink" title="IPV6泄露"></a>IPV6泄露</h3><blockquote>
+<p>Internet协议版本6（IPv6）是Internet协议（IP）的最新版本，IP协议是为网络上的计算机提供标识和定位系统并通过Internet路由流量的通信协议。IPv6是由互联网工程任务组（IETF）开发的，用于解决长期以来的IPv4地址耗尽问题。</p>
+<p>除了更大的寻址空间之外，IPv6还提供其他技术优势。特别是，它允许分层地址分配方法，这些方法有助于跨Internet的<a href="https://en.wikipedia.org/wiki/Route_aggregation" target="_blank" rel="noopener">路由聚合</a>，从而限制了<a href="https://en.wikipedia.org/wiki/Routing_table" target="_blank" rel="noopener">路由表</a>的扩展。扩展和简化了多播寻址的使用，并为服务的提供提供了额外的优化。在协议的设计中已经考虑了设备移动性，安全性和配置方面。</p>
+<p>IPv6地址表示为八组，每组四个<a href="https://en.wikipedia.org/wiki/Hexadecimal" target="_blank" rel="noopener">十六进制</a>数字，组以冒号分隔，例如2001：0db8：0000：0042：0000：8a2e：0370：7334，但存在缩写此完整符号的方法。</p>
+</blockquote>
+<p>IPV6是还未普遍使用的一种地址，用于解决长期以来的IPv4地址耗尽问题，通过没有隐藏IPV6也会泄露我们信息。</p>
+<h3 id="DNS泄露"><a href="#DNS泄露" class="headerlink" title="DNS泄露"></a>DNS泄露</h3><p>什么是DNS?</p>
 <blockquote>
-<p>Electron 可以让你使用纯 <a href="https://www.w3cschool.cn/javascript/" target="_blank" rel="noopener">JavaScript</a> 调用丰富的原生 APIs 来创造桌面应用。你可以把它看作是专注于桌面应用而不是 web 服务器的，io.js 的一个变体。</p>
-<p>这不意味着 Electron 是绑定了 GUI 库的 JavaScript。相反，Electron 使用 web 页面作为它的 GUI，所以你能把它看作成一个被 JavaScript 控制的，精简版的 Chromium 浏览器。</p>
+<p>DNS或域名系统用于将域名（如<a href="http://www.astrill.com）转换为数字IP地址，例如" target="_blank" rel="noopener">www.astrill.com）转换为数字IP地址，例如</a> 123.98.12.1在互联网上用于发送数据包。 每当您的计算机需要联系网络上的服务器时，例如当您在浏览器中输入URL时，您的计算机会联系DNS服务器并请求IP地址。大多数互联网服务提供商为他们的客户分配一个DNS服务器，它们用于控制和记录您的互联网活动。</p>
 </blockquote>
-<h3 id="主进程（Main-Process）"><a href="#主进程（Main-Process）" class="headerlink" title="主进程（Main Process）"></a>主进程（Main Process）</h3><p>在 Electron 里，运行 <code>package.json</code> 里 <code>main</code> 脚本的进程被称为<strong>主进程</strong>。在主进程运行的脚本可以以创建 web 页面的形式展示 GUI。</p>
-<h3 id="渲染进程（Renderer-Process）"><a href="#渲染进程（Renderer-Process）" class="headerlink" title="渲染进程（Renderer Process）"></a>渲染进程（Renderer Process）</h3><p>由于 Electron 使用 Chromium 来展示页面，所以 Chromium 的多进程结构也被充分利用。每个 Electron 的页面都在运行着自己的进程，这样的进程我们称之为<strong>渲染进程</strong>。</p>
-<p>在一般浏览器中，网页通常会在沙盒环境下运行，并且不允许访问原生资源。然而，<code>Electron 用户拥有在网页中调用 io.js 的 APIs 的能力</code>，可以与底层操作系统直接交互。</p>
-<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190124203528.png" alt="运行概述"></p>
-<h2 id="Electron-在线-离线事件探测"><a href="#Electron-在线-离线事件探测" class="headerlink" title="Electron 在线/离线事件探测"></a>Electron 在线/离线事件探测</h2><blockquote>
-<p>Tips：electron v4.02中的主进程和渲染进程进行通信的时候，就需要用到<code>ipc</code>这个特性。而<code>ipc</code>又分为<code>ipcMain</code>和<code>ipcRenderer</code>两个，分别用于主进程和渲染进程。</p>
-<p>let命令和var命令不同的地方是let的对象只在let所在的代码块范围中起作用。</p>
+<p>在某些情况下，即使连接到匿名网络，操作系统仍将继续使用其默认DNS服务器，而不是由匿名网络分配给您计算机的匿名DNS服务器。这被称为泄漏。DNS泄漏是主要的隐私威胁，因为匿名网络可能会在私人数据泄露的同时提供错误的安全感。</p>
+<p>当您的DNS请求被泄露时，发送到/从网站发送的实际数据将不被捕获。但它仍然可以向窃听者提供关于您访问的网站的足够信息。它也为DNS病毒打开门户，可用于钓鱼攻击(DNS劫持)。</p>
+<h3 id="WEBRTC泄露"><a href="#WEBRTC泄露" class="headerlink" title="WEBRTC泄露"></a>WEBRTC泄露</h3><blockquote>
+<p>什么是WEBRTC？</p>
+<p>WebRTC（Web Real-Time Communication）是一个支持网页浏览器进行实时语音对话或视频对话的技术，是谷歌2010年以6820万美元收购Global IP Solutions公司而获得的一项技术。2011年5月谷歌开放了WebRTC的源代码，在行业内得到了广泛的支持和应用。</p>
 </blockquote>
-<p>这里需要用到navigator对象，但是在electron主进程中没有这个，所以需要建立一个渲染进程，利用IPC通信，获取网络状态。</p>
-<p>在我的环境中可以通过以下代码实践成功：</p>
-<p><code>main.js</code></p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> <span class="token punctuation">{</span>ipcMain<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'electron'</span><span class="token punctuation">)</span>
-<span class="token keyword">let</span> onlineStatusWindow
-app<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'ready'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  onlineStatusWindow <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BrowserWindow</span><span class="token punctuation">(</span><span class="token punctuation">{</span> width<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span> height<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span> show<span class="token punctuation">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  onlineStatusWindow<span class="token punctuation">.</span><span class="token function">loadURL</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`file://</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>__dirname<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/online-status.html`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<p>即使您正在使用 VPN，也会出现多个可以泄漏 IP 地址的“意想不到的错误”。它被称为 WebRTC（Web 实时通信）泄漏。</p>
+<p>WebRTC 允许浏览器内部的实时通信。这很方便，但也有一个缺点。即使打开了VPN，WebRTC 也能默认泄漏您的真实地址。WebRTC 协议通过设计实现此目的，即使是最好的 VPN 也无法始终保护自己的信息不被泄露。</p>
+<p>因此，如果使用默认启用 WebRTC 的浏览器，则采取必要的预防措施这一点十分重要。在选择的浏览器中搜索如何关闭 WebRTC，或查找是否存在可安装用来禁用 WebRTC 的 WebRTC 阻止插件。请记住，禁用 WebRTC 可能会导致部分网站（如 Google Hangouts）无法正常工作，因此您可能需要在特定情况下启用它。</p>
+<pre class=" language-payload"><code class="language-payload">Firefox浏览器禁用WebRTC的方法是：在浏览器上输入：about:config。之后搜索：media.peerconnection.enabled。找到它后双击，将其改成 false 即可。
 
-ipcMain<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'online-status-changed'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>event<span class="token punctuation">,</span> status<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span>
+Chrome浏览器禁用WebRTC的方法是：在Chrome应用商店里，安装一个名为WebRTC Leak Prevent的扩展，然后选择 Use my Porxy server(if present) 即可。
 </code></pre>
-<p><code>online-status.html</code></p>
-<pre class=" language-html"><code class="language-html">
-<span class="token doctype">&lt;!DOCTYPE html></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script language-javascript">
-  <span class="token keyword">const</span> <span class="token punctuation">{</span>ipcRenderer<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'electron'</span><span class="token punctuation">)</span>
-  <span class="token keyword">const</span> updateOnlineStatus <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    ipcRenderer<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">'online-status-changed'</span><span class="token punctuation">,</span> navigator<span class="token punctuation">.</span>onLine <span class="token operator">?</span> <span class="token string">'online'</span> <span class="token punctuation">:</span> <span class="token string">'offline'</span><span class="token punctuation">)</span>
-  <span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">/*navigator.onLine ==> true or false*/</span>
-  window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'online'</span><span class="token punctuation">,</span>  updateOnlineStatus<span class="token punctuation">)</span>
-  window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'offline'</span><span class="token punctuation">,</span>  updateOnlineStatus<span class="token punctuation">)</span>
-  <span class="token function">updateOnlineStatus</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span>
+<h3 id="HTTPheader泄露"><a href="#HTTPheader泄露" class="headerlink" title="HTTPheader泄露"></a>HTTPheader泄露</h3><p>http请求数据包中的<code>header</code>:</p>
+<pre class=" language-html"><code class="language-html">GET / HTTP/1.1
+Host: www.4399.com
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate
+Accept-Language: zh,en-US;q=0.9,en;q=0.8,zh-TW;q=0.7,zh-CN;q=0.6
+Cookie: home4399=yes; UM_distinctid=169050f7793431-0062d73fb17ef-b79183d-144000-169050f7794319; CNZZDATA30039538=cnzz_eid%3D1853484585-1550564275-%26ntime%3D1550564275
+If-None-Match: W/"5c6b5dba-2a86c"
+If-Modified-Since: Tue, 19 Feb 2019 01:36:58 GMT
 </code></pre>
-<h2 id="Electron-进程"><a href="#Electron-进程" class="headerlink" title="Electron 进程"></a>Electron 进程</h2><p>Electron的<code>process</code>对象</p>
-<pre class=" language-javascript"><code class="language-javascript">process<span class="token punctuation">.</span>type <span class="token operator">-</span> String <span class="token operator">-</span> 获取进程类型
-process<span class="token punctuation">.</span>versions<span class="token punctuation">[</span><span class="token string">'electron'</span><span class="token punctuation">]</span> <span class="token operator">-</span> String <span class="token operator">-</span> 获取electron版本
-process<span class="token punctuation">.</span>versions<span class="token punctuation">[</span><span class="token string">'chrome'</span><span class="token punctuation">]</span> <span class="token operator">-</span> String <span class="token operator">-</span> 获取chromium的版本
-process<span class="token punctuation">.</span>resourcePath <span class="token operator">-</span> String <span class="token operator">-</span> Javascript源代码路径
-<span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">-</span>
-process<span class="token punctuation">.</span>noAsar <span class="token operator">=</span> <span class="token boolean">true</span> or <span class="token boolean">false</span>
-<span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">-</span>
-process<span class="token punctuation">.</span><span class="token function">hang</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//使得进程的主线程挂起</span>
-
-</code></pre>
-<h2 id="Electron-支持的Chrome命令行开关"><a href="#Electron-支持的Chrome命令行开关" class="headerlink" title="Electron 支持的Chrome命令行开关"></a>Electron 支持的Chrome命令行开关</h2><p>在app模块的ready事件发出之前可以通过<code>app.commandLine.appendSwitch</code>来添加指定的命令参数到main脚本中：</p>
-<pre class=" language-javascript"><code class="language-javascript">
-<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'electron'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>app<span class="token punctuation">;</span>
-app<span class="token punctuation">.</span>commandLine<span class="token punctuation">.</span><span class="token function">appendSwitch</span><span class="token punctuation">(</span><span class="token string">'remote-debugging-port'</span><span class="token punctuation">,</span> <span class="token string">'8315'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-app<span class="token punctuation">.</span>commandLine<span class="token punctuation">.</span><span class="token function">appendSwitch</span><span class="token punctuation">(</span><span class="token string">'host-rules'</span><span class="token punctuation">,</span> <span class="token string">'MAP * 127.0.0.1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-app<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'ready'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// Your code here</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code></pre>
-<p>更多的命令参数可参考：<a href="https://www.w3cschool.cn/electronmanual/82vz1ql9.html" target="_blank" rel="noopener">Electron中文文档</a></p>
-<h2 id="Electron-环境变量"><a href="#Electron-环境变量" class="headerlink" title="Electron 环境变量"></a>Electron 环境变量</h2><p>一些 Electron 的行为受到环境变量的控制，因为他们的初始化比命令行和应用代码更早。以下 是一些常用的环境变量名</p>
-<pre class=" language-bash"><code class="language-bash">//<span class="token operator">></span>set ELECTRON_ENABLE_LOGGING<span class="token operator">=</span>true
-//<span class="token operator">></span>electron
-
-ELECTRON_RUN_AS_NODE
-ELECTRON_ENABLE_LOGGING
-ELECTRON_LOG_ASAR_READS
-ELECTRON_ENABLE_STACK_DUMPING
-ELECTRON_DEFAULT_ERROR_MODE
-ELECTRON_NO_ATTACH_CONSOLE
-ELECTRON_FORCE_WINDOW_MENU_BAR
-ELECTRON_HIDE_INTERNAL_MODULES
-</code></pre>
+<p>可见，通过<code>header</code>中的<code>Accept-Language</code>,<code>User-Agent</code>泄露了一些信息，如：我们使用的是中文和英文，用户详细UA信息等等。</p>
+<p>一般情况下我们也可以使用<code>X-Forwarded-For</code>,<code>X-Client-IP</code>,<code>X-Real-IP</code>,<code>X-Remote-IP</code>等请求属性伪造IP从而骗过服务器的IP识别。</p>
+<h2 id="IP匿名性测试"><a href="#IP匿名性测试" class="headerlink" title="IP匿名性测试"></a>IP匿名性测试</h2><p>我们接下来基于windows10和parrot linux平台代理进行IP匿名性测试，代理软件是最普通的<code>小飞机(ssr)</code>，值得一提的是<code>Electron版小飞机</code>还不错，跨平台。</p>
+<blockquote>
+<p>什么是Parrot linux?</p>
+<p>Parrot Security OS（简称作「ParrorSec」或「Parrot（鹦鹉）」）是一个基于 Debian 面向安全的 GNU/<a href="https://www.linuxprobe.com/" target="_blank" rel="noopener">Linux</a> 发行版。它提供了诸多用于安全测试、数字取证、软件开发及隐私防护的专业工具。</p>
+<p>Parrot与kali类似，但比kali多很多工具。在我目前使用的情况看来，同等配置下Parrot要比kali美观流畅。</p>
+</blockquote>
+<p>使用以下三个网址进行匿名性检测：    </p>
+<ul>
+<li><a href="https://www.astrill.com/zh/vpn-leak-test" target="_blank" rel="noopener">https://www.astrill.com/zh/vpn-leak-test</a></li>
+<li><a href="https://whoer.net/zh" target="_blank" rel="noopener">https://whoer.net/zh</a></li>
+<li><a href="http://ceye.io/" target="_blank" rel="noopener">http://ceye.io/</a></li>
+</ul>
+<p>通过测试直观地显现出不同平台，不同情况下的匿名程度，从而得到其差别。</p>
+<h3 id="Windows-10平台"><a href="#Windows-10平台" class="headerlink" title="Windows 10平台"></a>Windows 10平台</h3><p>在我的物理机<code>windows 10</code>本地启用<code>小飞机</code>之后，我们分别从几个测试平台获得了IP匿名性测试结果：</p>
+<p><code>astrill.com</code>:</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190219200332.png" alt=""></p>
+<p><code>whoer.net</code>:</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190219200512.png" alt=""></p>
+<p><code>ceye.io</code>:</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190219193744.png" alt=""></p>
+<p>通过伪造httpheader中的<code>x-real-ip</code>我们可以给自己加上一层伪装，但是并不能逃过检测：</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190219194704.png" alt=""></p>
+<p>由以上三个结果可以了解到，单纯在win10上使用小飞机代理时，astrill和whoer平台的结果共同反映出了DNS和WEBRTC的泄露，以及页面语言，当地时间等信息。而ceye的结果更是直接得到了我们的真实IP，仅凭上述信息已经可以精确知道我是哪个村的人了(开个玩笑hhh)，因此在win10上小飞机的匿名性堪忧。</p>
+<h3 id="Parrot-Linux平台"><a href="#Parrot-Linux平台" class="headerlink" title="Parrot Linux平台"></a>Parrot Linux平台</h3><p>在我的虚拟机<code>Parrot Linux</code>启用<code>小飞机</code>之后，我们分别从几个测试平台获得了IP匿名性测试结果：</p>
+<p><code>astrill.com</code>:</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190219195503.png" alt=""></p>
+<p><code>whoer.net</code>:</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190219195626.png" alt=""></p>
+<p><code>ceye.io</code>:</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190219195409.png" alt=""></p>
+<p>由以上三个结果可以看到，没有出现与我所在地有关的信息，检测到的IP也不是我的真实IP(117.170.**<em>.\</em>**)，而是代理服务器的IP地址，没有出现DNS和WEBRTC泄露，因而可以看出<code>Parrot linux</code>作为一个面向安全测试的linux发行版的匿名性是十分之高的，相对于win10匿名性要提高了不少。</p>
+<h3 id="以Parrot作为跳板，为win10代理"><a href="#以Parrot作为跳板，为win10代理" class="headerlink" title="以Parrot作为跳板，为win10代理"></a>以Parrot作为跳板，为win10代理</h3><p>既然Parrot的匿名性比较好，那我们把parrot作为跳板（parrot上的小飞机允许局域网连接），用win10连接运行在parrot上的小飞机代理，会有什么结果呢？</p>
+<p><code>whoer.net</code>:</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190219201252.png" alt=""></p>
+<p>ceye.io和astrill检测是正常的，没有泄露信息，但是从whoer.net的结果看来：泄露了时区，语言等信息。最关键的是WEBRTC直接泄露出了我们的真实IP地址和内网地址。</p>
+<blockquote>
+<p>Parrot OS中自带Tor网络，和匿名模式，以上测试均在未开启Tor网络和匿名模式情况下测试。</p>
+<p>总的来说，单纯地使用Parrot还是很香很匿名的！</p>
+</blockquote>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p>当今的科技发展迅速，隐私信息也显得越来越重要，通过一部分真实的蛛丝马迹，就可能还原出精准的信息模型。IPV6泄露，DNS泄露，WEBRTC泄露，HTTPheader泄露都可能导致你在网络上的匿名性降低，可能对于普通人来说，这只是无关紧要的事情，但对于诸位安全从业者来说，其中利弊不用多言。</p>
+<blockquote>
+<p>注明: <a href="https://mp.weixin.qq.com/s/Otk44j7UNbT_FX9mXq6o4Q" target="_blank" rel="noopener">此文章首发于安恒网络空间安全讲武堂公众号</a></p>
+</blockquote>
 
             </div>
             <hr/>
@@ -613,7 +623,7 @@ ELECTRON_HIDE_INTERNAL_MODULES
                     <span class="reprint-tip">转载请注明: </span>
                     <a href="http://www.yof3ng.xyz" class="b-link-green">Yof3ng's Blog | 热爱分享</a>
                     <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2019/01/25/Electron-Learning-1/" class="b-link-green">Electron-Learning-1</a>
+                    <a href="/2019/02/21/IP匿名性研究/" class="b-link-green">IP匿名性研究</a>
                 </p>
             </div>
         </div>
@@ -635,7 +645,7 @@ ELECTRON_HIDE_INTERNAL_MODULES
         repo: 'yof3ng.github.io',
         owner: 'Yof3ng',
         admin: "Yof3ng",
-        id: '2019-01-25T13-09-44',
+        id: '2019-02-21T20-06-12',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -652,54 +662,43 @@ ELECTRON_HIDE_INTERNAL_MODULES
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">上一篇</div>
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">本篇</div>
             <div class="card">
-                <a href="/2019/01/29/某入群题解题记录/">
+                <a href="/2019/02/21/IP匿名性研究/">
                     <div class="card-image">
                         
+                        <img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/1_l2AFc33U7grIeMML0a0unQ.jpeg" class="responsive-img" alt="IP匿名性研究">
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="某入群题解题记录">
-                        
-                        <span class="card-title">某入群题解题记录</span>
+                        <span class="card-title">IP匿名性研究</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary">[TOC]
-记某入群题解题过程闲来无事，看众人纷纷在玩入群题，纵使我菜的不敢动手，也想尝试一下。
-0x01 迎面而来的SSRF首先访问题目地址：
-index.php源码
-&lt;?php 
-highlight_file(__FILE__);</div>
+IP匿名性研究——Anonymity何谓匿名？
+匿名定义为未知姓名或未确定身份。我们上网时并没有匿名，即使在使用隐私工具如Tor、Bitcoin或VPN的时候。每项服务至少有一条可以用于区分不同用户的信息，无论其为一套IP地址（</div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-01-29
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-21
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/信息安全/" class="post-category" target="_blank">
-                                    信息安全
+                            <a href="/categories/网络安全/" class="post-category" target="_blank">
+                                    网络安全
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/CTF/" target="_blank">
-                        <span class="chip bg-color">CTF</span>
-                    </a>
-                    
-                    <a href="/tags/SSRF/" target="_blank">
-                        <span class="chip bg-color">SSRF</span>
-                    </a>
-                    
-                    <a href="/tags/内网/" target="_blank">
-                        <span class="chip bg-color">内网</span>
+                    <a href="/tags/网络安全-IP匿名性-ParrotOS/" target="_blank">
+                        <span class="chip bg-color">网络安全,IP匿名性,ParrotOS</span>
                     </a>
                     
                 </div>
@@ -711,30 +710,32 @@ highlight_file(__FILE__);</div>
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">下一篇</div>
             <div class="card">
-                <a href="/2018/11/20/追踪溯源-小白科普篇/">
+                <a href="/2019/01/31/php-pear-was-attacked/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="追踪溯源_白话文讲盗号--科普篇">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="php_pear_was_attacked">
                         
-                        <span class="card-title">追踪溯源_白话文讲盗号--科普篇</span>
+                        <span class="card-title">php_pear_was_attacked</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary">[TOC]
-追踪溯源_白话文讲盗号–科普篇
-🆒一直一直以来，总是有人不断被盗qq，然后被用以恶意盗号者散播更多的恶意链接或者进行诈骗盈利活动，恶性循环，愈演愈烈，为了给同学们稍微科普一下基本的盗号原理，故有此文。
-从扫二维码盗号，到模拟q</div>
+
+译文声明：
+本文是翻译文章，文章原作者Mohit Kumar，文章来源：https://thehackernews.com/2019/01/php-pear-hacked.html
+
+PHP PEAR网站被黑且其官方软件包管理</div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-11-20
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-01-31
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/信息安全/" class="post-category" target="_blank">
-                                    信息安全
+                            <a href="/categories/译文/" class="post-category" target="_blank">
+                                    译文
                                 </a>
                             
                             
@@ -744,12 +745,8 @@ highlight_file(__FILE__);</div>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/追踪溯源/" target="_blank">
-                        <span class="chip bg-color">追踪溯源</span>
-                    </a>
-                    
-                    <a href="/tags/信息安全/" target="_blank">
-                        <span class="chip bg-color">信息安全</span>
+                    <a href="/tags/资讯，译文，网络安全/" target="_blank">
+                        <span class="chip bg-color">资讯，译文，网络安全</span>
                     </a>
                     
                 </div>
@@ -765,7 +762,7 @@ highlight_file(__FILE__);</div>
         <div class="toc-widget">
             <h4>目录</h4>
             <div id="toc-content">
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Electron-学习记录"><span class="post-toc-text">Electron 学习记录</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Electron-简介"><span class="post-toc-text">Electron 简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#主进程（Main-Process）"><span class="post-toc-text">主进程（Main Process）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#渲染进程（Renderer-Process）"><span class="post-toc-text">渲染进程（Renderer Process）</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Electron-在线-离线事件探测"><span class="post-toc-text">Electron 在线/离线事件探测</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Electron-进程"><span class="post-toc-text">Electron 进程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Electron-支持的Chrome命令行开关"><span class="post-toc-text">Electron 支持的Chrome命令行开关</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Electron-环境变量"><span class="post-toc-text">Electron 环境变量</span></a></li></ol></li></ol>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#IP匿名性研究——Anonymity"><span class="post-toc-text">IP匿名性研究——Anonymity</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#何谓匿名？"><span class="post-toc-text">何谓匿名？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一定的匿名性是有必要的"><span class="post-toc-text">一定的匿名性是有必要的</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么因素会泄露你的真实IP信息？"><span class="post-toc-text">什么因素会泄露你的真实IP信息？</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#IPV4泄露"><span class="post-toc-text">IPV4泄露</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#IPV6泄露"><span class="post-toc-text">IPV6泄露</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#DNS泄露"><span class="post-toc-text">DNS泄露</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#WEBRTC泄露"><span class="post-toc-text">WEBRTC泄露</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HTTPheader泄露"><span class="post-toc-text">HTTPheader泄露</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#IP匿名性测试"><span class="post-toc-text">IP匿名性测试</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Windows-10平台"><span class="post-toc-text">Windows 10平台</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Parrot-Linux平台"><span class="post-toc-text">Parrot Linux平台</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#以Parrot作为跳板，为win10代理"><span class="post-toc-text">以Parrot作为跳板，为win10代理</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#思考"><span class="post-toc-text">思考</span></a></li></ol></li></ol>
             </div>
         </div>
     </div>
