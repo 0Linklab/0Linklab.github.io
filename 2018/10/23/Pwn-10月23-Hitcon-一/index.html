@@ -1,397 +1,111 @@
-<!DOCTYPE HTML>
-<html lang="zh-CN">
-<head>
-    <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="肖亦枫, hexo-theme-matery">
-    <meta name="description" content="所有的幸福后面,都有人在负重前行.">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Yof3ng&#39;s Blog | 热爱分享</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  Pwn-10月23-Hitcon(一) |   Xiaoyifeng&#39;s blog </title>
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/css/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
 
-    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
-</head>
 
-<body>
-
-<header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="container">
-            <div class="nav-wrapper">
-                <div class="brand-logo">
-                    <a href="/" class="waves-effect waves-light">
-                        
-                        <img src="/medias/logo.png" class="logo-img hide-on-small-only">
-                        
-                        <span class="logo-span">Yof3ng's Blog | 热爱分享</span>
-                    </a>
-                </div>
-                <a href="#" data-activates="mobile-nav" class="button-collapse"><i class="fa fa-navicon"></i></a>
-<ul class="right">
+  <link rel="stylesheet" href="/nayo.min.css"> 
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>  
+  <body>   
     
-    <li class="hide-on-med-and-down">
-        <a href="/" class="waves-effect waves-light">
-            
-            <i class="fa fa-home"></i>
-            
-            <span>home(主页)</span>
-        </a>
-    </li>
-    
-    <li class="hide-on-med-and-down">
-        <a href="/tags" class="waves-effect waves-light">
-            
-            <i class="fa fa-tags"></i>
-            
-            <span>tags(标签)</span>
-        </a>
-    </li>
-    
-    <li class="hide-on-med-and-down">
-        <a href="/categories" class="waves-effect waves-light">
-            
-            <i class="fa fa-bookmark"></i>
-            
-            <span>categories(目录)</span>
-        </a>
-    </li>
-    
-    <li class="hide-on-med-and-down">
-        <a href="/archives" class="waves-effect waves-light">
-            
-            <i class="fa fa-archive"></i>
-            
-            <span>archives(归档)</span>
-        </a>
-    </li>
-    
-    <li class="hide-on-med-and-down">
-        <a href="/about" class="waves-effect waves-light">
-            
-            <i class="fa fa-user-circle-o"></i>
-            
-            <span>about(关于)</span>
-        </a>
-    </li>
-    
-    <li>
-        <a id="toggleSearch" class="waves-effect waves-light">
-            <i id="searchIcon" class="mdi-action-search"></i>
-        </a>
-    </li>
+      <header class="header">
+	
+  <nav class="header-inner">        
 
-</ul>
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
 
-<div class="side-nav" id="mobile-nav">
-
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">Yof3ng's Blog | 热爱分享</div>
-        <div class="logo-desc">
-            
-            所有的幸福后面,都有人在负重前行.
-            
-        </div>
+    <div class="header-logo">
+      <a href="/">
+        <img class="header-logo-img" src="/images/logo.png">
+      </a>
     </div>
 
-    <ul class="menu-list mobile-menu-list">
-        
-        <li>
-            <a href="/" class="waves-effect waves-light">
-                
-                <i class="fa fa-fw fa-home"></i>
-                
-                home(主页)
-            </a>
-        </li>
-        
-        <li>
-            <a href="/tags" class="waves-effect waves-light">
-                
-                <i class="fa fa-fw fa-tags"></i>
-                
-                tags(标签)
-            </a>
-        </li>
-        
-        <li>
-            <a href="/categories" class="waves-effect waves-light">
-                
-                <i class="fa fa-fw fa-bookmark"></i>
-                
-                categories(目录)
-            </a>
-        </li>
-        
-        <li>
-            <a href="/archives" class="waves-effect waves-light">
-                
-                <i class="fa fa-fw fa-archive"></i>
-                
-                archives(归档)
-            </a>
-        </li>
-        
-        <li>
-            <a href="/about" class="waves-effect waves-light">
-                
-                <i class="fa fa-fw fa-user-circle-o"></i>
-                
-                about(关于)
-            </a>
-        </li>
-        
-        
-        <li><div class="divider"></div></li>
-        <li>
-            <a href="https://github.com/yof3ng" class="waves-effect waves-light" target="_blank">
-                <i class="fa fa-github-square fa-fw"></i>Fork Me
-            </a>
-        </li>
-        
-    </ul>
-
-    <div class="social-link"><a href="https://github.com/yof3ng" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
-    <i class="fa fa-github"></i>
-</a>
-<a href="mailto:yof3ng@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-    <i class="fa fa-envelope-open"></i>
-</a>
-<a href="#!" class="tooltipped" data-tooltip="QQ联系我: 877153299" data-position="top" data-delay="50">
-    <i class="fa fa-qq"></i>
-</a>
-
-<a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
-    <i class="fa fa-rss"></i>
-</a>
-</div>
-</div>
-
-            </div>
-        </div>
-
-        
-        <style>
-    .nav-transparent .github-corner {
-        display: none !important;
-    }
-
-    .github-corner {
-        position: absolute;
-        z-index: 10;
-        top: 0;
-        right: 0;
-        border: 0;
-        transform: scale(1.1);
-    }
-
-    .github-corner svg {
-        color: #0f9d58;
-        fill: #fff;
-        height: 64px;
-        width: 64px;
-    }
-
-    .github-corner:hover .octo-arm {
-        animation: a 0.56s ease-in-out;
-    }
-
-    .github-corner .octo-arm {
-        animation: none;
-    }
-
-    @keyframes a {
-        0%,
-        to {
-            transform: rotate(0);
-        }
-        20%,
-        60% {
-            transform: rotate(-25deg);
-        }
-        40%,
-        80% {
-            transform: rotate(10deg);
-        }
-    }
-</style>
-
-<a href="https://github.com/yof3ng" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
-   data-tooltip="Fork Me" data-position="left" data-delay="50">
-    <svg viewBox="0 0 250 250" aria-hidden="true">
-        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
-        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
-              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
-        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
-              fill="currentColor" class="octo-body"></path>
-    </svg>
-</a>
-        
-    </nav>
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
 </header>
 
+   
 
-<script src="/libs/cryptojs/crypto-js.min.js"></script>
-<script>
-    (function() {
-        let pwd = '';
-        if (pwd && pwd.length > 0) {
-            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
-                alert('密码错误，将返回主页！');
-                location.href = '/';
-            }
-        }
-    })();
-</script>
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
 
+          <article class="post">
+  
+	
+<div class="post-header">
+	<div class="post-header-inner">
+		<p class="post-title">	
+			Pwn-10月23-Hitcon(一)
+		</p>
+		<div class="post-info">	
+			<span class="post-info-entry">
+				10月 23, 2018
+			</span>
 
+			
+			
+				<i class="iconfont icon-words"></i>
+				<span class="post-info-entry">2911
+				</span>
+			
+		</div>
+	</div>
+</div> 
+	
+ 
 
+	  <div class="typo post-content slideDownMin">
 
+		
 
-<div class="bg-cover post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
-    <div class="container">
-        <div class="row">
-            <div class="col s12 m12 l12">
-                <div class="brand">
-                    <div class="description center-align post-title">
-                        Pwn-10月23-Hitcon(一)
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<main class="post-container content">
-
-    
-    <style>
-    #artDetail h1,
-    #artDetail h2,
-    #artDetail h3,
-    #artDetail h4,
-    #artDetail h5,
-    #artDetail h6 {
-        padding-top: 76px;
-        margin-top: -76px;
-    }
-
-    #artDetail h1 {
-        line-height: 3.3rem;
-    }
-
-    #artDetail h2 {
-        line-height: 3rem;
-    }
-
-    #artDetail h3 {
-        line-height: 2.5rem;
-    }
-
-    #artDetail h4 {
-        line-height: 2.2rem;
-    }
-
-    #artDetail h5 {
-        line-height: 1.9rem;
-    }
-
-    .toc-fixed {
-        position: fixed;
-        top: 64px;
-    }
-
-    .toc-widget {
-        padding-left: 20px;
-    }
-
-    .toc-widget ol {
-        padding: 0;
-        list-style: none;
-    }
-
-    .post-toc ol {
-        padding-left: 20px;
-    }
-
-    .post-toc a {
-        color: #34495e;
-        font-size: 0.96rem;
-    }
-
-    .post-toc a:hover {
-        color: #42b983;
-        text-decoration: underline;
-    }
-
-    .post-toc .active {
-        color: #42b983;
-        font-weight: 500;
-    }
-</style>
-<div class="row">
-    <div class="col s12 m12 l9">
-        <!-- 文章内容详情 -->
-<div id="artDetail">
-    <div class="card">
-        <div class="card-content article-info">
-            
-            <div class="article-tag">
-                
-                <a href="/tags/Pwn/" target="_blank">
-                    <span class="chip bg-color">Pwn</span>
-                </a>
-                
-                <a href="/tags/二进制安全/" target="_blank">
-                    <span class="chip bg-color">二进制安全</span>
-                </a>
-                
-                <a href="/tags/CTF/" target="_blank">
-                    <span class="chip bg-color">CTF</span>
-                </a>
-                
-            </div>
-            
-            <div class="post-info">
-                
-                <span class="post-cate">
-                    <i class="fa fa-bookmark fa-fw icon-category"></i>
-                    
-                    <a href="/categories/CTF/" class="post-category" target="_blank">
-                        CTF
-                    </a>
-                    
-                </span>
-                
-
-                <span class="post-date">
-                    <i class="fa fa-clock-o fa-fw"></i>2018-10-23
-                </span>
-            </div>
-        </div>
-        <hr>
-        <div class="card-content article-card-content">
-            <div id="articleContent">
-                <p>[TOC]</p>
+			
+					<p>……</p>
+<a id="more"></a>
 <h1 id="Pwn-10月23-Hitcon-一"><a href="#Pwn-10月23-Hitcon-一" class="headerlink" title="Pwn-10月23-Hitcon(一)"></a>Pwn-10月23-Hitcon(一)</h1><blockquote>
 <p>继续二进制修炼，今天开始肝Hiton-training，膜着<a href="https://m4x.fun/post/hitcon-training-writeup/" target="_blank" rel="noopener">m4x</a>，以及另一位大佬<a href="https://www.jianshu.com/p/2cae38284bff" target="_blank" rel="noopener">23R3F</a>的题解蹒跚前行。</p>
 </blockquote>
@@ -409,35 +123,35 @@
 <blockquote>
 <p>例如将<code>.text:08048722</code>的跳转汇编指令改为jmp无条件跳转，或者是与jnz相反的jz操作。</p>
 <p><img src="https://i.loli.net/2018/10/23/5bcf075963ea4.png" alt=""></p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf07b5548dc.png" alt=""></p>
-<p>修改为无条件跳转后需要将其保存到对应文件中：<br><img src="https://i.loli.net/2018/10/23/5bcf07f4c58d9.png" alt=""></p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://i.loli.net/2018/10/23/5bcf07b5548dc.png" class="lazyload"></p>
+<p>修改为无条件跳转后需要将其保存到对应文件中：<br><img src="/images/placeholder.png" alt="" data-src="https://i.loli.net/2018/10/23/5bcf07f4c58d9.png" class="lazyload"></p>
 <p>然后去把文件挪到linux上运行试试发现并没有用，因为改为jmp后其函数直接少了一部分对flag的操作：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf0a2f45481.png" alt=""></p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://i.loli.net/2018/10/23/5bcf0a2f45481.png" class="lazyload"></p>
 <p>所以我们只能将原样本中的jnz改为jz了，改完之后函数已经成为不等则输出flag了：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf0bd4dce1d.png" alt=""></p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://i.loli.net/2018/10/23/5bcf0bd4dce1d.png" class="lazyload"></p>
 <p>运行效果：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf0c1461b1f.png" alt=""></p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://i.loli.net/2018/10/23/5bcf0c1461b1f.png" class="lazyload"></p>
 </blockquote>
 <h3 id="解法2-gdb-set-register-value"><a href="#解法2-gdb-set-register-value" class="headerlink" title="解法2 - gdb set register value"></a>解法2 - gdb set register value</h3><blockquote>
 <p>通过gdb动态调试，并且在即将进行比较前，将 eax置为与edx相同的值即可：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf0e78806d2.png" alt=""></p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://i.loli.net/2018/10/23/5bcf0e78806d2.png" class="lazyload"></p>
 <p>然后即可得到flag。</p>
 </blockquote>
 <h2 id="lab2-orw"><a href="#lab2-orw" class="headerlink" title="lab2-orw"></a>lab2-orw</h2><h3 id="检查保护措施"><a href="#检查保护措施" class="headerlink" title="检查保护措施"></a>检查保护措施</h3><blockquote>
 <p><code>checksec orw.bin</code>，题目orw的意思是open，read，write这三个函数。</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf0fca60256.png" alt=""></p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://i.loli.net/2018/10/23/5bcf0fca60256.png" class="lazyload"></p>
 <p>emmm这是我做的第一个开启了Stack保护的题目呢。</p>
 </blockquote>
 <h3 id="逻辑分析"><a href="#逻辑分析" class="headerlink" title="逻辑分析"></a>逻辑分析</h3><blockquote>
-<p>简单跑一下可以看到直接是让你输入shellcode：<br><img src="https://i.loli.net/2018/10/23/5bcf104eea350.png" alt=""></p>
+<p>简单跑一下可以看到直接是让你输入shellcode：<br><img src="/images/placeholder.png" alt="" data-src="https://i.loli.net/2018/10/23/5bcf104eea350.png" class="lazyload"></p>
 <p>放IDA pro里面看看：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf15e2dd0aa.png" alt=""></p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://i.loli.net/2018/10/23/5bcf15e2dd0aa.png" class="lazyload"></p>
 <p>细看一下<code>orw_seccomp()函数</code>:</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf16ed762fb.png" alt=""></p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://i.loli.net/2018/10/23/5bcf16ed762fb.png" class="lazyload"></p>
 <p>prctl函数又是啥玩意儿？Prctl(用户和内核沟通的一个绝佳函数),这个函数可以对进程进行一些设置。<a href="https://bbs.pediy.com/thread-225488.htm" target="_blank" rel="noopener">而有一道强网杯题目就好像用了这玩意儿的技术？</a></p>
 <p>输入shellcode之后应该会执行，所以这题的目的是让我们自己构造shellcode去读取flag？既然要构造shellcode，那就需要用到pwntools的asm模块和shellcraft模块：</p>
 <p>asm模块是将操作转换为汇编命令，而shellcraft是具有各种函数对应汇编命令的一个模块，十分好用：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf1996469a4.png" alt=""></p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://i.loli.net/2018/10/23/5bcf1996469a4.png" class="lazyload"></p>
 <p>pwntools中的context模块又是用来干嘛的呢？</p>
 <p><code>context</code>是pwntools用来设置环境的功能。在很多时候，由于二进制文件的情况不同，我们可能需要进行一些环境设置才能够正常运行exp，比如有一些需要进行汇编，但是32的汇编和64的汇编不同，如果不设置context会导致一些问题。</p>
 <p>例如<code>context(os=&#39;linux&#39;, arch=&#39;amd64&#39;, log_level=&#39;debug&#39;)</code></p>
@@ -473,29 +187,29 @@ io<span class="token punctuation">.</span>close<span class="token punctuation">(
 
 </code></pre>
 <p>运行效果：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf2cbec3db2.png" alt=""></p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://i.loli.net/2018/10/23/5bcf2cbec3db2.png" class="lazyload"></p>
 <h2 id="lab3-ret2sc"><a href="#lab3-ret2sc" class="headerlink" title="lab3-ret2sc"></a>lab3-ret2sc</h2><blockquote>
 <p>题目名是return to shellcode的简写，应该是利用return返回然后执行shellcode之类的操作？</p>
 </blockquote>
 <h3 id="检查保护措施-1"><a href="#检查保护措施-1" class="headerlink" title="检查保护措施"></a>检查保护措施</h3><blockquote>
 <p><code>checksec ret2sc</code></p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf21774fa88.png" alt=""></p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://i.loli.net/2018/10/23/5bcf21774fa88.png" class="lazyload"></p>
 <p>emmm没有开启啥保护，没有开启栈溢出检测，也没有开启栈不可执行（NX）。</p>
 </blockquote>
 <h3 id="逻辑分析-1"><a href="#逻辑分析-1" class="headerlink" title="逻辑分析"></a>逻辑分析</h3><blockquote>
 <p>跑一下发现让我们输入字符串到Name里面，还有一个try your best？首先想到的是会不会又是啥栈溢出什么的。</p>
 </blockquote>
 <blockquote>
-<p> <img src="https://i.loli.net/2018/10/23/5bcf212fdd23f.png" alt=""></p>
+<p> <img src="/images/placeholder.png" alt="" data-src="https://i.loli.net/2018/10/23/5bcf212fdd23f.png" class="lazyload"></p>
 </blockquote>
 <blockquote>
 <p>嗯，情况是有的：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf22016964b.png" alt=""></p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://i.loli.net/2018/10/23/5bcf22016964b.png" class="lazyload"></p>
 <p>通过gdb动态调试可以发现在输入try your best 的值的时候可以发生溢出，并且将EIP指向我们构造的位置：</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf25189cf77.png" alt=""></p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://i.loli.net/2018/10/23/5bcf25189cf77.png" class="lazyload"></p>
 <p>而这个临界值我们可以通过pattern search来查我们构造的pattern偏移量，得到为32。根据大佬的题解了解到return to shellcode是一种题型，我甚至想到了又用ROP chain???<code>黑人问号.jpg</code>😭。</p>
 <p>原来return to shellcode的操作就是将shellcode写入name变量空间，然后通过返回到该地址从而执行shellcode(NX未开启，栈可执行)</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcf2a86e5630.png" alt=""></p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://i.loli.net/2018/10/23/5bcf2a86e5630.png" class="lazyload"></p>
 <p>该变量地址为0x804A060</p>
 </blockquote>
 <h3 id="构造EXP"><a href="#构造EXP" class="headerlink" title="构造EXP"></a>构造EXP</h3><blockquote>
@@ -523,445 +237,246 @@ io<span class="token punctuation">.</span>close<span class="token punctuation">(
 </code></pre>
 <p>运行效果：</p>
 </blockquote>
-<p><img src="https://i.loli.net/2018/10/23/5bcf2c13d7442.png" alt=""></p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://i.loli.net/2018/10/23/5bcf2c13d7442.png" class="lazyload"></p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>内容涉及 context 模式设置，asm模块，shellcraft模块，patch操作，return to shellcode题型，pwntools flat模块。</p>
 <p>今天先混到这儿。。。我真菜😭。</p>
+  	
+					
+	  </div>     
+	  
 
-            </div>
-            <hr/>
+	<div class="post-footer">
 
-            
-            <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
-    }
 
-    #reward .reward-link {
-        font-size: 1.88rem;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff;
-        background-color: #22AB38;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff;
-        background-color: #019FE8;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a class="reward-link btn-floating btn-large waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close"><i class="fa fa-close"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs">
-                        <li class="tab wechat-tab waves-effect waves-light"><a class="active" href="#wechat">微信</a></li>
-                        <li class="tab alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                    </ul>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('#reward .reward-link').on('click', function () {
-            $('#rewardModal').openModal();
-        });
-
-        $('#rewardModal .close').on('click', function () {
-            $('#rewardModal').closeModal();
-        });
-    });
-</script>
-            
-
-            <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
-
-<div id="article-share">
+  <div class="post-footer-other">
     
-    <div class="social-share" data-disabled="qzone" data-wechat-qrcode-helper="<p>微信里点“发现”->“扫一扫”二维码便可查看分享。</p>"></div>
-    
-</div>
-
-<script src="/libs/share/js/social-share.min.js"></script>
-
-            <div class="reprint">
-                <p>
-                    <span class="reprint-tip">转载请注明: </span>
-                    <a href="http://www.yof3ng.xyz" class="b-link-green">Yof3ng's Blog | 热爱分享</a>
-                    <i class="fa fa-angle-right fa-lg fa-fw text-color"></i>
-                    <a href="/2018/10/23/Pwn-10月23-Hitcon-一/" class="b-link-green">Pwn-10月23-Hitcon(一)</a>
-                </p>
-            </div>
-        </div>
-    </div>
-
-    
-        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
-<link rel="stylesheet" href="/css/my-gitalk.css">
-
-<div class="card gitalk-card" data-aos="fade-up">
-    <div id="gitalk-container" class="card-content"></div>
-</div>
-
-<script src="/libs/gitalk/gitalk.min.js"></script>
-<script>
-    let gitalk = new Gitalk({
-        clientID: '2a5e8e145ae3a20a52e2',
-        clientSecret: 'e645b80a4a8ea094b8a09076f6c1a7d186a0903a',
-        repo: 'yof3ng.github.io',
-        owner: 'Yof3ng',
-        admin: "Yof3ng",
-        id: '2018-10-23T18-52-55',
-        distractionFreeMode: false  // Facebook-like distraction free mode
-    });
-
-    gitalk.render('gitalk-container');
-</script>
-    
-
-    
-
-    
-
-    
-
-<article id="prenext-posts" class="prev-next articles">
-    <div class="row article-row">
+      <span class="post-footer-item">
         
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">上一篇</div>
-            <div class="card">
-                <a href="/2018/10/24/Pwn-10月24-Hitcon-二/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="Pwn-10月24-Hitcon(二)">
-                        
-                        <span class="card-title">Pwn-10月24-Hitcon(二)</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary">[TOC]
-Pwn-10月24-hitcon(二)
-继续hitcon的解题之路。
-
-lab4 - ret2lib
-拿到题目看题目名，和lab3的ret2sc差不多，这个应该是return to libc，也是一种攻击手法。泄露libc并且l</div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-24
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/CTF/" class="post-category" target="_blank">
-                                    CTF
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Pwn/" target="_blank">
-                        <span class="chip bg-color">Pwn</span>
-                    </a>
-                    
-                    <a href="/tags/二进制安全/" target="_blank">
-                        <span class="chip bg-color">二进制安全</span>
-                    </a>
-                    
-                    <a href="/tags/CTF/" target="_blank">
-                        <span class="chip bg-color">CTF</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">下一篇</div>
-            <div class="card">
-                <a href="/2018/10/22/Re-10月22-shiyanbar-10000/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Re-10月22-shiyanbar-10000">
-                        
-                        <span class="card-title">Re-10月22-shiyanbar-10000</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary">[TOC]
-Re-10月22-shiyanbar-10000
-emmm记录一下实验吧里一道简单的逆向，实际上就是一种思维方式。
 
 
-拿到一个exe文件,运行效果如下：
+<span class="donate-btn">
+	<span class="iconfont icon-donate"></span>
+</span>
 
-对没错就是一个喵字，然后输入内容，会输出wrong，可以猜测输入了正确</div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-10-22
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/CTF/" class="post-category" target="_blank">
-                                    CTF
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/二进制安全/" target="_blank">
-                        <span class="chip bg-color">二进制安全</span>
-                    </a>
-                    
-                    <a href="/tags/CTF/" target="_blank">
-                        <span class="chip bg-color">CTF</span>
-                    </a>
-                    
-                    <a href="/tags/RE/" target="_blank">
-                        <span class="chip bg-color">RE</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-    </div>
-</article>
-</div>
-    </div>
-    <div class="col l3 hide-on-med-and-down">
-        <div class="toc-widget">
-            <h4>目录</h4>
-            <div id="toc-content">
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Pwn-10月23-Hitcon-一"><span class="post-toc-text">Pwn-10月23-Hitcon(一)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab1-sysmagic"><span class="post-toc-text">lab1-sysmagic</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解法1-patch"><span class="post-toc-text">解法1 - patch</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解法2-gdb-set-register-value"><span class="post-toc-text">解法2 - gdb set register value</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab2-orw"><span class="post-toc-text">lab2-orw</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查保护措施"><span class="post-toc-text">检查保护措施</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#逻辑分析"><span class="post-toc-text">逻辑分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#exp"><span class="post-toc-text">exp</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#lab3-ret2sc"><span class="post-toc-text">lab3-ret2sc</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查保护措施-1"><span class="post-toc-text">检查保护措施</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#逻辑分析-1"><span class="post-toc-text">逻辑分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构造EXP"><span class="post-toc-text">构造EXP</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#小结"><span class="post-toc-text">小结</span></a></li></ol></li></ol>
-            </div>
-        </div>
-    </div>
-</div>
+<div id="donate-box" class="sildeUpMin">
 
-<script>
-    $(function () {
-        let tocLinks = $('#toc-content a');
-        let setTocLinkActive = function (jqObj) {
-            tocLinks.removeClass('active');
-            jqObj.addClass('active');
-        };
+	<span class="donate-cancel iconfont icon-cancel"></span>
 
-        // 监听点击TOC目录.
-        tocLinks.on('click', function () {
-            setTocLinkActive($(this));
-        });
-
-        let titleTopArr = [];
-        $('#articleContent').find('h1, h2, h3, h4, h5, h6').each(function () {
-            titleTopArr.push({'id': $(this).attr('id'), 'top': Math.round($(this).offset().top)});
-        });
-        let titleLen = titleTopArr.length;
-
-        /* 监听滚动条.*/
-        let $tocWidget = $('.toc-widget');
-        $(window).scroll(function () {
-            let scroll = $(window).scrollTop();
-
-            /* add post toc fixed. */
-            if (scroll > 240) {
-                $tocWidget.addClass('toc-fixed');
-            } else {
-                $tocWidget.removeClass('toc-fixed');
-            }
-
-            /** 以下代码为动态设置TOC激活高亮的目录. */
-            if (titleLen === 0) {
-                return;
-            }
-
-            let firstTitleObj = titleTopArr[0];
-            if (firstTitleObj.top > scroll) {
-                return;
-            } else if (firstTitleObj.top === scroll) {
-                setTocLinkActive($('#toc-content a[href="#' + firstTitleObj.id + '"]'));
-                return;
-            }
-
-            let lastTitleObj = titleTopArr[titleLen - 1];
-            if (lastTitleObj.top <= scroll) {
-                setTocLinkActive($('#toc-content a[href="#' + lastTitleObj.id + '"]'));
-                return;
-            }
-
-            for (let i = 0; i < titleLen; i++) {
-                if (titleTopArr[i].top > scroll) {
-                    setTocLinkActive($('#toc-content a[href="#' + titleTopArr[i - 1].id + '"]'));
-                    break;
-                }
-            }
-        });
-    });
-</script>
-    
-
-</main>
-
-<footer class="page-footer bg-color">
-    <div class="container row center-align">
-        <div class="col s12 m8 l8 copy-right">
-            本站由&copy;<a href="https://yof3ng.github.io/" target="_blank">Yof3ng</a>采用
-            <a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">hexo-theme-matery</a>的主题搭建.
-        </div>
-		
-        <div class="col s12 m4 l4 social-link"><a href="https://github.com/yof3ng" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
-    <i class="fa fa-github"></i>
-</a>
-<a href="mailto:yof3ng@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-    <i class="fa fa-envelope-open"></i>
-</a>
-<a href="#!" class="tooltipped" data-tooltip="QQ联系我: 877153299" data-position="top" data-delay="50">
-    <i class="fa fa-qq"></i>
-</a>
-
-<a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
-    <i class="fa fa-rss"></i>
-</a>
-</div>
-			  <a href="http://s11.flagcounter.com/more/zFT">
-		<img src="https://s11.flagcounter.com/count/zFT/bg_FFFFFF/txt_000000/border_CCCCCC/columns_4/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
-
-    </div>
-	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-	<div align=center>
-		<span id="busuanzi_container_site_uv">
-
+	<div class="donate-img-box">
+		<img id="donate-qr-wechat" class="noLazyLoad donate-img lazyload" src="/images/placeholder.png" alt="No Donate Image!" data-src="/images/donate1.png">	
+		<img id="donate-qr-alipay" class="noLazyLoad donate-img lazyload" src="/images/placeholder.png" alt="No Donate Image!" data-src="/images/donate2.png">	
 	</div>
-</footer>
 
-<div class="progress-bar"></div>
+	<span class="donate-word">不负自己，不负青天</span>
+
+	<div class="donate-list">
+		<span class="iconfont icon-donate-wechat"></span>
+		<span class="iconfont icon-donate-alipay"></span>
+	</div>
+
+</div>
+ 
+      </span>        
+       
+    
+      <span class="post-footer-item">
+        <span class="share-btn">
+	<span class="iconfont icon-share"></span>
+</span>
+<div class="-mob-share sildeUpMin">
+	<ul class="-mob-inner">
+	   			             
+        <li class="iconfont 
+		icon-share-qq 
+		-mob-share-qq 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-douban 
+		-mob-share-douban 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		-mob-share-link"></li>		
+   	   
+	</ul>
+</div>	
 
 
-<!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      </span>  
+               
+  </div>  
+    
+
+
+  <div class="post-footer-meta">
+        
+          <i class="iconfont icon-category"></i>       
+          <a class="category-link" href="/categories/CTF/">CTF</a> 	
+      
+        	
+
+        
+          <i class="iconfont icon-tag"></i>     
+            <a class="tag-link" href="/tags/CTF/">CTF</a> <a class="tag-link" href="/tags/Pwn/">Pwn</a> <a class="tag-link" href="/tags/二进制安全/">二进制安全</a>    
+        	
+  </div>
+
+</div>
+
+
+<nav class="post-footer-nav">
+  <div class="post-footer-link">
+  
+      <a href="/2018/10/22/Re-10月22-shiyanbar-10000/" id="post-nav-older" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">older</strong>
+        
+          <span class="post-nav-title">
+            Re-10月22-shiyanbar-10000
+          </span>
+      </a>
+  
+  </div>
+  <div class="post-footer-link">
+    
+        <a href="/2018/10/24/Pwn-10月24-Hitcon-二/" id="post-nav-newer" class="post-nav-link-wrap">
+          <strong class="post-nav-caption">newer</strong>
+             
+            <span class="post-nav-title">
+              Pwn-10月24-Hitcon(二)
+            </span>
+        </a>
+    
+  </div>
+
+</nav>
+ 
+	
+	
+</article>
+
+	<div class="toc-container">
+			<div class="toc-sidebar">
+			<p class="toc-title">
+				CONTENT
+			</p>
+			<div class="toc-list">
+				<ol class="toc-inner"><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#Pwn-10月23-Hitcon-一"><span class="toc-inner-text">Pwn-10月23-Hitcon(一)</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#lab1-sysmagic"><span class="toc-inner-text">lab1-sysmagic</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#解法1-patch"><span class="toc-inner-text">解法1 - patch</span></a></li><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#解法2-gdb-set-register-value"><span class="toc-inner-text">解法2 - gdb set register value</span></a></li></ol></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#lab2-orw"><span class="toc-inner-text">lab2-orw</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#检查保护措施"><span class="toc-inner-text">检查保护措施</span></a></li><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#逻辑分析"><span class="toc-inner-text">逻辑分析</span></a></li><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#exp"><span class="toc-inner-text">exp</span></a></li></ol></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#lab3-ret2sc"><span class="toc-inner-text">lab3-ret2sc</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#检查保护措施-1"><span class="toc-inner-text">检查保护措施</span></a></li><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#逻辑分析-1"><span class="toc-inner-text">逻辑分析</span></a></li><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#构造EXP"><span class="toc-inner-text">构造EXP</span></a></li></ol></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#小结"><span class="toc-inner-text">小结</span></a></li></ol></li></ol>
+			</div>
+		</div>
+	</div>
+
+          </div> 
+      </div>            
+    
+    <a id="page-backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
+
+  
+    
+    <div class="search-container sildeUpMin">
         <div class="search-header">
-            <span class="title">搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input" autofocus="">
+            <input type="text" placeholder="输入你想搜索的" id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
         </div>
-        <div id="searchResult"></div>
+        <div id="search-result" class="search-result"></div>
     </div>
+ 
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon lazyload" src="/images/placeholder.png" data-src="/images/favicon.png">  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">首页
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">归档
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">标签
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">关于
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">搜索 </a>                 
+            
+         
+      
 </div>
+        
+    
 
-<script src="/js/search.js"></script>
-<script type="text/javascript">
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
-</script>
-<!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fa fa-angle-double-up"></i>
-    </a>
-</div>
+
+
+     
+    
 
 
 
 
-<script src="/libs/materialize/js/materialize.min.js"></script>
-<script src="/libs/masonry/masonry.pkgd.min.js"></script>
-<script src="/libs/aos/aos.js"></script>
-<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-<script src="/js/matery.js"></script>
-<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
-<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
-<script type="text/javascript" src="/js/fireworks.js"></script>
-<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":100,"height":170},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+				
+		2018-
+		
+		2019		
+	
+		xiaoyifeng
+		<br>
+
+		Theme  <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
+		</div>			
+	 
+</footer>   
+
+    <script src="/nayo.bundle.js"></script>           
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":100,"height":170},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>        
 </html>

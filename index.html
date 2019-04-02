@@ -1,1057 +1,666 @@
-<!DOCTYPE HTML>
-<html lang="zh-CN">
-<head>
-    <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="肖亦枫, hexo-theme-matery">
-    <meta name="description" content="所有的幸福后面,都有人在负重前行.">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Yof3ng&#39;s Blog | 热爱分享</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  Xiaoyifeng&#39;s blog </title>
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/css/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
 
-    <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
-</head>
 
-<body>
-
-<header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="container">
-            <div class="nav-wrapper">
-                <div class="brand-logo">
-                    <a href="/" class="waves-effect waves-light">
-                        
-                        <img src="/medias/logo.png" class="logo-img hide-on-small-only">
-                        
-                        <span class="logo-span">Yof3ng's Blog | 热爱分享</span>
-                    </a>
-                </div>
-                <a href="#" data-activates="mobile-nav" class="button-collapse"><i class="fa fa-navicon"></i></a>
-<ul class="right">
+  <link rel="stylesheet" href="/nayo.min.css"> 
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>  
+  <body>   
     
-    <li class="hide-on-med-and-down">
-        <a href="/" class="waves-effect waves-light">
-            
-            <i class="fa fa-home"></i>
-            
-            <span>home(主页)</span>
-        </a>
-    </li>
-    
-    <li class="hide-on-med-and-down">
-        <a href="/tags" class="waves-effect waves-light">
-            
-            <i class="fa fa-tags"></i>
-            
-            <span>tags(标签)</span>
-        </a>
-    </li>
-    
-    <li class="hide-on-med-and-down">
-        <a href="/categories" class="waves-effect waves-light">
-            
-            <i class="fa fa-bookmark"></i>
-            
-            <span>categories(目录)</span>
-        </a>
-    </li>
-    
-    <li class="hide-on-med-and-down">
-        <a href="/archives" class="waves-effect waves-light">
-            
-            <i class="fa fa-archive"></i>
-            
-            <span>archives(归档)</span>
-        </a>
-    </li>
-    
-    <li class="hide-on-med-and-down">
-        <a href="/about" class="waves-effect waves-light">
-            
-            <i class="fa fa-user-circle-o"></i>
-            
-            <span>about(关于)</span>
-        </a>
-    </li>
-    
-    <li>
-        <a id="toggleSearch" class="waves-effect waves-light">
-            <i id="searchIcon" class="mdi-action-search"></i>
-        </a>
-    </li>
+      <header class="header">
+	
+  <nav class="header-inner">        
 
-</ul>
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
 
-<div class="side-nav" id="mobile-nav">
-
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">Yof3ng's Blog | 热爱分享</div>
-        <div class="logo-desc">
-            
-            所有的幸福后面,都有人在负重前行.
-            
-        </div>
+    <div class="header-logo">
+      <a href="/">
+        <img class="header-logo-img" src="/images/logo.png">
+      </a>
     </div>
 
-    <ul class="menu-list mobile-menu-list">
-        
-        <li>
-            <a href="/" class="waves-effect waves-light">
-                
-                <i class="fa fa-fw fa-home"></i>
-                
-                home(主页)
-            </a>
-        </li>
-        
-        <li>
-            <a href="/tags" class="waves-effect waves-light">
-                
-                <i class="fa fa-fw fa-tags"></i>
-                
-                tags(标签)
-            </a>
-        </li>
-        
-        <li>
-            <a href="/categories" class="waves-effect waves-light">
-                
-                <i class="fa fa-fw fa-bookmark"></i>
-                
-                categories(目录)
-            </a>
-        </li>
-        
-        <li>
-            <a href="/archives" class="waves-effect waves-light">
-                
-                <i class="fa fa-fw fa-archive"></i>
-                
-                archives(归档)
-            </a>
-        </li>
-        
-        <li>
-            <a href="/about" class="waves-effect waves-light">
-                
-                <i class="fa fa-fw fa-user-circle-o"></i>
-                
-                about(关于)
-            </a>
-        </li>
-        
-        
-        <li><div class="divider"></div></li>
-        <li>
-            <a href="https://github.com/yof3ng" class="waves-effect waves-light" target="_blank">
-                <i class="fa fa-github-square fa-fw"></i>Fork Me
-            </a>
-        </li>
-        
-    </ul>
-
-    <div class="social-link"><a href="https://github.com/yof3ng" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
-    <i class="fa fa-github"></i>
-</a>
-<a href="mailto:yof3ng@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-    <i class="fa fa-envelope-open"></i>
-</a>
-<a href="#!" class="tooltipped" data-tooltip="QQ联系我: 877153299" data-position="top" data-delay="50">
-    <i class="fa fa-qq"></i>
-</a>
-
-<a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
-    <i class="fa fa-rss"></i>
-</a>
-</div>
-</div>
-
-            </div>
-        </div>
-
-        
-        <style>
-    .nav-transparent .github-corner {
-        display: none !important;
-    }
-
-    .github-corner {
-        position: absolute;
-        z-index: 10;
-        top: 0;
-        right: 0;
-        border: 0;
-        transform: scale(1.1);
-    }
-
-    .github-corner svg {
-        color: #0f9d58;
-        fill: #fff;
-        height: 64px;
-        width: 64px;
-    }
-
-    .github-corner:hover .octo-arm {
-        animation: a 0.56s ease-in-out;
-    }
-
-    .github-corner .octo-arm {
-        animation: none;
-    }
-
-    @keyframes a {
-        0%,
-        to {
-            transform: rotate(0);
-        }
-        20%,
-        60% {
-            transform: rotate(-25deg);
-        }
-        40%,
-        80% {
-            transform: rotate(10deg);
-        }
-    }
-</style>
-
-<a href="https://github.com/yof3ng" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
-   data-tooltip="Fork Me" data-position="left" data-delay="50">
-    <svg viewBox="0 0 250 250" aria-hidden="true">
-        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
-        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
-              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
-        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
-              fill="currentColor" class="octo-body"></path>
-    </svg>
-</a>
-        
-    </nav>
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
 </header>
 
-<style type="text/css">
-    /* don't remove. */
-    .index-cover {
-        height: 100vh;
-    }
-</style>
+   
 
-<div class="bg-cover index-cover about-cover" style="background-image: url('/medias/cover.jpg')">
-    <div class="container">
-        <div class="row">
-            <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
-                <div class="brand">
-                    <div class="title center-align">
-                    
-                        Yof3ng
-                    
-                    </div>
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
 
-                    <div class="description center-align">
-                    
-                        所有的幸福后面,都有人在负重前行.
-                    
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="cover-social-link"><a href="https://github.com/yof3ng" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
-    <i class="fa fa-github"></i>
-</a>
-<a href="mailto:yof3ng@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-    <i class="fa fa-envelope-open"></i>
-</a>
-<a href="#!" class="tooltipped" data-tooltip="QQ联系我: 877153299" data-position="top" data-delay="50">
-    <i class="fa fa-qq"></i>
-</a>
-
-<a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
-    <i class="fa fa-rss"></i>
-</a>
-</div>
-        
-    </div>
-</div>
-
-<script>
-// Dynamically switch banner pictures every day.
-$('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
-</script>
-
-<main class="content">
-
-    
-    <div class="container notice">
-        <div class="card">
-            <div class="card-content">
-                <i class="fa fa-volume-up fa-lg fa-fw text-color"></i>The best preparation for tomorrow is doing your best today.
-            </div>
-        </div>
-    </div>
-    
-
-    
-    
+          
 
 
 
-<div class="container recommend">
-    <div class="card">
-        <div class="card-content">
-            
-            <div class="title">推荐文章</div>
-            
-            <div class="row">
-                
-                
-                
-                <div class="col s12" >
-                    <div class="post-card" style="background-image: url('https://i.loli.net/2018/10/14/5bc2c4e0cff6e.jpg')">
-                        <div class="post-body">
-                            <div class="post-categories">
-                                
-                                <a href="/categories/杂文/" class="category" target="_blank">杂文</a>
-                                
-                            </div>
-                            <a href="/2018/10/14/2017APT报告研读/" target="_blank">
-                                <h3 class="post-title">2017APT报告研读</h3>
-                            </a>
-                            <p class="post-description">[TOC]
-2017 APT 报告研读APT 与网络战争中的大国博弈
-&nbsp; &nbsp; &nbsp; &nbsp; 为什么对APT方面的研究让美国，让中国，让世界各国开始重视起来？据数据，2017年遭受APT攻击最多的国家依次是：</p>
-                            <a href="/2018/10/14/2017APT报告研读/" target="_blank"
-                                    class="read-more btn waves-effect waves-light" style="background-color: #f44336">
-                                <i class="icon fa fa-eye fa-fw"></i>阅读更多
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                
-                <div class="col s12 m6" data-aos="zoom-in-up">
-                    <div class="post-card" style="background-image: url('https://raw.githubusercontent.com/Yof3ng/yof3ng.github.io/master/medias/featureimages/19.jpg')">
-                        <div class="post-body">
-                            <div class="post-categories">
-                                
-                                <a href="/categories/渗透/" class="category" target="_blank">渗透</a>
-                                
-                            </div>
-                            <a href="/2018/09/15/wakanda-1-靶机渗透/" target="_blank">
-                                <h3 class="post-title">wakanda-1-靶机渗透</h3>
-                            </a>
-                            <p class="post-description">[TOC]
--对wakanda靶机的渗透之旅​    从vulhub上下载靶机后，本打算在vm上搭建，后发现ova导入有点问题，故在virt</p>
-                            <a href="/2018/09/15/wakanda-1-靶机渗透/" target="_blank"
-                                    class="read-more btn waves-effect waves-light" style="background-color: #9c27b0">
-                                <i class="icon fa fa-eye fa-fw"></i>阅读更多
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                
-                <div class="col s12 m6" data-aos="zoom-in-up">
-                    <div class="post-card" style="background-image: url('/medias/featureimages/2.jpg')">
-                        <div class="post-body">
-                            <div class="post-categories">
-                                
-                                <a href="/categories/杂文/" class="category" target="_blank">杂文</a>
-                                
-                            </div>
-                            <a href="/2018/10/06/多Git账户以及Hexo搭建博客进阶/" target="_blank">
-                                <h3 class="post-title">多Git账户以及Hexo搭建博客进阶</h3>
-                            </a>
-                            <p class="post-description">[TOC]
-多Git账户以及Hexo搭建博客进阶1.生成密钥
 
-可以看到已经生成的id_rsa是0LinkSec git账户的密钥
-而yof</p>
-                            <a href="/2018/10/06/多Git账户以及Hexo搭建博客进阶/" target="_blank"
-                                    class="read-more btn waves-effect waves-light" style="background-color: #1769ff">
-                                <i class="icon fa fa-eye fa-fw"></i>阅读更多
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                
-            </div>
-        </div>
-    </div>
-</div>
+<div class="profile sildeUpMin">
+	
+		<img class="avatar" src="/images/header.jpg">
 
-
-    
-
-    
-
-    <!-- 所有文章卡片 -->
-    <article id="articles" class="container articles">
-        <div class="row article-row">
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/03/17/Algorithm-Recursive-Tree/">
-                        <div class="card-image">
-                            
-                            <img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190317161546.png" class="responsive-img" alt="Algorithm_Recursive_Tree">
-                            
-                            <span class="card-title">Algorithm_Recursive_Tree</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary">
-                            
-                                对树和递归的一点深入。
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-03-17
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Algorithm/" class="post-category" target="_blank">
-                                    Algorithm
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Algorithm/" target="_blank">
-                            <span class="chip bg-color">Algorithm</span>
-                        </a>
-                        
-                        <a href="/tags/Tree/" target="_blank">
-                            <span class="chip bg-color">Tree</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/02/21/IP匿名性研究/">
-                        <div class="card-image">
-                            
-                            <img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/1_l2AFc33U7grIeMML0a0unQ.jpeg" class="responsive-img" alt="IP匿名性研究">
-                            
-                            <span class="card-title">IP匿名性研究</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary">
-                            
-                                匿名定义为未知姓名或未确定身份。我们上网时并没有匿名，即使在使用隐私工具如Tor、Bitcoin或VPN的时候。
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-02-21
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/网络安全/" class="post-category" target="_blank">
-                                    网络安全
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/网络安全/" target="_blank">
-                            <span class="chip bg-color">网络安全</span>
-                        </a>
-                        
-                        <a href="/tags/IP匿名性/" target="_blank">
-                            <span class="chip bg-color">IP匿名性</span>
-                        </a>
-                        
-                        <a href="/tags/ParrotOS/" target="_blank">
-                            <span class="chip bg-color">ParrotOS</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/01/31/php-pear-was-attacked/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="php_pear_was_attacked">
-                            
-                            <span class="card-title">php_pear_was_attacked</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary">
-                            
-                                php_pear官网被黑，pear安装包中插入恶意代码，可能已经感染许多主机。
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-01-31
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/译文/" class="post-category" target="_blank">
-                                    译文
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/资讯/" target="_blank">
-                            <span class="chip bg-color">资讯</span>
-                        </a>
-                        
-                        <a href="/tags/译文/" target="_blank">
-                            <span class="chip bg-color">译文</span>
-                        </a>
-                        
-                        <a href="/tags/网络安全/" target="_blank">
-                            <span class="chip bg-color">网络安全</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/01/31/ssrf-by-http2-and-gopher/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="ssrf_by_http2_and_gopher">
-                            
-                            <span class="card-title">ssrf_by_http2_and_gopher</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary">
-                            
-                                当ssrf遇上http2和gopher后产生的火花。
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-01-31
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/网络安全/" class="post-category" target="_blank">
-                                    网络安全
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/网络安全/" target="_blank">
-                            <span class="chip bg-color">网络安全</span>
-                        </a>
-                        
-                        <a href="/tags/ssrf/" target="_blank">
-                            <span class="chip bg-color">ssrf</span>
-                        </a>
-                        
-                        <a href="/tags/write-up/" target="_blank">
-                            <span class="chip bg-color">write-up</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/01/29/某入群题解题记录/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="某入群题解题记录">
-                            
-                            <span class="card-title">某入群题解题记录</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary">
-                            
-                                记录解决某入群题过程。
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-01-29
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/信息安全/" class="post-category" target="_blank">
-                                    信息安全
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/CTF/" target="_blank">
-                            <span class="chip bg-color">CTF</span>
-                        </a>
-                        
-                        <a href="/tags/SSRF/" target="_blank">
-                            <span class="chip bg-color">SSRF</span>
-                        </a>
-                        
-                        <a href="/tags/内网/" target="_blank">
-                            <span class="chip bg-color">内网</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/01/25/Electron-Learning-1/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Electron-Learning-1">
-                            
-                            <span class="card-title">Electron-Learning-1</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary">
-                            
-                                [TOC]
-Electron 学习记录
-参考 链接：
-开发 Electron app 必知的 4 个 tips
-Electronn中文手册
-
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-01-25
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/Programming/" class="post-category" target="_blank">
-                                    Programming
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/Electron/" target="_blank">
-                            <span class="chip bg-color">Electron</span>
-                        </a>
-                        
-                        <a href="/tags/Programming/" target="_blank">
-                            <span class="chip bg-color">Programming</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/11/20/追踪溯源-小白科普篇/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="追踪溯源_白话文讲盗号--科普篇">
-                            
-                            <span class="card-title">追踪溯源_白话文讲盗号--科普篇</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary">
-                            
-                                [TOC]
-追踪溯源_白话文讲盗号–科普篇
-🆒一直一直以来，总是有人不断被盗qq，然后被用以恶意盗号者散播更多的恶意链接或者进行诈骗盈利活
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-11-20
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/信息安全/" class="post-category" target="_blank">
-                                    信息安全
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/追踪溯源/" target="_blank">
-                            <span class="chip bg-color">追踪溯源</span>
-                        </a>
-                        
-                        <a href="/tags/信息安全/" target="_blank">
-                            <span class="chip bg-color">信息安全</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/11/13/HCTF2018-学习记录/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="HCTF2018_学习记录">
-                            
-                            <span class="card-title">HCTF2018_学习记录</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary">
-                            
-                                [TOC]
-HCTF2018_学习记录
-重整旗鼓再上路😭，hctf没太重视(其实重视了也不会做)，只能赛后看看师傅们的writeup学习一
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-11-13
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/CTF/" class="post-category" target="_blank">
-                                    CTF
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/CTF/" target="_blank">
-                            <span class="chip bg-color">CTF</span>
-                        </a>
-                        
-                        <a href="/tags/write-up/" target="_blank">
-                            <span class="chip bg-color">write-up</span>
-                        </a>
-                        
-                        <a href="/tags/信息安全/" target="_blank">
-                            <span class="chip bg-color">信息安全</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/11/11/我是一个菜鸡/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="我是一个菜鸡">
-                            
-                            <span class="card-title">我是一个菜鸡</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary">
-                            
-                                菜鸡你怎么这么菜啊！鸽了五天了！要做颓废菜鸡了吗😭！你又low又菜还不努力，又想随波逐流（咸鱼真香😄）。
-
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-11-11
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/杂文/" class="post-category" target="_blank">
-                                    杂文
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/我是菜鸡/" target="_blank">
-                            <span class="chip bg-color">我是菜鸡</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/11/07/DFS深搜-Oil-Deposits/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="DFS深搜_Oil_Deposits">
-                            
-                            <span class="card-title">DFS深搜_Oil_Deposits</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary">
-                            
-                                [TOC]
-一个DFS水题（对我来说不水）Oil Deposits
-The GeoSurvComp geologic survey comp
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2018-11-07
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fa fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/算法/" class="post-category" target="_blank">
-                                    算法
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/DFS/" target="_blank">
-                            <span class="chip bg-color">DFS</span>
-                        </a>
-                        
-                        <a href="/tags/algorithm/" target="_blank">
-                            <span class="chip bg-color">algorithm</span>
-                        </a>
-                        
-                        <a href="/tags/算法/" target="_blank">
-                            <span class="chip bg-color">算法</span>
-                        </a>
-                        
-                        <a href="/tags/coding/" target="_blank">
-                            <span class="chip bg-color">coding</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-        </div>
-    </article>
-
-</main>
-
-
-<div class="container paging">
-    <div class="row">
-        <div class="col s6 m4 l4">
-            
-            <a class="left btn-floating btn-large disabled">
-                <i class="fa fa-angle-left"></i>
-            </a>
-            
-        </div>
-        <div class="page-info col m4 l4 hide-on-small-only">
-            <div class="center-align b-text-gray">1 / 5</div>
-        </div>
-        <div class="col s6 m4 l4">
-            
-            <a href="/page/2/"
-               class="right btn-floating btn-large waves-effect waves-light bg-color">
-                <i class="fa fa-angle-right"></i>
-            </a>
-            
-        </div>
-    </div>
-</div>
-
-
-
-<footer class="page-footer bg-color">
-    <div class="container row center-align">
-        <div class="col s12 m8 l8 copy-right">
-            本站由&copy;<a href="https://yof3ng.github.io/" target="_blank">Yof3ng</a>采用
-            <a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">hexo-theme-matery</a>的主题搭建.
-        </div>
+		<p class="author">Yof3ng</p>
 		
-        <div class="col s12 m4 l4 social-link"><a href="https://github.com/yof3ng" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
-    <i class="fa fa-github"></i>
-</a>
-<a href="mailto:yof3ng@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-    <i class="fa fa-envelope-open"></i>
-</a>
-<a href="#!" class="tooltipped" data-tooltip="QQ联系我: 877153299" data-position="top" data-delay="50">
-    <i class="fa fa-qq"></i>
-</a>
-
-<a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
-    <i class="fa fa-rss"></i>
-</a>
+		<div class="social">
+   		      	
+			<a target="_blank" class="social-links" href="https://github.com/Yof3ng">		
+				<i class="iconfont icon-Github">
+			</i></a>	
+	          	
+			<a target="_blank" class="social-links" href="https://www.zhihu.com/people/yof3ng">		
+				<i class="iconfont icon-Zhihu">
+			</i></a>	
+	          	
+			<a target="_blank" class="social-links" href="https://blog.csdn.net/qq_40173126">		
+				<i class="iconfont icon-Csdn">
+			</i></a>	
+	    
+    	</div>		
 </div>
-			  <a href="http://s11.flagcounter.com/more/zFT">
-		<img src="https://s11.flagcounter.com/count/zFT/bg_FFFFFF/txt_000000/border_CCCCCC/columns_4/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
 
-    </div>
-	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-	<div align=center>
-		<span id="busuanzi_container_site_uv">
 
+    	  	
+  		
+    			
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a class="article-title" href="/2019/03/17/Algorithm-Recursive-Tree/">Algorithm_Recursive_Tree</a>  
+	       
+		 
+
+		<div class="article-meta">
+			<time>3月 17, 2019</time>			
+		</div>
 	</div>
-</footer>
-
-<div class="progress-bar"></div>
 
 
-<!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
+	
+
+    
+	<div class="typo article-excerpt">	
+		
+			<p>😄算法太菜。<br>
+		  	  
+	</p></div>
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="article-tag" href="/tags/Algorithm/">Algorithm</a>           
+			            
+				<a class="article-tag" href="/tags/Tree/">Tree</a>           
+			
+		
+	</div>
+
+	<div class="article-bottom">
+		<a class="article-readmore" href="/2019/03/17/Algorithm-Recursive-Tree/">阅读更多</a> 	
+	</div>	
+    
+</article>     
+     	
+    	  	
+  		
+    			
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a class="article-title" href="/2019/02/21/IP匿名性研究/">IP匿名性研究</a>  
+	       
+		 
+
+		<div class="article-meta">
+			<time>2月 21, 2019</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		
+			<p>IP匿名性研究——Anonymity</p>
+		  	  
+	</div>
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="article-tag" href="/tags/网络安全/">网络安全</a>           
+			            
+				<a class="article-tag" href="/tags/IP匿名性/">IP匿名性</a>           
+			            
+				<a class="article-tag" href="/tags/ParrotOS/">ParrotOS</a>           
+			
+		
+	</div>
+
+	<div class="article-bottom">
+		<a class="article-readmore" href="/2019/02/21/IP匿名性研究/">阅读更多</a> 	
+	</div>	
+    
+</article>     
+     	
+    	  	
+  		
+    			
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a class="article-title" href="/2019/01/31/php-pear-was-attacked/">php_pear_was_attacked</a>  
+	       
+		 
+
+		<div class="article-meta">
+			<time>1月 31, 2019</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		
+			<p>……</p>
+		  	  
+	</div>
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="article-tag" href="/tags/资讯/">资讯</a>           
+			            
+				<a class="article-tag" href="/tags/译文/">译文</a>           
+			            
+				<a class="article-tag" href="/tags/网络安全/">网络安全</a>           
+			
+		
+	</div>
+
+	<div class="article-bottom">
+		<a class="article-readmore" href="/2019/01/31/php-pear-was-attacked/">阅读更多</a> 	
+	</div>	
+    
+</article>     
+     	
+    	  	
+  		
+    			
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a class="article-title" href="/2019/01/31/ssrf-by-http2-and-gopher/">ssrf_by_http2_and_gopher</a>  
+	       
+		 
+
+		<div class="article-meta">
+			<time>1月 31, 2019</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		
+			<p>……</p>
+		  	  
+	</div>
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="article-tag" href="/tags/网络安全/">网络安全</a>           
+			            
+				<a class="article-tag" href="/tags/ssrf/">ssrf</a>           
+			            
+				<a class="article-tag" href="/tags/write-up/">write-up</a>           
+			
+		
+	</div>
+
+	<div class="article-bottom">
+		<a class="article-readmore" href="/2019/01/31/ssrf-by-http2-and-gopher/">阅读更多</a> 	
+	</div>	
+    
+</article>     
+     	
+    	  	
+  		
+    			
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a class="article-title" href="/2019/01/29/某入群题解题记录/">某入群题解题记录</a>  
+	       
+		 
+
+		<div class="article-meta">
+			<time>1月 29, 2019</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		
+			<p>……</p>
+		  	  
+	</div>
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="article-tag" href="/tags/CTF/">CTF</a>           
+			            
+				<a class="article-tag" href="/tags/SSRF/">SSRF</a>           
+			            
+				<a class="article-tag" href="/tags/内网/">内网</a>           
+			
+		
+	</div>
+
+	<div class="article-bottom">
+		<a class="article-readmore" href="/2019/01/29/某入群题解题记录/">阅读更多</a> 	
+	</div>	
+    
+</article>     
+     	
+    	  	
+  		
+    			
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a class="article-title" href="/2019/01/25/Electron-Learning-1/">Electron-Learning-1</a>  
+	       
+		 
+
+		<div class="article-meta">
+			<time>1月 25, 2019</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		
+			<p>Electron.</p>
+		  	  
+	</div>
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="article-tag" href="/tags/Electron/">Electron</a>           
+			            
+				<a class="article-tag" href="/tags/Programming/">Programming</a>           
+			
+		
+	</div>
+
+	<div class="article-bottom">
+		<a class="article-readmore" href="/2019/01/25/Electron-Learning-1/">阅读更多</a> 	
+	</div>	
+    
+</article>     
+     	
+    	  	
+  		
+    			
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a class="article-title" href="/2018/11/20/追踪溯源-小白科普篇/">追踪溯源_白话文讲盗号--科普篇</a>  
+	       
+		 
+
+		<div class="article-meta">
+			<time>11月 20, 2018</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		
+			<p>……</p>
+		  	  
+	</div>
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="article-tag" href="/tags/追踪溯源/">追踪溯源</a>           
+			            
+				<a class="article-tag" href="/tags/信息安全/">信息安全</a>           
+			
+		
+	</div>
+
+	<div class="article-bottom">
+		<a class="article-readmore" href="/2018/11/20/追踪溯源-小白科普篇/">阅读更多</a> 	
+	</div>	
+    
+</article>     
+     	
+    	  	
+  		
+    			
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a class="article-title" href="/2018/11/13/HCTF2018-学习记录/">HCTF2018_学习记录</a>  
+	       
+		 
+
+		<div class="article-meta">
+			<time>11月 13, 2018</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		
+			<p>……</p>
+		  	  
+	</div>
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="article-tag" href="/tags/CTF/">CTF</a>           
+			            
+				<a class="article-tag" href="/tags/write-up/">write-up</a>           
+			            
+				<a class="article-tag" href="/tags/信息安全/">信息安全</a>           
+			
+		
+	</div>
+
+	<div class="article-bottom">
+		<a class="article-readmore" href="/2018/11/13/HCTF2018-学习记录/">阅读更多</a> 	
+	</div>	
+    
+</article>     
+     	
+    	  	
+  		
+    			
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a class="article-title" href="/2018/11/11/我是一个菜鸡/">我是一个菜鸡</a>  
+	       
+		 
+
+		<div class="article-meta">
+			<time>11月 11, 2018</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		
+			<p>……</p>
+		  	  
+	</div>
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="article-tag" href="/tags/我是菜鸡/">我是菜鸡</a>           
+			
+		
+	</div>
+
+	<div class="article-bottom">
+		<a class="article-readmore" href="/2018/11/11/我是一个菜鸡/">阅读更多</a> 	
+	</div>	
+    
+</article>     
+     	
+    	  	
+  		
+    			
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a class="article-title" href="/2018/11/07/DFS深搜-Oil-Deposits/">DFS深搜_Oil_Deposits</a>  
+	       
+		 
+
+		<div class="article-meta">
+			<time>11月 07, 2018</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		
+			<p>……</p>
+		  	  
+	</div>
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="article-tag" href="/tags/DFS/">DFS</a>           
+			            
+				<a class="article-tag" href="/tags/algorithm/">algorithm</a>           
+			            
+				<a class="article-tag" href="/tags/算法/">算法</a>           
+			            
+				<a class="article-tag" href="/tags/coding/">coding</a>           
+			
+		
+	</div>
+
+	<div class="article-bottom">
+		<a class="article-readmore" href="/2018/11/07/DFS深搜-Oil-Deposits/">阅读更多</a> 	
+	</div>	
+    
+</article>     
+     	
+
+
+
+
+ 
+   <nav class="paginator">
+    
+
+   <span class="page-number"> Page <strong>1</strong>, Total <strong>43</strong> . </span>
+
+    
+        <a class="next" href="/page/2/"> 
+            下一页
+            <i class="iconfont icon-right"></i>
+        </a>
+    
+  </nav> 
+
+          </div> 
+      </div>            
+    
+    <a id="page-backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
+
+  
+    
+    <div class="search-container sildeUpMin">
         <div class="search-header">
-            <span class="title">搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input" autofocus="">
+            <input type="text" placeholder="输入你想搜索的" id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
         </div>
-        <div id="searchResult"></div>
+        <div id="search-result" class="search-result"></div>
     </div>
+ 
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src="/images/favicon.png">  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">首页
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">归档
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">标签
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">关于
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">搜索 </a>                 
+            
+         
+      
 </div>
+        
+    
 
-<script src="/js/search.js"></script>
-<script type="text/javascript">
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
-</script>
-<!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fa fa-angle-double-up"></i>
-    </a>
-</div>
+
+
+     
+    
 
 
 
 
-<script src="/libs/materialize/js/materialize.min.js"></script>
-<script src="/libs/masonry/masonry.pkgd.min.js"></script>
-<script src="/libs/aos/aos.js"></script>
-<script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-<script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-<script src="/js/matery.js"></script>
-<canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
-<script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
-<script type="text/javascript" src="/js/fireworks.js"></script>
-<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":100,"height":170},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+				
+		2018-
+		
+		2019		
+	
+		xiaoyifeng
+		<br>
+
+		Theme  <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
+		</div>			
+	 
+</footer>   
+
+    <script src="/nayo.bundle.js"></script>           
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":100,"height":170},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>        
 </html>
