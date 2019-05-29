@@ -90,7 +90,7 @@
 			
 			
 				<i class="iconfont icon-words"></i>
-				<span class="post-info-entry">24804
+				<span class="post-info-entry">25006
 				</span>
 			
 		</div>
@@ -339,21 +339,36 @@ m <span class="token operator">=</span> pow<span class="token punctuation">(</sp
 <span class="token punctuation">[</span><span class="token operator">+</span><span class="token punctuation">]</span>x<span class="token operator">=</span>pow<span class="token punctuation">(</span>m<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>e<span class="token punctuation">,</span>n<span class="token punctuation">)</span><span class="token operator">=</span>0xa864c9ffa08edc2d2a380fde218fe07204193c43580ee0a3fd1505e3f60125c3f380fab24bbd344bca174f3b5b09ed271b817cb08fa6087f2b9d2216a1c7782714c50f475b0e3ca8b530ae33f4f4fb72c14ac0331b107d9dfcbbb193ac6946edd01e9cf5cab799a444dd9a49eb5362f6a499fa69540ac1d3dfbb977f57cd8eL
 
 </code></pre>
-<p>通过化简得到 <code>计算公式 (m+1)^3 - m^3 = c2-c1 ==&gt; 3m^2+3m+1=c2-c1 计算delta</code></p>
-<pre class=" language-python"><code class="language-python">
-
-<span class="token keyword">import</span> gmpy2
+<p>通过化简得到 <code>计算公式： (m+1)^3 - m^3 = c2-c1 ==&gt; (3m^2+3m+1)加减k*n=c2-c1</code></p>
+<p>一元二次方程求根：</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190529105312.png" alt=""></p>
+<p>此时只需求符合条件的k值即可。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> gmpy2
+<span class="token comment" spellcheck="true"># 求一元二次方程根</span>
 n<span class="token operator">=</span>0x198f61bc7d2977139120b86b739afbd04e82726a7dcf514cc2ad46c7002d2202915ba932364d71b7dd1928fb6861f984d8d9e31e70d0023aca721130e1df2825568a623c8316fd555616d91897a2db5d1df973a1584ed4cfb0f55d910db5ff64a79f061ef71b2362b6c2af8416a5a47094aff428d6c541448df45436ec48f93L
 c1<span class="token operator">=</span>0x13a5213f8946b3da1b37a7346f7985ed17329b05c31cc72912e15ab62c2b578f95148f7f2fb3daed063f5517efd9694d8a87792b675715d50d9113baa0bbfb1791f8e551ce5583c3dc31adf37dced9dab4acf3e58a5f3e203b1c971a746de5e9ac0b4d0153538f9392a0ce12250c5597eb23f07b4d7c84a084fc1dd0dee6b1cL
 c2<span class="token operator">=</span>0xa864c9ffa08edc2d2a380fde218fe07204193c43580ee0a3fd1505e3f60125c3f380fab24bbd344bca174f3b5b09ed271b817cb08fa6087f2b9d2216a1c7782714c50f475b0e3ca8b530ae33f4f4fb72c14ac0331b107d9dfcbbb193ac6946edd01e9cf5cab799a444dd9a49eb5362f6a499fa69540ac1d3dfbb977f57cd8eL
 e<span class="token operator">=</span><span class="token number">3</span>
-<span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">99999</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    c<span class="token operator">=</span><span class="token number">1</span><span class="token operator">-</span>n<span class="token operator">*</span>i<span class="token operator">+</span><span class="token punctuation">(</span>c1<span class="token operator">-</span>c2<span class="token punctuation">)</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token number">9</span><span class="token operator">-</span><span class="token number">12</span><span class="token operator">*</span>c<span class="token punctuation">)</span><span class="token operator">></span><span class="token number">0</span><span class="token punctuation">:</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>gmpy2<span class="token punctuation">.</span>iroot<span class="token punctuation">(</span><span class="token number">9</span><span class="token operator">-</span><span class="token number">12</span><span class="token operator">*</span>c<span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">6</span><span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-            m<span class="token operator">=</span><span class="token punctuation">(</span>gmpy2<span class="token punctuation">.</span>iroot<span class="token punctuation">(</span><span class="token number">9</span><span class="token operator">-</span><span class="token number">12</span><span class="token operator">*</span>c<span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">6</span>
-            <span class="token keyword">if</span> pow<span class="token punctuation">(</span>m<span class="token punctuation">,</span>e<span class="token punctuation">,</span>n<span class="token punctuation">)</span><span class="token operator">==</span>c1<span class="token punctuation">:</span>
-                <span class="token keyword">print</span> m
+m <span class="token operator">=</span> <span class="token string">''</span>
+<span class="token comment" spellcheck="true"># 3m^2+3m+1=c2-c1</span>
+<span class="token comment" spellcheck="true"># 只存在一个m时 ▲ = 9-4*3*(1-c2+c1) = 0 </span>
+<span class="token comment" spellcheck="true">#c = 1-c2+c1</span>
+k <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token keyword">while</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    c<span class="token operator">=</span><span class="token number">1</span><span class="token operator">-</span>n<span class="token operator">*</span>k<span class="token operator">+</span><span class="token punctuation">(</span>c1<span class="token operator">-</span>c2<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">#print(c)</span>
+    delta <span class="token operator">=</span> <span class="token number">9</span><span class="token operator">-</span><span class="token number">4</span><span class="token operator">*</span><span class="token number">3</span><span class="token operator">*</span>c
+    <span class="token comment" spellcheck="true">#print(delta)</span>
+    <span class="token keyword">if</span> delta<span class="token operator">></span><span class="token number">0</span><span class="token punctuation">:</span>
+        <span class="token comment" spellcheck="true">#print(iroot(delta,2)[1])</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>iroot<span class="token punctuation">(</span>delta<span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>iroot<span class="token punctuation">(</span><span class="token number">9</span><span class="token operator">-</span><span class="token number">12</span><span class="token operator">*</span>c<span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">6</span><span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                    m<span class="token operator">=</span><span class="token punctuation">(</span>iroot<span class="token punctuation">(</span><span class="token number">9</span><span class="token operator">-</span><span class="token number">12</span><span class="token operator">*</span>c<span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">6</span> <span class="token comment" spellcheck="true">#求根</span>
+                    <span class="token keyword">if</span> pow<span class="token punctuation">(</span>m<span class="token punctuation">,</span>e<span class="token punctuation">,</span>n<span class="token punctuation">)</span><span class="token operator">==</span>c1<span class="token punctuation">:</span>
+                        <span class="token keyword">print</span><span class="token punctuation">(</span>hex<span class="token punctuation">(</span>m<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                        <span class="token keyword">print</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">#i = 17时符合条件</span>
+                        exit<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    k <span class="token operator">+=</span> <span class="token number">1</span>
 
 </code></pre>
 <h2 id="❎Challenge-6"><a href="#❎Challenge-6" class="headerlink" title="❎Challenge 6"></a>❎Challenge 6</h2><p>Boneh and Durfee attack.（当d的bits数小于n的一定程度时，可采用此攻击。题中出现了<code>d=random.getrandbits(1024*0.270)</code>）</p>
