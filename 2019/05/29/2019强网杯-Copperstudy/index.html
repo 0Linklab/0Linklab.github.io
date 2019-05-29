@@ -90,7 +90,7 @@
 			
 			
 				<i class="iconfont icon-words"></i>
-				<span class="post-info-entry">25006
+				<span class="post-info-entry">25043
 				</span>
 			
 		</div>
@@ -351,8 +351,9 @@ c2<span class="token operator">=</span>0xa864c9ffa08edc2d2a380fde218fe07204193c4
 e<span class="token operator">=</span><span class="token number">3</span>
 m <span class="token operator">=</span> <span class="token string">''</span>
 <span class="token comment" spellcheck="true"># 3m^2+3m+1=c2-c1</span>
-<span class="token comment" spellcheck="true"># 只存在一个m时 ▲ = 9-4*3*(1-c2+c1) = 0 </span>
-<span class="token comment" spellcheck="true">#c = 1-c2+c1</span>
+<span class="token comment" spellcheck="true"># ▲ = 9-4*3*(1-c2+c1)</span>
+<span class="token comment" spellcheck="true"># x = (-b[+-](▲)^0.5)/(2*a)==>可以知道x为m，即为整数</span>
+<span class="token comment" spellcheck="true"># c = 1-c2+c1-(k*n)</span>
 k <span class="token operator">=</span> <span class="token number">0</span>
 <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
     c<span class="token operator">=</span><span class="token number">1</span><span class="token operator">-</span>n<span class="token operator">*</span>k<span class="token operator">+</span><span class="token punctuation">(</span>c1<span class="token operator">-</span>c2<span class="token punctuation">)</span>
