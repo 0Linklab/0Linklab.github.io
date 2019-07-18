@@ -1,0 +1,416 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  Binary_Security_Guidance |   0x14&#39;s blog </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  <link rel="stylesheet" href="/nayo.min.css"> 
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>  
+  <body>   
+    
+      <header class="header">
+	
+  <nav class="header-inner">        
+
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
+
+    <div class="header-logo">
+      <a href="/">
+        <img class="header-logo-img" src="/images/logo.png">
+      </a>
+    </div>
+
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
+</header>
+
+   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post">
+  
+	
+<div class="post-header">
+	<div class="post-header-inner">
+		<p class="post-title">	
+			Binary_Security_Guidance
+		</p>
+		<div class="post-info">	
+			<span class="post-info-entry">
+				7月 18, 2019
+			</span>
+
+			
+			
+				<i class="iconfont icon-words"></i>
+				<span class="post-info-entry">2772
+				</span>
+			
+		</div>
+	</div>
+</div> 
+	
+ 
+
+	  <div class="typo post-content slideDownMin">
+
+		
+
+			
+					<p>Here is a summary of knowledge points for binary security. The reason for this article is that I can learn binary security specifically😄.</p>
+<a id="more"></a>
+<p>[TOC]</p>
+<h1 id="✉Binary-Security-Guidance"><a href="#✉Binary-Security-Guidance" class="headerlink" title="✉Binary_Security_Guidance"></a>✉Binary_Security_Guidance</h1><blockquote>
+<p>Binary security refers to guaranteeing the information security of binary data when transmitting data, that is, not being tampered with, decoded and so on. If attacked, it can be detected in time.</p>
+<p>Binary security includes some things of cryptography, such as encryption and decryption, signature and so on.</p>
+<p>In <code>CTF</code> competitions, binary security usually appear in the form of <code>reverse</code> and <code>pwn</code>. You will get a compiled program to analyze its logic and then crack it.</p>
+</blockquote>
+<h2 id="📖Linux-Pwn"><a href="#📖Linux-Pwn" class="headerlink" title="📖Linux Pwn"></a>📖Linux Pwn</h2><blockquote>
+<p>Cause pwn of linux is normally favorite example form now. So i decide to start pwn from linux platform.</p>
+</blockquote>
+<h3 id="Security-protection-mechanism"><a href="#Security-protection-mechanism" class="headerlink" title="Security protection mechanism"></a>Security protection mechanism</h3><blockquote>
+<p>In the linux, we can use instructions called <code>checksec</code> to see the security protection mechanism of our target program. So the first we should know is kinds of protection mechanism.</p>
+</blockquote>
+<p> <img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190718144432.png" alt=""></p>
+<h4 id="Canary"><a href="#Canary" class="headerlink" title="Canary"></a>Canary</h4><blockquote>
+<p>Canary is a kind of protection technique to mitigate stack overflow.</p>
+<p>You can set the canary by following args.</p>
+</blockquote>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#Quoted From CTF-WIKI</span>
+<span class="token comment" spellcheck="true">#enables protection, but only inserts protection for functions that have arrays in local variables</span>
+-fstack-protector 
+<span class="token comment" spellcheck="true">#Enable protection, insert protection for all functions</span>
+-fstack-protector-all 
+-fstack-protector-strong
+<span class="token comment" spellcheck="true">#Only protects functions with explicit stack_protect attribute</span>
+-fstack-protector-explicit 
+<span class="token comment" spellcheck="true">#Disable protection.</span>
+-fno-stack-protector 
+</code></pre>
+<p>Here is a example to understand what role canary play.</p>
+<pre class=" language-bash"><code class="language-bash">        High
+        Address <span class="token operator">|</span>                 <span class="token operator">|</span>
+                +-----------------+
+                <span class="token operator">|</span> args            <span class="token operator">|</span>
+                +-----------------+
+                <span class="token operator">|</span> <span class="token keyword">return</span> address  <span class="token operator">|</span>
+                +-----------------+
+        rbp <span class="token operator">=</span><span class="token operator">></span>  <span class="token operator">|</span> old ebp         <span class="token operator">|</span>
+                +-----------------+
+      rbp-8 <span class="token operator">=</span><span class="token operator">></span>  <span class="token operator">|</span> canary value    <span class="token operator">|</span>
+                +-----------------+
+<span class="token operator">|</span> Local variables <span class="token operator">|</span>
+        Low     <span class="token operator">|</span>                 <span class="token operator">|</span>
+        Address
+</code></pre>
+<p>The canary value is usually stored in <code>TLS==&gt;fs:[0x28]</code>, this value is also called <code>stack_guard</code>. If the canary value was changed illegally, the program flow will go to a func called <code>__stack_chk_fail</code> in glibc. And then you can’t crack the program as you think, it will prevent the easy stack overflow.(PS: Bypass Canary will be talked later…)</p>
+<h4 id="NX"><a href="#NX" class="headerlink" title="NX"></a>NX</h4><blockquote>
+<p>Nx(No Excute) enabled means instructions in stack won’t be allowed to execute. Normally attack ways like <code>call esp</code> and <code>jmp esp</code> will out of action. But we can use ROP technique to bypass NX. </p>
+</blockquote>
+<h4 id="RELRO"><a href="#RELRO" class="headerlink" title="RELRO"></a>RELRO</h4><blockquote>
+<p>RELRO, this kind of protection mechanism has two form: <code>Partial RELRO</code> and <code>Full RELRO</code>. If program was Full RELRO, we wouldn’t change the <code>Got-table</code>.</p>
+</blockquote>
+<h4 id="PIE"><a href="#PIE" class="headerlink" title="PIE"></a>PIE</h4><blockquote>
+<p>PIE（position-independent executable） enabled means program’s memory address is random while running the program each time.</p>
+<p>The basic address is 0x400000 when program’s status is <code>No-PIE</code>.</p>
+</blockquote>
+<h4 id="RWX"><a href="#RWX" class="headerlink" title="RWX"></a>RWX</h4><blockquote>
+<p>Has RWX(Read&amp;Write&amp;Execute) segments means program has some segments you have the power to read, write and execute.</p>
+<p>You can try to understand it by following picture:</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190718153217.png" alt=""></p>
+<h3 id="Common-Attack-Ways"><a href="#Common-Attack-Ways" class="headerlink" title="Common Attack Ways"></a>Common Attack Ways</h3><blockquote>
+<p>So what we should learn then? It’s no denying we should aim at understanding basic principles of common attack ways. </p>
+</blockquote>
+<ul>
+<li>Stack overflow</li>
+<li>Format string vulnerability</li>
+<li>Glibc Heap uses</li>
+<li>IO_FILE uses</li>
+<li>Conditional competition</li>
+<li>Integer overflow</li>
+<li>Sandbox escape</li>
+<li>Linux Kernel</li>
+<li>Others Framework(like arm,arch)</li>
+</ul>
+<h2 id="📖Reverse"><a href="#📖Reverse" class="headerlink" title="📖Reverse"></a>📖Reverse</h2><p>later…</p>
+<h2 id="⏱Concluding-remarks"><a href="#⏱Concluding-remarks" class="headerlink" title="⏱Concluding remarks"></a>⏱Concluding remarks</h2><p>Fighting or losing, depend on yourself😀.</p>
+  	
+					
+	  </div>     
+	  
+
+	<div class="post-footer">
+
+
+  <div class="post-footer-other">
+    
+      <span class="post-footer-item">
+        
+
+
+<span class="donate-btn">
+	<span class="iconfont icon-donate"></span>
+</span>
+
+<div id="donate-box" class="sildeUpMin">
+
+	<span class="donate-cancel iconfont icon-cancel"></span>
+
+	<div class="donate-img-box">
+		<img id="donate-qr-wechat" class="noLazyLoad donate-img" src="/images/donate1.png" alt="No Donate Image!">	
+		<img id="donate-qr-alipay" class="noLazyLoad donate-img" src="/images/donate2.png" alt="No Donate Image!">	
+	</div>
+
+	<span class="donate-word">不负自己，不负青天</span>
+
+	<div class="donate-list">
+		<span class="iconfont icon-donate-wechat"></span>
+		<span class="iconfont icon-donate-alipay"></span>
+	</div>
+
+</div>
+ 
+      </span>        
+       
+    
+      <span class="post-footer-item">
+        <span class="share-btn">
+	<span class="iconfont icon-share"></span>
+</span>
+<div class="-mob-share sildeUpMin">
+	<ul class="-mob-inner">
+	   			             
+        <li class="iconfont 
+		icon-share-qq 
+		-mob-share-qq 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-douban 
+		-mob-share-douban 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		-mob-share-link"></li>		
+   	   
+	</ul>
+</div>	
+
+
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      </span>  
+               
+  </div>  
+    
+
+
+  <div class="post-footer-meta">
+        
+          <i class="iconfont icon-category"></i>       
+          <a class="category-link" href="/categories/Binary/">Binary</a> 	
+      
+        	
+
+        
+          <i class="iconfont icon-tag"></i>     
+            <a class="tag-link" href="/tags/Binary/">Binary</a>    
+        	
+  </div>
+
+</div>
+
+
+<nav class="post-footer-nav">
+  <div class="post-footer-link">
+  
+      <a href="/2019/05/29/2019强网杯-Copperstudy/" id="post-nav-older" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">older</strong>
+        
+          <span class="post-nav-title">
+            2019强网杯_Copperstudy
+          </span>
+      </a>
+  
+  </div>
+  <div class="post-footer-link">
+    
+  </div>
+
+</nav>
+ 
+	
+	
+</article>
+
+	<div class="toc-container">
+			<div class="toc-sidebar">
+			<p class="toc-title">
+				CONTENT
+			</p>
+			<div class="toc-list">
+				<ol class="toc-inner"><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#✉Binary-Security-Guidance"><span class="toc-inner-text">✉Binary_Security_Guidance</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#📖Linux-Pwn"><span class="toc-inner-text">📖Linux Pwn</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#Security-protection-mechanism"><span class="toc-inner-text">Security protection mechanism</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-4"><a class="toc-inner-link" href="#Canary"><span class="toc-inner-text">Canary</span></a></li><li class="toc-inner-item toc-inner-level-4"><a class="toc-inner-link" href="#NX"><span class="toc-inner-text">NX</span></a></li><li class="toc-inner-item toc-inner-level-4"><a class="toc-inner-link" href="#RELRO"><span class="toc-inner-text">RELRO</span></a></li><li class="toc-inner-item toc-inner-level-4"><a class="toc-inner-link" href="#PIE"><span class="toc-inner-text">PIE</span></a></li><li class="toc-inner-item toc-inner-level-4"><a class="toc-inner-link" href="#RWX"><span class="toc-inner-text">RWX</span></a></li></ol></li><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#Common-Attack-Ways"><span class="toc-inner-text">Common Attack Ways</span></a></li></ol></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#📖Reverse"><span class="toc-inner-text">📖Reverse</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#⏱Concluding-remarks"><span class="toc-inner-text">⏱Concluding remarks</span></a></li></ol></li></ol>
+			</div>
+		</div>
+	</div>
+
+          </div> 
+      </div>            
+    
+    <a id="page-backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
+
+  
+    
+    <div class="search-container sildeUpMin">
+        <div class="search-header">
+            <input type="text" placeholder="输入你想搜索的" id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
+        </div>
+        <div id="search-result" class="search-result"></div>
+    </div>
+ 
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon lazyload" src="/images/placeholder.png" data-src="/images/favicon.png">  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">首页
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">归档
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">标签
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">关于
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">搜索 </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+
+
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+				
+		2018-
+		
+		2019		
+	
+		0x14
+		<br>
+
+		Theme  <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
+		</div>			
+	 
+</footer>   
+
+    <script src="/nayo.bundle.js"></script>           
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":80,"height":170},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>        
+</html>
