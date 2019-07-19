@@ -90,7 +90,7 @@
 			
 			
 				<i class="iconfont icon-words"></i>
-				<span class="post-info-entry">3827
+				<span class="post-info-entry">5050
 				</span>
 			
 		</div>
@@ -106,7 +106,60 @@
 			
 					<p>Stack migration in Ciscn…</p>
 <a id="more"></a>
-<h1 id="Ciscn-Pwn-Stack-Migration"><a href="#Ciscn-Pwn-Stack-Migration" class="headerlink" title="Ciscn_Pwn_Stack_Migration"></a>Ciscn_Pwn_Stack_Migration</h1><pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding:utf-8</span>
+<h1 id="Ciscn-Pwn-Stack-Migration"><a href="#Ciscn-Pwn-Stack-Migration" class="headerlink" title="Ciscn_Pwn_Stack_Migration"></a>Ciscn_Pwn_Stack_Migration</h1><h2 id="Main-Source-Code"><a href="#Main-Source-Code" class="headerlink" title="Main Source Code"></a>Main Source Code</h2><p>main:</p>
+<pre class=" language-c"><code class="language-c"><span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">080485FF</span> <span class="token punctuation">;</span> <span class="token keyword">int</span> __cdecl <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>envp<span class="token punctuation">)</span>
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">080485FF</span>                 public main
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">080485FF</span> main            proc near               <span class="token punctuation">;</span> DATA XREF<span class="token punctuation">:</span> _start<span class="token operator">+</span><span class="token number">17</span>↑o
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">080485FF</span>
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">080485FF</span> var_4           <span class="token operator">=</span> dword ptr <span class="token operator">-</span><span class="token number">4</span>
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">080485FF</span> argc            <span class="token operator">=</span> dword ptr  <span class="token number">8</span>
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">080485FF</span> argv            <span class="token operator">=</span> dword ptr  0Ch
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">080485FF</span> envp            <span class="token operator">=</span> dword ptr  10h
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">080485FF</span>
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">080485FF</span> <span class="token punctuation">;</span> __unwind <span class="token punctuation">{</span>
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">080485FF</span>                 lea     ecx<span class="token punctuation">,</span> <span class="token punctuation">[</span>esp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">08048603</span>                 and     esp<span class="token punctuation">,</span> 0FFFFFFF0h
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">08048606</span>                 push    dword ptr <span class="token punctuation">[</span>ecx<span class="token number">-4</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">08048609</span>                 push    ebp
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span>0804860A                 mov     ebp<span class="token punctuation">,</span> esp
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span>0804860C                 push    ecx
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span>0804860D                 sub     esp<span class="token punctuation">,</span> <span class="token number">4</span>
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">08048610</span>                 call    init
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">08048615</span>                 sub     esp<span class="token punctuation">,</span> 0Ch
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">08048618</span>                 push    offset s        <span class="token punctuation">;</span> <span class="token string">"Welcome, my friend. What's your name?"</span>
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span>0804861D                 call    _puts
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">08048622</span>                 add     esp<span class="token punctuation">,</span> 10h
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">08048625</span>                 call    vul
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span>0804862A                 mov     eax<span class="token punctuation">,</span> <span class="token number">0</span>
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">0804862F</span>                 mov     ecx<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span>var_4<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">08048632</span>                 leave
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">08048633</span>                 lea     esp<span class="token punctuation">,</span> <span class="token punctuation">[</span>ecx<span class="token number">-4</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">08048636</span>                 retn
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">08048636</span> <span class="token punctuation">;</span> <span class="token punctuation">}</span> <span class="token comment" spellcheck="true">// starts at 80485FF</span>
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">08048636</span> main            endp
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">08048636</span>
+</code></pre>
+<pre class=" language-c"><code class="language-c"><span class="token keyword">int</span> __cdecl <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>envp<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">puts</span><span class="token punctuation">(</span><span class="token string">"Welcome, my friend. What's your name?"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">vul</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>vul:</p>
+<pre class=" language-c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">vul</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  <span class="token keyword">char</span> s<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// [esp+0h] [ebp-28h]</span>
+
+  <span class="token function">memset</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>s<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0x20u</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">read</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>s<span class="token punctuation">,</span> <span class="token number">0x30u</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Hello, %s\n"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">read</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>s<span class="token punctuation">,</span> <span class="token number">0x30u</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Hello, %s\n"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="Exploit-Script"><a href="#Exploit-Script" class="headerlink" title="Exploit Script"></a>Exploit Script</h2><pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding:utf-8</span>
 <span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
 context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">"debug"</span>
 
@@ -352,6 +405,14 @@ sh<span class="token punctuation">.</span>interactive<span class="token punctuat
   </div>
   <div class="post-footer-link">
     
+        <a href="/2019/07/19/Integer-Overflow/" id="post-nav-newer" class="post-nav-link-wrap">
+          <strong class="post-nav-caption">newer</strong>
+             
+            <span class="post-nav-title">
+              Integer_Overflow
+            </span>
+        </a>
+    
   </div>
 
 </nav>
@@ -366,7 +427,7 @@ sh<span class="token punctuation">.</span>interactive<span class="token punctuat
 				CONTENT
 			</p>
 			<div class="toc-list">
-				<ol class="toc-inner"><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#Ciscn-Pwn-Stack-Migration"><span class="toc-inner-text">Ciscn_Pwn_Stack_Migration</span></a></li></ol>
+				<ol class="toc-inner"><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#Ciscn-Pwn-Stack-Migration"><span class="toc-inner-text">Ciscn_Pwn_Stack_Migration</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#Main-Source-Code"><span class="toc-inner-text">Main Source Code</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#Exploit-Script"><span class="toc-inner-text">Exploit Script</span></a></li></ol></li></ol>
 			</div>
 		</div>
 	</div>
