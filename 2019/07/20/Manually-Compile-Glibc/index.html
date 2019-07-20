@@ -1,0 +1,412 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  Compile_Glibc_Manually |   0x14&#39;s blog </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  <link rel="stylesheet" href="/nayo.min.css"> 
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>  
+  <body>   
+    
+      <header class="header">
+	
+  <nav class="header-inner">        
+
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
+
+    <div class="header-logo">
+      <a href="/">
+        <img class="header-logo-img" src="/images/logo.png">
+      </a>
+    </div>
+
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
+</header>
+
+   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post">
+  
+	
+<div class="post-header">
+	<div class="post-header-inner">
+		<p class="post-title">	
+			Compile_Glibc_Manually
+		</p>
+		<div class="post-info">	
+			<span class="post-info-entry">
+				7月 20, 2019
+			</span>
+
+			
+			
+				<i class="iconfont icon-words"></i>
+				<span class="post-info-entry">3144
+				</span>
+			
+		</div>
+	</div>
+</div> 
+	
+ 
+
+	  <div class="typo post-content slideDownMin">
+
+		
+
+			
+					<p>If you want to learn some fantastic and advance technique about Security, You have to command some fundamental knowledge……</p>
+ <a id="more"></a>
+<h1 id="Compile-Glibc-Manually"><a href="#Compile-Glibc-Manually" class="headerlink" title="Compile_Glibc_Manually"></a>Compile_Glibc_Manually</h1><blockquote>
+<p>Today i will show you how to compile a glibc manually.</p>
+</blockquote>
+<h2 id="What-is-Glibc"><a href="#What-is-Glibc" class="headerlink" title="What is Glibc?"></a>What is Glibc?</h2><p>Refer from the <code>stack overflow</code>:<a href="https://stackoverflow.com/questions/11460782/what-is-glibc-what-is-it-used-for" target="_blank" rel="noopener">https://stackoverflow.com/questions/11460782/what-is-glibc-what-is-it-used-for</a></p>
+<blockquote>
+<p>It’s the implementation of <em>Standard C library</em> described in C standards plus some extra useful stuffs which are not strictly standard but used frequently.</p>
+<p>Its main contents are :</p>
+<p>1) C library described in ANSI,c99,c11 standards. It includes macros, symbols, function implementations etc.(printf(),malloc() etc)</p>
+<p>2) POSIX standard library. The “userland” glue of system calls. (open(),read() etc. Actually glibc does not “implement” system calls. kernel does it. But glibc provides the user land interface to the services provided by kernel so that user application can use a system call just like a ordinary function.</p>
+<p>3) Also some nonstandard but useful stuff.</p>
+<p>“use the force, read the source “</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token variable">$git</span> clone git://sourceware.org/git/glibc.git
+</code></pre>
+</blockquote>
+<h2 id="What-is-ld-so"><a href="#What-is-ld-so" class="headerlink" title="What is ld.so?"></a>What is ld.so?</h2><p>ld.so : Dynamic linker of system…Used for Executed-file like a.out</p>
+<p>ld-linux.so: Dynamic linker of linux…Used for ELF format Executed-file.</p>
+<pre class=" language-bash"><code class="language-bash"> ✘ ⚡ root@xiaoyifeng ~/glibc_source/glibc2.23_build <span class="token comment" spellcheck="true"># file ./elf/ld-linux-x86-64.so.2</span>
+./elf/ld-linux-x86-64.so.2: symbolic <span class="token function">link</span> to ld.so
+</code></pre>
+<h2 id="What-is-libc-so"><a href="#What-is-libc-so" class="headerlink" title="What is libc.so?"></a>What is libc.so?</h2><p>libc.so : Glibc binary is called libc.so.6</p>
+<p>Actually libc.so.6 is a symbolic link to libc.so…… </p>
+<pre class=" language-bash"><code class="language-bash"> ⚡ root@xiaoyifeng  ~/glibc_source/glibc2.23_build <span class="token comment" spellcheck="true"># file libc.so.6</span>
+libc.so.6: symbolic <span class="token function">link</span> to libc.so
+</code></pre>
+<p><a href="https://stackoverflow.com/questions/11372872/what-is-the-role-of-libcglibc-in-our-linux-app" target="_blank" rel="noopener">What is libc?</a></p>
+<h2 id="Compiling-it"><a href="#Compiling-it" class="headerlink" title="Compiling it!"></a>Compiling it!</h2><blockquote>
+<p>Reference:<a href="https://www.jianshu.com/p/ee1ad4044ef7" target="_blank" rel="noopener">https://www.jianshu.com/p/ee1ad4044ef7</a></p>
+</blockquote>
+<p>Before compile it，you should download the special glibc source code and uncompressed it……Then you should mkdir two another directory called for build and compiling file……like this:</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190720155219.png" alt=""></p>
+<h3 id="Step1-configure"><a href="#Step1-configure" class="headerlink" title="Step1:configure"></a>Step1:configure</h3><p>It’s important to add <code>--disable-werror</code>……</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190720152708.png" alt=""></p>
+<h3 id="Step2-make"><a href="#Step2-make" class="headerlink" title="Step2: make"></a>Step2: make</h3><p>Maybe you would encounter this bad problem. : <code>can&#39;t be versioned to common symbol &#39;loc1&#39;</code></p>
+<p>Just find the solution in this page : <a href="https://www.e-learn.cn/content/qita/664508" target="_blank" rel="noopener">https://www.e-learn.cn/content/qita/664508</a></p>
+<pre class=" language-c"><code class="language-c"><span class="token operator">--</span><span class="token operator">-</span> a<span class="token operator">/</span>misc<span class="token operator">/</span>regexp<span class="token punctuation">.</span>c
+<span class="token operator">++</span><span class="token operator">+</span> b<span class="token operator">/</span>misc<span class="token operator">/</span>regexp<span class="token punctuation">.</span>c
+@@ <span class="token operator">-</span><span class="token number">29</span><span class="token punctuation">,</span><span class="token number">14</span> <span class="token operator">+</span><span class="token number">29</span><span class="token punctuation">,</span><span class="token number">15</span> @@
+
+ <span class="token macro property">#<span class="token directive keyword">if</span> SHLIB_COMPAT (libc, GLIBC_2_0, GLIBC_2_23)</span>
+
+<span class="token operator">-</span><span class="token comment" spellcheck="true">/* Define the variables used for the interface.  */</span>
+<span class="token operator">-</span><span class="token keyword">char</span> <span class="token operator">*</span>loc1<span class="token punctuation">;</span>
+<span class="token operator">-</span><span class="token keyword">char</span> <span class="token operator">*</span>loc2<span class="token punctuation">;</span>
+<span class="token operator">+</span><span class="token comment" spellcheck="true">/* Define the variables used for the interface.  Avoid .symver on common
++   symbol, which just creates a new common symbol, not an alias.  */</span>
+<span class="token operator">+</span><span class="token keyword">char</span> <span class="token operator">*</span>loc1 <span class="token function">__attribute__</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>nocommon<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">+</span><span class="token keyword">char</span> <span class="token operator">*</span>loc2 <span class="token function">__attribute__</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>nocommon<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token function">compat_symbol</span> <span class="token punctuation">(</span>libc<span class="token punctuation">,</span> loc1<span class="token punctuation">,</span> loc1<span class="token punctuation">,</span> GLIBC_2_0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token function">compat_symbol</span> <span class="token punctuation">(</span>libc<span class="token punctuation">,</span> loc2<span class="token punctuation">,</span> loc2<span class="token punctuation">,</span> GLIBC_2_0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ <span class="token comment" spellcheck="true">/* Although we do not support the use we define this variable as well.  */</span>
+<span class="token operator">-</span><span class="token keyword">char</span> <span class="token operator">*</span>locs<span class="token punctuation">;</span>
+<span class="token operator">+</span><span class="token keyword">char</span> <span class="token operator">*</span>locs <span class="token function">__attribute__</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>nocommon<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token function">compat_symbol</span> <span class="token punctuation">(</span>libc<span class="token punctuation">,</span> locs<span class="token punctuation">,</span> locs<span class="token punctuation">,</span> GLIBC_2_0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+</code></pre>
+<p>Just add <code>__attribute__ ((nocommon))</code> behind the <code>*loc</code>，then you can solve this error;</p>
+<h3 id="step3-make-install"><a href="#step3-make-install" class="headerlink" title="step3: make install"></a>step3: make install</h3><p>After <code>make install</code>, you can find the libc.so compiled by yourself in build directory, and ld.so is in elf directory.</p>
+<h3 id="Notes"><a href="#Notes" class="headerlink" title="Notes:"></a>Notes:</h3><p>Although the same version of libc may also have diffrent offset because of the diffrent args in compiling time.</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190720154352.png" alt=""></p>
+<h2 id="Using-The-Compiled-Glibc-To-Compile-Program"><a href="#Using-The-Compiled-Glibc-To-Compile-Program" class="headerlink" title="Using The Compiled Glibc To Compile Program"></a>Using The Compiled Glibc To Compile Program</h2><p><code>Instructions</code>:</p>
+<pre class=" language-bash"><code class="language-bash">gcc -g -fno-stack-protector -z execstack size_over.c -o size_over -Wl,--rpath<span class="token operator">=</span>/root/glibc_source/glibc2.23_build/ -Wl,--dynamic-linker<span class="token operator">=</span>/root/glibc_source/glibc2.23_build/elf/ld-linux-x86-64.so.2
+
+</code></pre>
+<p><code>compile program</code>:</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190720161136.png" alt=""></p>
+<p><code>libs infomation</code>:</p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190720161116.png" class="lazyload"></p>
+<p><code>Use gdb to debug in underlying source level</code>：</p>
+<p>reference: <a href="https://stackoverflow.com/questions/29955609/include-source-code-of-malloc-c-in-gdb" target="_blank" rel="noopener">https://stackoverflow.com/questions/29955609/include-source-code-of-malloc-c-in-gdb</a></p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190720161923.png" class="lazyload"></p>
+<h2 id="Final"><a href="#Final" class="headerlink" title="Final"></a>Final</h2><p>So cool it is😄!</p>
+  	
+					
+	  </div>     
+	  
+
+	<div class="post-footer">
+
+
+  <div class="post-footer-other">
+    
+      <span class="post-footer-item">
+        
+
+
+<span class="donate-btn">
+	<span class="iconfont icon-donate"></span>
+</span>
+
+<div id="donate-box" class="sildeUpMin">
+
+	<span class="donate-cancel iconfont icon-cancel"></span>
+
+	<div class="donate-img-box">
+		<img id="donate-qr-wechat" class="noLazyLoad donate-img lazyload" src="/images/placeholder.png" alt="No Donate Image!" data-src="/images/donate1.png">	
+		<img id="donate-qr-alipay" class="noLazyLoad donate-img lazyload" src="/images/placeholder.png" alt="No Donate Image!" data-src="/images/donate2.png">	
+	</div>
+
+	<span class="donate-word">不负自己，不负青天</span>
+
+	<div class="donate-list">
+		<span class="iconfont icon-donate-wechat"></span>
+		<span class="iconfont icon-donate-alipay"></span>
+	</div>
+
+</div>
+ 
+      </span>        
+       
+    
+      <span class="post-footer-item">
+        <span class="share-btn">
+	<span class="iconfont icon-share"></span>
+</span>
+<div class="-mob-share sildeUpMin">
+	<ul class="-mob-inner">
+	   			             
+        <li class="iconfont 
+		icon-share-qq 
+		-mob-share-qq 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-douban 
+		-mob-share-douban 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		-mob-share-link"></li>		
+   	   
+	</ul>
+</div>	
+
+
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      </span>  
+               
+  </div>  
+    
+
+
+  <div class="post-footer-meta">
+        
+          <i class="iconfont icon-category"></i>       
+          <a class="category-link" href="/categories/Binary/">Binary</a> 	
+      
+        	
+
+        
+          <i class="iconfont icon-tag"></i>     
+            <a class="tag-link" href="/tags/Binary/">Binary</a> <a class="tag-link" href="/tags/Compile/">Compile</a>    
+        	
+  </div>
+
+</div>
+
+
+<nav class="post-footer-nav">
+  <div class="post-footer-link">
+  
+      <a href="/2019/07/19/Integer-Overflow/" id="post-nav-older" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">older</strong>
+        
+          <span class="post-nav-title">
+            Integer_Overflow
+          </span>
+      </a>
+  
+  </div>
+  <div class="post-footer-link">
+    
+  </div>
+
+</nav>
+ 
+	
+	
+</article>
+
+	<div class="toc-container">
+			<div class="toc-sidebar">
+			<p class="toc-title">
+				CONTENT
+			</p>
+			<div class="toc-list">
+				<ol class="toc-inner"><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#Compile-Glibc-Manually"><span class="toc-inner-text">Compile_Glibc_Manually</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#What-is-Glibc"><span class="toc-inner-text">What is Glibc?</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#What-is-ld-so"><span class="toc-inner-text">What is ld.so?</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#What-is-libc-so"><span class="toc-inner-text">What is libc.so?</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#Compiling-it"><span class="toc-inner-text">Compiling it!</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#Step1-configure"><span class="toc-inner-text">Step1:configure</span></a></li><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#Step2-make"><span class="toc-inner-text">Step2: make</span></a></li><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#step3-make-install"><span class="toc-inner-text">step3: make install</span></a></li><li class="toc-inner-item toc-inner-level-3"><a class="toc-inner-link" href="#Notes"><span class="toc-inner-text">Notes:</span></a></li></ol></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#Using-The-Compiled-Glibc-To-Compile-Program"><span class="toc-inner-text">Using The Compiled Glibc To Compile Program</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#Final"><span class="toc-inner-text">Final</span></a></li></ol></li></ol>
+			</div>
+		</div>
+	</div>
+
+          </div> 
+      </div>            
+    
+    <a id="page-backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
+
+  
+    
+    <div class="search-container sildeUpMin">
+        <div class="search-header">
+            <input type="text" placeholder="输入你想搜索的" id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
+        </div>
+        <div id="search-result" class="search-result"></div>
+    </div>
+ 
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon lazyload" src="/images/placeholder.png" data-src="/images/favicon.png">  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">首页
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">归档
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">标签
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">关于
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">搜索 </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+
+
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+				
+		2018-
+		
+		2019		
+	
+		0x14
+		<br>
+
+		Theme  <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
+		</div>			
+	 
+</footer>   
+
+    <script src="/nayo.bundle.js"></script>           
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":80,"height":170},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>        
+</html>

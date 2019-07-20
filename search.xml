@@ -3,6 +3,31 @@
   
     
     <entry>
+      <title>Compile_Glibc_Manually</title>
+      <link href="/2019/07/20/Manually-Compile-Glibc/"/>
+      <url>/2019/07/20/Manually-Compile-Glibc/</url>
+      
+        <content type="html"><![CDATA[<p>If you want to learn some fantastic and advance technique about Security, You have to command some fundamental knowledge……</p> <a id="more"></a><h1 id="Compile-Glibc-Manually"><a href="#Compile-Glibc-Manually" class="headerlink" title="Compile_Glibc_Manually"></a>Compile_Glibc_Manually</h1><blockquote><p>Today i will show you how to compile a glibc manually.</p></blockquote><h2 id="What-is-Glibc"><a href="#What-is-Glibc" class="headerlink" title="What is Glibc?"></a>What is Glibc?</h2><p>Refer from the <code>stack overflow</code>:<a href="https://stackoverflow.com/questions/11460782/what-is-glibc-what-is-it-used-for" target="_blank" rel="noopener">https://stackoverflow.com/questions/11460782/what-is-glibc-what-is-it-used-for</a></p><blockquote><p>It’s the implementation of <em>Standard C library</em> described in C standards plus some extra useful stuffs which are not strictly standard but used frequently.</p><p>Its main contents are :</p><p>1) C library described in ANSI,c99,c11 standards. It includes macros, symbols, function implementations etc.(printf(),malloc() etc)</p><p>2) POSIX standard library. The “userland” glue of system calls. (open(),read() etc. Actually glibc does not “implement” system calls. kernel does it. But glibc provides the user land interface to the services provided by kernel so that user application can use a system call just like a ordinary function.</p><p>3) Also some nonstandard but useful stuff.</p><p>“use the force, read the source “</p><pre class=" language-bash"><code class="language-bash"><span class="token variable">$git</span> clone git://sourceware.org/git/glibc.git</code></pre></blockquote><h2 id="What-is-ld-so"><a href="#What-is-ld-so" class="headerlink" title="What is ld.so?"></a>What is ld.so?</h2><p>ld.so : Dynamic linker of system…Used for Executed-file like a.out</p><p>ld-linux.so: Dynamic linker of linux…Used for ELF format Executed-file.</p><pre class=" language-bash"><code class="language-bash"> ✘ ⚡ root@xiaoyifeng ~/glibc_source/glibc2.23_build <span class="token comment" spellcheck="true"># file ./elf/ld-linux-x86-64.so.2</span>./elf/ld-linux-x86-64.so.2: symbolic <span class="token function">link</span> to ld.so</code></pre><h2 id="What-is-libc-so"><a href="#What-is-libc-so" class="headerlink" title="What is libc.so?"></a>What is libc.so?</h2><p>libc.so : Glibc binary is called libc.so.6</p><p>Actually libc.so.6 is a symbolic link to libc.so…… </p><pre class=" language-bash"><code class="language-bash"> ⚡ root@xiaoyifeng  ~/glibc_source/glibc2.23_build <span class="token comment" spellcheck="true"># file libc.so.6</span>libc.so.6: symbolic <span class="token function">link</span> to libc.so</code></pre><p><a href="https://stackoverflow.com/questions/11372872/what-is-the-role-of-libcglibc-in-our-linux-app" target="_blank" rel="noopener">What is libc?</a></p><h2 id="Compiling-it"><a href="#Compiling-it" class="headerlink" title="Compiling it!"></a>Compiling it!</h2><blockquote><p>Reference:<a href="https://www.jianshu.com/p/ee1ad4044ef7" target="_blank" rel="noopener">https://www.jianshu.com/p/ee1ad4044ef7</a></p></blockquote><p>Before compile it，you should download the special glibc source code and uncompressed it……Then you should mkdir two another directory called for build and compiling file……like this:</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190720155219.png" alt=""></p><h3 id="Step1-configure"><a href="#Step1-configure" class="headerlink" title="Step1:configure"></a>Step1:configure</h3><p>It’s important to add <code>--disable-werror</code>……</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190720152708.png" alt=""></p><h3 id="Step2-make"><a href="#Step2-make" class="headerlink" title="Step2: make"></a>Step2: make</h3><p>Maybe you would encounter this bad problem. : <code>can&#39;t be versioned to common symbol &#39;loc1&#39;</code></p><p>Just find the solution in this page : <a href="https://www.e-learn.cn/content/qita/664508" target="_blank" rel="noopener">https://www.e-learn.cn/content/qita/664508</a></p><pre class=" language-c"><code class="language-c"><span class="token operator">--</span><span class="token operator">-</span> a<span class="token operator">/</span>misc<span class="token operator">/</span>regexp<span class="token punctuation">.</span>c<span class="token operator">++</span><span class="token operator">+</span> b<span class="token operator">/</span>misc<span class="token operator">/</span>regexp<span class="token punctuation">.</span>c@@ <span class="token operator">-</span><span class="token number">29</span><span class="token punctuation">,</span><span class="token number">14</span> <span class="token operator">+</span><span class="token number">29</span><span class="token punctuation">,</span><span class="token number">15</span> @@ <span class="token macro property">#<span class="token directive keyword">if</span> SHLIB_COMPAT (libc, GLIBC_2_0, GLIBC_2_23)</span><span class="token operator">-</span><span class="token comment" spellcheck="true">/* Define the variables used for the interface.  */</span><span class="token operator">-</span><span class="token keyword">char</span> <span class="token operator">*</span>loc1<span class="token punctuation">;</span><span class="token operator">-</span><span class="token keyword">char</span> <span class="token operator">*</span>loc2<span class="token punctuation">;</span><span class="token operator">+</span><span class="token comment" spellcheck="true">/* Define the variables used for the interface.  Avoid .symver on common+   symbol, which just creates a new common symbol, not an alias.  */</span><span class="token operator">+</span><span class="token keyword">char</span> <span class="token operator">*</span>loc1 <span class="token function">__attribute__</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>nocommon<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token operator">+</span><span class="token keyword">char</span> <span class="token operator">*</span>loc2 <span class="token function">__attribute__</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>nocommon<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token function">compat_symbol</span> <span class="token punctuation">(</span>libc<span class="token punctuation">,</span> loc1<span class="token punctuation">,</span> loc1<span class="token punctuation">,</span> GLIBC_2_0<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token function">compat_symbol</span> <span class="token punctuation">(</span>libc<span class="token punctuation">,</span> loc2<span class="token punctuation">,</span> loc2<span class="token punctuation">,</span> GLIBC_2_0<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* Although we do not support the use we define this variable as well.  */</span><span class="token operator">-</span><span class="token keyword">char</span> <span class="token operator">*</span>locs<span class="token punctuation">;</span><span class="token operator">+</span><span class="token keyword">char</span> <span class="token operator">*</span>locs <span class="token function">__attribute__</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>nocommon<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token function">compat_symbol</span> <span class="token punctuation">(</span>libc<span class="token punctuation">,</span> locs<span class="token punctuation">,</span> locs<span class="token punctuation">,</span> GLIBC_2_0<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><p>Just add <code>__attribute__ ((nocommon))</code> behind the <code>*loc</code>，then you can solve this error;</p><h3 id="step3-make-install"><a href="#step3-make-install" class="headerlink" title="step3: make install"></a>step3: make install</h3><p>After <code>make install</code>, you can find the libc.so compiled by yourself in build directory, and ld.so is in elf directory.</p><h3 id="Notes"><a href="#Notes" class="headerlink" title="Notes:"></a>Notes:</h3><p>Although the same version of libc may also have diffrent offset because of the diffrent args in compiling time.</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190720154352.png" alt=""></p><h2 id="Using-The-Compiled-Glibc-To-Compile-Program"><a href="#Using-The-Compiled-Glibc-To-Compile-Program" class="headerlink" title="Using The Compiled Glibc To Compile Program"></a>Using The Compiled Glibc To Compile Program</h2><p><code>Instructions</code>:</p><pre class=" language-bash"><code class="language-bash">gcc -g -fno-stack-protector -z execstack size_over.c -o size_over -Wl,--rpath<span class="token operator">=</span>/root/glibc_source/glibc2.23_build/ -Wl,--dynamic-linker<span class="token operator">=</span>/root/glibc_source/glibc2.23_build/elf/ld-linux-x86-64.so.2</code></pre><p><code>compile program</code>:</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190720161136.png" alt=""></p><p><code>libs infomation</code>:</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190720161116.png" alt=""></p><p><code>Use gdb to debug in underlying source level</code>：</p><p>reference: <a href="https://stackoverflow.com/questions/29955609/include-source-code-of-malloc-c-in-gdb" target="_blank" rel="noopener">https://stackoverflow.com/questions/29955609/include-source-code-of-malloc-c-in-gdb</a></p><p><img src="/images/placeholder.png" alt="" data-src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190720161923.png" class="lazyload"></p><h2 id="Final"><a href="#Final" class="headerlink" title="Final"></a>Final</h2><p>So cool it is😄!</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Binary </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Binary </tag>
+            
+            <tag> Compile </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>Integer_Overflow</title>
       <link href="/2019/07/19/Integer-Overflow/"/>
       <url>/2019/07/19/Integer-Overflow/</url>
@@ -458,9 +483,9 @@
             
             <tag> Pwn </tag>
             
-            <tag> CTF </tag>
-            
             <tag> 二进制安全 </tag>
+            
+            <tag> CTF </tag>
             
         </tags>
       
@@ -510,9 +535,9 @@
             
             <tag> Pwn </tag>
             
-            <tag> CTF </tag>
-            
             <tag> 二进制安全 </tag>
+            
+            <tag> CTF </tag>
             
         </tags>
       
@@ -641,9 +666,9 @@
             
             <tag> Pwn </tag>
             
-            <tag> CTF </tag>
-            
             <tag> 二进制安全 </tag>
+            
+            <tag> CTF </tag>
             
         </tags>
       
@@ -668,9 +693,9 @@
             
             <tag> Pwn </tag>
             
-            <tag> CTF </tag>
-            
             <tag> 二进制安全 </tag>
+            
+            <tag> CTF </tag>
             
         </tags>
       
@@ -695,9 +720,9 @@
             
             <tag> Pwn </tag>
             
-            <tag> CTF </tag>
-            
             <tag> 二进制安全 </tag>
+            
+            <tag> CTF </tag>
             
         </tags>
       
@@ -722,9 +747,9 @@
             
             <tag> Pwn </tag>
             
-            <tag> CTF </tag>
-            
             <tag> 二进制安全 </tag>
+            
+            <tag> CTF </tag>
             
         </tags>
       
@@ -747,9 +772,9 @@
       
         <tags>
             
-            <tag> CTF </tag>
-            
             <tag> 二进制安全 </tag>
+            
+            <tag> CTF </tag>
             
             <tag> RE </tag>
             
@@ -776,9 +801,9 @@
             
             <tag> Pwn </tag>
             
-            <tag> CTF </tag>
-            
             <tag> 二进制安全 </tag>
+            
+            <tag> CTF </tag>
             
         </tags>
       
@@ -803,9 +828,9 @@
             
             <tag> Pwn </tag>
             
-            <tag> CTF </tag>
-            
             <tag> 二进制安全 </tag>
+            
+            <tag> CTF </tag>
             
         </tags>
       
@@ -911,9 +936,9 @@
             
             <tag> Pwn </tag>
             
-            <tag> CTF </tag>
-            
             <tag> 二进制安全 </tag>
+            
+            <tag> CTF </tag>
             
         </tags>
       
@@ -938,9 +963,9 @@
             
             <tag> Pwn </tag>
             
-            <tag> CTF </tag>
-            
             <tag> 二进制安全 </tag>
+            
+            <tag> CTF </tag>
             
         </tags>
       
@@ -1015,9 +1040,9 @@
             
             <tag> Pwn </tag>
             
-            <tag> CTF </tag>
-            
             <tag> 二进制安全 </tag>
+            
+            <tag> CTF </tag>
             
         </tags>
       
