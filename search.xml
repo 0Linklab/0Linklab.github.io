@@ -3,6 +3,33 @@
   
     
     <entry>
+      <title>Cybrics_Matreshka_Reverse</title>
+      <link href="/2019/07/22/Cybrics-Matreshka-Reverse/"/>
+      <url>/2019/07/22/Cybrics-Matreshka-Reverse/</url>
+      
+        <content type="html"><![CDATA[<p>I try to play the Cybrics CTF yesterday😀…And the truth tell me that how suck i am… Btw…The challenges of Cybrics is very interesting and fresh.</p><a id="more"></a><h1 id="Cybrics-Matreshka-Reverse"><a href="#Cybrics-Matreshka-Reverse" class="headerlink" title="Cybrics_Matreshka_Reverse"></a>Cybrics_Matreshka_Reverse</h1><blockquote><p>CyBRICS is a computer security competition (CTF) organized in a cross-university effort by BRICS countries academia.</p><p>The event is organized by CyBRICS coordinating universities: <a href="https://en.itmo.ru/en/" target="_blank" rel="noopener">ITMO University</a> (RU), <a href="http://en.scu.edu.cn/" target="_blank" rel="noopener">SiChuan University</a> (CN), <a href="https://www.nitw.ac.in/" target="_blank" rel="noopener">NIT Warangal</a> (IN), <a href="http://www.iitkgp.ac.in/" target="_blank" rel="noopener">IIT Kharagpur</a> (IN), <a href="https://www.wits.ac.za/" target="_blank" rel="noopener">Wits University</a> (ZA), <a href="https://www.tut.ac.za/" target="_blank" rel="noopener">Tshwane University of Technology</a> (ZA).</p><p>The competition is made and run by <a href="https://vk.com/spbctf" target="_blank" rel="noopener">SPbCTF</a> meetups crew (members of CTF teams LC↯BC, SiBears, PeterPEN, Yozik).</p></blockquote><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190722151354.png" alt=""></p><h2 id="Challenge-Matreshka"><a href="#Challenge-Matreshka" class="headerlink" title="Challenge_Matreshka"></a>Challenge_Matreshka</h2><p>Although it is easy for most individuals, i think it’s valuable.</p><p>appendix: <code>Code2.class</code> and <code>data2.bin</code></p><h2 id="Step1-Java-analysis"><a href="#Step1-Java-analysis" class="headerlink" title="Step1: Java analysis"></a>Step1: Java analysis</h2><p>You can get the source code from Code2.class by the <code>jd-gui</code> or other tools like it.</p><pre class=" language-java"><code class="language-java"><span class="token keyword">import</span> java<span class="token punctuation">.</span>io<span class="token punctuation">.</span>File<span class="token punctuation">;</span><span class="token keyword">import</span> java<span class="token punctuation">.</span>io<span class="token punctuation">.</span>FileInputStream<span class="token punctuation">;</span><span class="token keyword">import</span> java<span class="token punctuation">.</span>io<span class="token punctuation">.</span>FileOutputStream<span class="token punctuation">;</span><span class="token keyword">import</span> java<span class="token punctuation">.</span>io<span class="token punctuation">.</span>PrintStream<span class="token punctuation">;</span><span class="token keyword">import</span> javax<span class="token punctuation">.</span>crypto<span class="token punctuation">.</span>Cipher<span class="token punctuation">;</span><span class="token keyword">import</span> javax<span class="token punctuation">.</span>crypto<span class="token punctuation">.</span>SecretKey<span class="token punctuation">;</span><span class="token keyword">import</span> javax<span class="token punctuation">.</span>crypto<span class="token punctuation">.</span>SecretKeyFactory<span class="token punctuation">;</span><span class="token keyword">import</span> javax<span class="token punctuation">.</span>crypto<span class="token punctuation">.</span>spec<span class="token punctuation">.</span>DESKeySpec<span class="token punctuation">;</span><span class="token keyword">class</span> <span class="token class-name">Code2</span><span class="token punctuation">{</span>  <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">decode</span><span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> paramArrayOfByte<span class="token punctuation">,</span> String paramString<span class="token punctuation">)</span>    <span class="token keyword">throws</span> Exception  <span class="token punctuation">{</span>    SecretKeyFactory localSecretKeyFactory <span class="token operator">=</span> SecretKeyFactory<span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token string">"DES"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arrayOfByte1 <span class="token operator">=</span> paramString<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    DESKeySpec localDESKeySpec <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DESKeySpec</span><span class="token punctuation">(</span>arrayOfByte1<span class="token punctuation">)</span><span class="token punctuation">;</span>    SecretKey localSecretKey <span class="token operator">=</span> localSecretKeyFactory<span class="token punctuation">.</span><span class="token function">generateSecret</span><span class="token punctuation">(</span>localDESKeySpec<span class="token punctuation">)</span><span class="token punctuation">;</span>    Cipher localCipher <span class="token operator">=</span> Cipher<span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token string">"DES"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    localCipher<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> localSecretKey<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arrayOfByte2 <span class="token operator">=</span> localCipher<span class="token punctuation">.</span><span class="token function">doFinal</span><span class="token punctuation">(</span>paramArrayOfByte<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token keyword">return</span> arrayOfByte2<span class="token punctuation">;</span>  <span class="token punctuation">}</span>  <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">encode</span><span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> paramArrayOfByte<span class="token punctuation">,</span> String paramString<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>    SecretKeyFactory localSecretKeyFactory <span class="token operator">=</span> SecretKeyFactory<span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token string">"DES"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arrayOfByte1 <span class="token operator">=</span> paramString<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    DESKeySpec localDESKeySpec <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DESKeySpec</span><span class="token punctuation">(</span>arrayOfByte1<span class="token punctuation">)</span><span class="token punctuation">;</span>    SecretKey localSecretKey <span class="token operator">=</span> localSecretKeyFactory<span class="token punctuation">.</span><span class="token function">generateSecret</span><span class="token punctuation">(</span>localDESKeySpec<span class="token punctuation">)</span><span class="token punctuation">;</span>    Cipher localCipher <span class="token operator">=</span> Cipher<span class="token punctuation">.</span><span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token string">"DES"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    localCipher<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> localSecretKey<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arrayOfByte2 <span class="token operator">=</span> localCipher<span class="token punctuation">.</span><span class="token function">doFinal</span><span class="token punctuation">(</span>paramArrayOfByte<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token keyword">return</span> arrayOfByte2<span class="token punctuation">;</span>  <span class="token punctuation">}</span>  <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> paramArrayOfString<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>    String str <span class="token operator">=</span> <span class="token string">"matreha!"</span><span class="token punctuation">;</span>    <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arrayOfByte1 <span class="token operator">=</span> <span class="token function">encode</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"user.name"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> str<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arrayOfByte2 <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token number">76</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">99</span><span class="token punctuation">,</span> <span class="token number">37</span><span class="token punctuation">,</span> <span class="token number">75</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">68</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">52</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">92</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">99</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">94</span><span class="token punctuation">,</span> <span class="token number">105</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">18</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> arrayOfByte2<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>      <span class="token keyword">if</span> <span class="token punctuation">(</span>arrayOfByte2<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">!=</span> arrayOfByte1<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"No"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token keyword">return</span><span class="token punctuation">;</span>      <span class="token punctuation">}</span>    <span class="token punctuation">}</span>    File localFile <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token string">"data.bin"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    FileInputStream localFileInputStream <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileInputStream</span><span class="token punctuation">(</span>localFile<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arrayOfByte3 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">byte</span><span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span>localFile<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>    localFileInputStream<span class="token punctuation">.</span><span class="token function">read</span><span class="token punctuation">(</span>arrayOfByte3<span class="token punctuation">)</span><span class="token punctuation">;</span>    localFileInputStream<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arrayOfByte4 <span class="token operator">=</span> <span class="token function">decode</span><span class="token punctuation">(</span>arrayOfByte3<span class="token punctuation">,</span> System<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"user.name"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    FileOutputStream localFileOutputStream <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileOutputStream</span><span class="token punctuation">(</span><span class="token string">"stage2.bin"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    localFileOutputStream<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>arrayOfByte4<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> arrayOfByte4<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>    localFileOutputStream<span class="token punctuation">.</span><span class="token function">flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    localFileOutputStream<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token punctuation">}</span><span class="token punctuation">}</span></code></pre><p>Then you can know the <code>data.bin</code> is actually encoded… So how to decode it and get the <code>stage2.bin</code>?</p><p>Obviously, the value of “user.name” is the key…Make sure it is the property of challenge environment，not our computer’s “user.name”…</p><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//...Ellipsis</span>  <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> paramArrayOfString<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>    String str <span class="token operator">=</span> <span class="token string">"matreha!"</span><span class="token punctuation">;</span>    <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arrayOfByte1 <span class="token operator">=</span> <span class="token function">encode</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"user.name"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> str<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arrayOfByte2 <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token number">76</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">99</span><span class="token punctuation">,</span> <span class="token number">37</span><span class="token punctuation">,</span> <span class="token number">75</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">68</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">52</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">92</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">99</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">94</span><span class="token punctuation">,</span> <span class="token number">105</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">18</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>    String username <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span><span class="token function">decode</span><span class="token punctuation">(</span>arrayOfByte2<span class="token punctuation">,</span><span class="token string">"matreha!"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    File localFile <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token string">"data.bin"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    FileInputStream localFileInputStream <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileInputStream</span><span class="token punctuation">(</span>localFile<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arrayOfByte3 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">byte</span><span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span>localFile<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>    localFileInputStream<span class="token punctuation">.</span><span class="token function">read</span><span class="token punctuation">(</span>arrayOfByte3<span class="token punctuation">)</span><span class="token punctuation">;</span>    localFileInputStream<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arrayOfByte4 <span class="token operator">=</span> <span class="token function">decode</span><span class="token punctuation">(</span>arrayOfByte3<span class="token punctuation">,</span> username<span class="token punctuation">)</span><span class="token punctuation">;</span>    FileOutputStream localFileOutputStream <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileOutputStream</span><span class="token punctuation">(</span><span class="token string">"stage2.bin"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    localFileOutputStream<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>arrayOfByte4<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> arrayOfByte4<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>    localFileOutputStream<span class="token punctuation">.</span><span class="token function">flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    localFileOutputStream<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token punctuation">}</span><span class="token comment" spellcheck="true">//...</span></code></pre><p>Then compile the program and run it…</p><h2 id="Step2-Golang-analysis"><a href="#Step2-Golang-analysis" class="headerlink" title="Step2: Golang analysis"></a>Step2: Golang analysis</h2><p>You have got the <code>stage2.bin</code> from step1.</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190722154552.png" alt=""></p><p>According to the combination of static analysis and dynamic analysis, we can know the program logic as follows：</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190722205942.png" alt=""></p><p>It should be noted that when XOR reaches the last byte, the loop produces some differences, and it is easy to ignore the key of the last byte, but this byte can be inferred……</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190722210542.png" alt=""></p><p>Dynamically debugging：</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190722211126.png" alt=""></p><p>The R8 stores the key byte that we should get…RSI stores our directory string…There is seventeen key bytes totally…After getting all the key bytes, just xor it with the Built-in ciphertext…</p><p><code>Built-in ciphertext(hex)</code>:0x53ddc587e46399144fa4142dc42404c0b0</p><p><code>Key(hex)</code>:0x38afaaf48c08f84b22c5605fa1576cabd1</p><pre class=" language-python"><code class="language-python">In <span class="token punctuation">[</span><span class="token number">58</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token keyword">from</span> libnum <span class="token keyword">import</span> n2sIn <span class="token punctuation">[</span><span class="token number">59</span><span class="token punctuation">]</span><span class="token punctuation">:</span> n2s<span class="token punctuation">(</span><span class="token number">0x53ddc587e46399144fa4142dc42404c0b0</span><span class="token operator">^</span><span class="token number">0x38afaaf48c08f84b22c5605fa1576cabd1</span><span class="token punctuation">)</span>Out<span class="token punctuation">[</span><span class="token number">59</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token string">'kroshka_matreshka'</span></code></pre><p>Then i mv the program in a directory named ‘kroshka_matreshka’ and run it…A result.pyc…well😎</p><p><img src="/images/placeholder.png" alt="" data-src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190722211935.png" class="lazyload"></p><p>Apparently，we arrived here：</p><p><img src="/images/placeholder.png" alt="" data-src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190722211827.png" class="lazyload"></p><h2 id="Step3：Python-analysis"><a href="#Step3：Python-analysis" class="headerlink" title="Step3：Python analysis"></a>Step3：Python analysis</h2><p>Decompiling <code>result.pyc</code>, then you can see the logic from source code…This is an eight-byte key cycle XOR encryption algorithm.</p><p>You have known the flag is begin with <code>cybrics{</code>，so you can directly get the key：<code>Kr0H4137</code>，then you just get flag by decrypting the ciphertext…🆗</p><pre class=" language-python"><code class="language-python"><span class="token operator">>></span><span class="token operator">></span> <span class="token keyword">from</span> result <span class="token keyword">import</span> <span class="token operator">*</span>Enter key to get flag<span class="token punctuation">:</span>Kr0H4137cybrics<span class="token punctuation">{</span>M4TR35HK4_15_B35T<span class="token punctuation">}</span><span class="token operator">>></span><span class="token operator">></span></code></pre><h2 id="Final"><a href="#Final" class="headerlink" title="Final"></a>Final</h2><p>It’s a nice and full day!😄</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Reverse </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Binary </tag>
+            
+            <tag> Reverse </tag>
+            
+            <tag> CTF </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>Awesome_Cutter_radare2</title>
       <link href="/2019/07/21/Awesome-Cutter-radare2/"/>
       <url>/2019/07/21/Awesome-Cutter-radare2/</url>
@@ -240,11 +267,11 @@
       
         <tags>
             
+            <tag> 网络安全 </tag>
+            
             <tag> 资讯 </tag>
             
             <tag> 译文 </tag>
-            
-            <tag> 网络安全 </tag>
             
         </tags>
       
@@ -267,9 +294,9 @@
       
         <tags>
             
-            <tag> 网络安全 </tag>
-            
             <tag> ssrf </tag>
+            
+            <tag> 网络安全 </tag>
             
             <tag> write-up </tag>
             
@@ -504,9 +531,9 @@
       
         <tags>
             
-            <tag> Pwn </tag>
-            
             <tag> CTF </tag>
+            
+            <tag> Pwn </tag>
             
             <tag> 二进制安全 </tag>
             
@@ -556,9 +583,9 @@
       
         <tags>
             
-            <tag> Pwn </tag>
-            
             <tag> CTF </tag>
+            
+            <tag> Pwn </tag>
             
             <tag> 二进制安全 </tag>
             
@@ -583,9 +610,9 @@
       
         <tags>
             
-            <tag> Pwn </tag>
-            
             <tag> CTF </tag>
+            
+            <tag> Pwn </tag>
             
             <tag> 环境部署 </tag>
             
@@ -633,9 +660,9 @@
       
         <tags>
             
-            <tag> Pwn </tag>
-            
             <tag> CTF </tag>
+            
+            <tag> Pwn </tag>
             
             <tag> 流量分析 </tag>
             
@@ -687,9 +714,9 @@
       
         <tags>
             
-            <tag> Pwn </tag>
-            
             <tag> CTF </tag>
+            
+            <tag> Pwn </tag>
             
             <tag> 二进制安全 </tag>
             
@@ -714,9 +741,9 @@
       
         <tags>
             
-            <tag> Pwn </tag>
-            
             <tag> CTF </tag>
+            
+            <tag> Pwn </tag>
             
             <tag> 二进制安全 </tag>
             
@@ -741,9 +768,9 @@
       
         <tags>
             
-            <tag> Pwn </tag>
-            
             <tag> CTF </tag>
+            
+            <tag> Pwn </tag>
             
             <tag> 二进制安全 </tag>
             
@@ -768,9 +795,9 @@
       
         <tags>
             
-            <tag> Pwn </tag>
-            
             <tag> CTF </tag>
+            
+            <tag> Pwn </tag>
             
             <tag> 二进制安全 </tag>
             
@@ -822,9 +849,9 @@
       
         <tags>
             
-            <tag> Pwn </tag>
-            
             <tag> CTF </tag>
+            
+            <tag> Pwn </tag>
             
             <tag> 二进制安全 </tag>
             
@@ -849,9 +876,9 @@
       
         <tags>
             
-            <tag> Pwn </tag>
-            
             <tag> CTF </tag>
+            
+            <tag> Pwn </tag>
             
             <tag> 二进制安全 </tag>
             
@@ -957,9 +984,9 @@
       
         <tags>
             
-            <tag> Pwn </tag>
-            
             <tag> CTF </tag>
+            
+            <tag> Pwn </tag>
             
             <tag> 二进制安全 </tag>
             
@@ -984,9 +1011,9 @@
       
         <tags>
             
-            <tag> Pwn </tag>
-            
             <tag> CTF </tag>
+            
+            <tag> Pwn </tag>
             
             <tag> 二进制安全 </tag>
             
@@ -1061,9 +1088,9 @@
       
         <tags>
             
-            <tag> Pwn </tag>
-            
             <tag> CTF </tag>
+            
+            <tag> Pwn </tag>
             
             <tag> 二进制安全 </tag>
             
