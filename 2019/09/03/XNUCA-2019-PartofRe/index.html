@@ -1,0 +1,459 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  XNUCA-2019-PartofRe |   0x14&#39;s blog </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  <link rel="stylesheet" href="/nayo.min.css"> 
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>  
+  <body>   
+    
+      <header class="header">
+	
+  <nav class="header-inner">        
+
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
+
+    <div class="header-logo">
+      <a href="/">
+        <img class="header-logo-img" src="/images/logo.png">
+      </a>
+    </div>
+
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
+</header>
+
+   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post">
+  
+	
+<div class="post-header">
+	<div class="post-header-inner">
+		<p class="post-title">	
+			XNUCA-2019-PartofRe
+		</p>
+		<div class="post-info">	
+			<span class="post-info-entry">
+				9月 03, 2019
+			</span>
+
+			
+			
+				<i class="iconfont icon-words"></i>
+				<span class="post-info-entry">2635
+				</span>
+			
+		</div>
+	</div>
+</div> 
+	
+ 
+
+	  <div class="typo post-content slideDownMin">
+
+		
+
+			
+					<p>XNUCA-2019，Wonderful but crazy challenges…</p>
+<a id="more"></a>
+<p>[TOC]</p>
+<h1 id="XNUCA-2019-bin-record"><a href="#XNUCA-2019-bin-record" class="headerlink" title="XNUCA_2019_bin_record"></a>XNUCA_2019_bin_record</h1><blockquote>
+<p>What a difficult and high quality game.😭</p>
+<p>I Get Zero Flag! Teammate tql orz.</p>
+</blockquote>
+<h2 id="Clever-Bird"><a href="#Clever-Bird" class="headerlink" title="Clever_Bird"></a>Clever_Bird</h2><p>This Challenge’s attachment is an <code>exe</code> format file. You can see following <code>dos</code> game after runing <code>Clever Bird.exe</code>.</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190831100219.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190831100959.png" alt=""></p>
+<p>Apparently，you can get flag in two ways：</p>
+<p><code>1.High Scores</code></p>
+<p><code>2.Crack The Game</code></p>
+<p>I choose analyse it by <code>IDA Pro</code> and <code>X64dbg</code>…</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190831101357.png" alt=""></p>
+<p>Firstly，Program has a key point compare at <code>.text:011F1DCA</code>，only when this compare is true，can you get into the <code>segment contains flag</code>.</p>
+<p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190831102332.png" alt=""></p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190831102042.png" class="lazyload"></p>
+<p>Here is a <a href="https://www.52pojie.cn/thread-1013656-2-1.html" target="_blank" rel="noopener">python script</a> to get correct score.</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> ctypes
+<span class="token keyword">def</span> <span class="token function">h2f</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    cp <span class="token operator">=</span> ctypes<span class="token punctuation">.</span>pointer<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    fp <span class="token operator">=</span> ctypes<span class="token punctuation">.</span>cast<span class="token punctuation">(</span>cp<span class="token punctuation">,</span> ctypes<span class="token punctuation">.</span>POINTER<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_float<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> fp<span class="token punctuation">.</span>contents<span class="token punctuation">.</span>value
+<span class="token keyword">def</span> <span class="token function">f2h</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    fp <span class="token operator">=</span> ctypes<span class="token punctuation">.</span>pointer<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_float<span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    cp <span class="token operator">=</span> ctypes<span class="token punctuation">.</span>cast<span class="token punctuation">(</span>fp<span class="token punctuation">,</span> ctypes<span class="token punctuation">.</span>POINTER<span class="token punctuation">(</span>ctypes<span class="token punctuation">.</span>c_int<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> cp<span class="token punctuation">.</span>contents<span class="token punctuation">.</span>value
+<span class="token keyword">if</span> __name__<span class="token operator">==</span><span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    X<span class="token operator">=</span><span class="token number">0</span>
+    score<span class="token operator">=</span><span class="token number">0</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span>int<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">1.5</span><span class="token operator">-</span>h2f<span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token operator">*</span>h2f<span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>score<span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">*</span>h2f<span class="token punctuation">(</span>X<span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">100000000</span><span class="token operator">*</span><span class="token number">10</span><span class="token operator">+</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token operator">!=</span><span class="token number">0x436AE</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        score<span class="token operator">+=</span><span class="token number">1</span>
+        X<span class="token operator">=</span><span class="token number">0x5F3759D8</span> <span class="token operator">-</span> <span class="token punctuation">(</span>f2h<span class="token punctuation">(</span>score<span class="token punctuation">)</span><span class="token operator">>></span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> X<span class="token operator">!=</span><span class="token number">0</span><span class="token punctuation">:</span>
+            X<span class="token operator">+=</span><span class="token number">7</span>
+    <span class="token keyword">print</span> score
+</code></pre>
+<p>Then you will get the score:</p>
+<pre class=" language-c"><code class="language-c"><span class="token macro property"># v12 == score</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span> v12 <span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+      v16 <span class="token operator">=</span> <span class="token operator">&amp;</span>v37<span class="token punctuation">;</span>
+      <span class="token keyword">while</span> <span class="token punctuation">(</span> <span class="token number">1</span> <span class="token punctuation">)</span>
+      <span class="token punctuation">{</span>
+        v17 <span class="token operator">=</span> <span class="token operator">*</span>v16<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span> v17 <span class="token operator">!=</span> v12 <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">+</span> <span class="token string">'0'</span> <span class="token punctuation">)</span>
+          <span class="token keyword">break</span><span class="token punctuation">;</span>
+        v12 <span class="token operator">/</span><span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span> <span class="token operator">!</span>v12 <span class="token punctuation">)</span>
+          <span class="token keyword">goto</span> LABEL_20<span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+
+</code></pre>
+<p>It still has a role to play after the compare:</p>
+<pre class=" language-python"><code class="language-python">In <span class="token punctuation">[</span><span class="token number">33</span><span class="token punctuation">]</span><span class="token punctuation">:</span> li <span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">:</span> score <span class="token operator">=</span> <span class="token number">0x20002</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">:</span> <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">:</span>     bit <span class="token operator">=</span> chr<span class="token punctuation">(</span>score<span class="token operator">%</span><span class="token number">2</span><span class="token operator">+</span>ord<span class="token punctuation">(</span><span class="token string">'0'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">:</span>     li<span class="token punctuation">.</span>append<span class="token punctuation">(</span>bit<span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">:</span>     <span class="token comment" spellcheck="true">#print(score)</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">:</span>     score <span class="token operator">=</span> score<span class="token operator">>></span><span class="token number">1</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">:</span>     <span class="token keyword">if</span><span class="token punctuation">(</span>score<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">:</span>         <span class="token keyword">break</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">:</span> 
+
+In <span class="token punctuation">[</span><span class="token number">34</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>li<span class="token punctuation">)</span>
+Out<span class="token punctuation">[</span><span class="token number">34</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token string">'010000000000000001'</span>
+</code></pre>
+<p>The lastest key func:</p>
+<pre class=" language-c"><code class="language-c">      v18 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+      v19 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+      <span class="token keyword">while</span> <span class="token punctuation">(</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>ConsoleCursorInfo<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>dwSize <span class="token operator">+</span> v18<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> __int8<span class="token punctuation">)</span><span class="token punctuation">(</span>v11 <span class="token operator">>></span> v19<span class="token punctuation">)</span> <span class="token operator">^</span> <span class="token punctuation">(</span>Dst<span class="token punctuation">[</span>v18<span class="token punctuation">]</span> <span class="token operator">-</span> <span class="token number">48</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">)</span>
+      <span class="token punctuation">{</span>
+        v19 <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">8</span><span class="token punctuation">;</span>
+        <span class="token operator">++</span>v18<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span> v19 <span class="token operator">>=</span> <span class="token number">32</span> <span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+          v20 <span class="token operator">=</span> <span class="token function">sub_11F23E0</span><span class="token punctuation">(</span>std<span class="token punctuation">:</span><span class="token punctuation">:</span>cout<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token string">"congratulation,submit with format: flag{key}"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          std<span class="token punctuation">:</span><span class="token punctuation">:</span>basic_ostream<span class="token operator">&lt;</span><span class="token keyword">char</span><span class="token punctuation">,</span>std<span class="token punctuation">:</span><span class="token punctuation">:</span>char_traits<span class="token operator">&lt;</span><span class="token keyword">char</span><span class="token operator">>></span><span class="token punctuation">:</span><span class="token punctuation">:</span>operator<span class="token operator">&lt;&lt;</span><span class="token punctuation">(</span>v20<span class="token punctuation">,</span> sub_11F2620<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token function">sub_11F1F40</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>Src<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token keyword">goto</span> LABEL_27<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+</code></pre>
+<p> among this function，<code>v11</code> is appearing before <code>cmp  edi, 436AEh</code> , and you can get its value by <code>Dynamic Commissioning</code>. The values in <code>*(&amp;ConsoleCursorInfo[0].dwSize + v18)</code> also similarly available.</p>
+<p>v11:</p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190831112031.png" class="lazyload"></p>
+<p>*(&amp;ConsoleCursorInfo[0].dwSize + v18):</p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190831112747.png" class="lazyload"></p>
+<p>Get Your flag:</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">if</span> __name__<span class="token operator">==</span><span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    key<span class="token operator">=</span><span class="token number">0xA991E504</span>
+    b<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">0x16</span><span class="token punctuation">,</span><span class="token number">0xe4</span><span class="token punctuation">,</span><span class="token number">0xb3</span><span class="token punctuation">,</span><span class="token number">0xbd</span><span class="token punctuation">]</span>
+    out<span class="token operator">=</span><span class="token string">''</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        out<span class="token operator">+=</span>chr<span class="token punctuation">(</span><span class="token punctuation">(</span>b<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">^</span><span class="token punctuation">(</span><span class="token punctuation">(</span>key<span class="token operator">>></span><span class="token punctuation">(</span>i<span class="token operator">*</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">0x100</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">0x30</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span> out
+<span class="token comment" spellcheck="true">#B1RD</span>
+</code></pre>
+<p>Concat the <code>B1RD</code> with <code>010000000000000001</code>.</p>
+<blockquote>
+<p>flag{B1RD010000000000000001}</p>
+</blockquote>
+<h2 id="ooollvm"><a href="#ooollvm" class="headerlink" title="ooollvm"></a>ooollvm</h2><p>This program is compiled with llvm…I think it is sick for me. Official solution：</p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190903145622.png" class="lazyload"></p>
+<p><code>IDA Pro</code> is not fit this challenge. I used the <code>GUI version</code> of radare2 named <code>cutter</code>:</p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190831113914.png" class="lazyload"></p>
+<p>As you can see, it is crazy. Once you want to do something like Viewing pseudocode，the tool will crash. So you only have one choice——<code>Dynamic Commissioning</code>.</p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190831115350.png" class="lazyload"></p>
+<p>Usually we use <code>angr</code> to solve this kind of challenge…So i’m glad to learn angr. </p>
+<pre class=" language-html"><code class="language-html">#Symbol execution
+https://github.com/angr/angr-doc
+https://github.com/angr/angr
+https://xz.aliyun.com/t/3990
+https://docs.angr.io/
+</code></pre>
+<h2 id="damnV"><a href="#damnV" class="headerlink" title="damnV"></a>damnV</h2><p>Official solution：</p>
+<p><img src="/images/placeholder.png" alt="" data-src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20190903221744.png" class="lazyload"></p>
+  	
+					
+	  </div>     
+	  
+
+	<div class="post-footer">
+
+
+  <div class="post-footer-other">
+    
+      <span class="post-footer-item">
+        
+
+
+<span class="donate-btn">
+	<span class="iconfont icon-donate"></span>
+</span>
+
+<div id="donate-box" class="sildeUpMin">
+
+	<span class="donate-cancel iconfont icon-cancel"></span>
+
+	<div class="donate-img-box">
+		<img id="donate-qr-wechat" class="noLazyLoad donate-img lazyload" src="/images/placeholder.png" alt="No Donate Image!" data-src="/images/donate1.png">	
+		<img id="donate-qr-alipay" class="noLazyLoad donate-img lazyload" src="/images/placeholder.png" alt="No Donate Image!" data-src="/images/donate2.png">	
+	</div>
+
+	<span class="donate-word">不负自己，不负青天</span>
+
+	<div class="donate-list">
+		<span class="iconfont icon-donate-wechat"></span>
+		<span class="iconfont icon-donate-alipay"></span>
+	</div>
+
+</div>
+ 
+      </span>        
+       
+    
+      <span class="post-footer-item">
+        <span class="share-btn">
+	<span class="iconfont icon-share"></span>
+</span>
+<div class="-mob-share sildeUpMin">
+	<ul class="-mob-inner">
+	   			             
+        <li class="iconfont 
+		icon-share-qq 
+		-mob-share-qq 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-douban 
+		-mob-share-douban 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		-mob-share-link"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		-mob-share-link"></li>		
+   	   
+	</ul>
+</div>	
+
+
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      </span>  
+               
+  </div>  
+    
+
+
+  <div class="post-footer-meta">
+        
+          <i class="iconfont icon-category"></i>       
+          <a class="category-link" href="/categories/Binary/">Binary</a> 	
+      
+        	
+
+        
+          <i class="iconfont icon-tag"></i>     
+            <a class="tag-link" href="/tags/Binary/">Binary</a> <a class="tag-link" href="/tags/Reverse/">Reverse</a>    
+        	
+  </div>
+
+</div>
+
+
+<nav class="post-footer-nav">
+  <div class="post-footer-link">
+  
+      <a href="/2019/08/31/Tokyo-easycrackme-Z3/" id="post-nav-older" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">older</strong>
+        
+          <span class="post-nav-title">
+            Tokyo_easycrackme_Z3
+          </span>
+      </a>
+  
+  </div>
+  <div class="post-footer-link">
+    
+  </div>
+
+</nav>
+ 
+	
+	
+</article>
+
+	<div class="toc-container">
+			<div class="toc-sidebar">
+			<p class="toc-title">
+				CONTENT
+			</p>
+			<div class="toc-list">
+				<ol class="toc-inner"><li class="toc-inner-item toc-inner-level-1"><a class="toc-inner-link" href="#XNUCA-2019-bin-record"><span class="toc-inner-text">XNUCA_2019_bin_record</span></a><ol class="toc-inner-child"><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#Clever-Bird"><span class="toc-inner-text">Clever_Bird</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#ooollvm"><span class="toc-inner-text">ooollvm</span></a></li><li class="toc-inner-item toc-inner-level-2"><a class="toc-inner-link" href="#damnV"><span class="toc-inner-text">damnV</span></a></li></ol></li></ol>
+			</div>
+		</div>
+	</div>
+
+          </div> 
+      </div>            
+    
+    <a id="page-backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
+
+  
+    
+    <div class="search-container sildeUpMin">
+        <div class="search-header">
+            <input type="text" placeholder="输入你想搜索的" id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
+        </div>
+        <div id="search-result" class="search-result"></div>
+    </div>
+ 
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon lazyload" src="/images/placeholder.png" data-src="/images/favicon.png">  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">首页
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">归档
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">标签
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">关于
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">搜索 </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+
+
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+				
+		2018-
+		
+		2019		
+	
+		0x14
+		<br>
+
+		Theme  <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
+		</div>			
+	 
+</footer>   
+
+    <script src="/nayo.bundle.js"></script>           
+  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":80,"height":170},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>        
+</html>
